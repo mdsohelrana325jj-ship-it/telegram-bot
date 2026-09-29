@@ -1,0 +1,2226 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<title>SOHEL VAI — Admin Panel</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+    font-family:Arial,"Noto Sans Bengali",sans-serif;
+    background:#f4f6fb;
+    color:#161b2d;
+}
+
+body{
+    padding:16px;
+}
+
+.app{
+    width:100%;
+    max-width:620px;
+    margin:0 auto;
+}
+
+.header{
+    background:linear-gradient(135deg,#7138f5,#4c20bd);
+    color:white;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:15px;
+    box-shadow:0 12px 30px rgba(70,35,170,.20);
+}
+
+.header h1{
+    font-size:22px;
+}
+
+.header p{
+    margin-top:5px;
+    opacity:.85;
+    font-size:13px;
+}
+
+.card{
+    background:white;
+    border-radius:16px;
+    padding:17px;
+    margin-bottom:14px;
+    box-shadow:0 5px 20px rgba(20,25,50,.07);
+}
+
+.card h2{
+    font-size:17px;
+    margin-bottom:14px;
+}
+
+label{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    margin:11px 0 6px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    border:1px solid #dfe3eb;
+    background:#fafbfe;
+    border-radius:11px;
+    padding:12px;
+    outline:none;
+    font-size:14px;
+}
+
+textarea{
+    min-height:180px;
+    resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#7138f5;
+}
+
+.switch-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:8px 0;
+}
+
+.switch{
+    position:relative;
+    width:50px;
+    height:28px;
+}
+
+.switch input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    background:#cfd4df;
+    border-radius:30px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.slider:before{
+    content:"";
+    width:22px;
+    height:22px;
+    position:absolute;
+    left:3px;
+    top:3px;
+    background:white;
+    border-radius:50%;
+    transition:.2s;
+}
+
+.switch input:checked + .slider{
+    background:#7138f5;
+}
+
+.switch input:checked + .slider:before{
+    transform:translateX(22px);
+}
+
+.button-box{
+    border:1px solid #e5e8ef;
+    border-radius:13px;
+    padding:13px;
+    margin-top:10px;
+}
+
+.button-title{
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.btn{
+    border:0;
+    width:100%;
+    border-radius:11px;
+    padding:13px;
+    font-weight:800;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.btn-purple{
+    background:#7138f5;
+    color:white;
+}
+
+.btn-green{
+    background:#16a36b;
+    color:white;
+}
+
+.btn-red{
+    background:#dc3545;
+    color:white;
+}
+
+.btn-dark{
+    background:#171c2d;
+    color:white;
+}
+
+.status{
+    font-size:13px;
+    margin-top:8px;
+    min-height:18px;
+}
+
+.preview{
+    background:#eef1f7;
+    border-radius:14px;
+    padding:15px;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.preview-buttons{
+    margin-top:12px;
+}
+
+.preview-button{
+    display:block;
+    text-decoration:none;
+    background:#7138f5;
+    color:white;
+    text-align:center;
+    padding:10px;
+    margin-top:7px;
+    border-radius:9px;
+    font-size:13px;
+}
+
+.media-name{
+    background:#f1f3f8;
+    border-radius:9px;
+    padding:10px;
+    margin-top:9px;
+    font-size:12px;
+    word-break:break-all;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.small{
+    font-size:12px;
+    color:#7d8497;
+    line-height:1.5;
+}
+
+.login{
+    min-height:85vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.login-card{
+    width:100%;
+    max-width:420px;
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 15px 45px rgba(20,25,50,.12);
+}
+
+.login-card h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.error{
+    color:#dc3545;
+    font-size:13px;
+    margin-top:8px;
+}
+
+.success{
+    color:#168b5c;
+}
+
+.text-small{
+    font-size:13px;
+}
+
+.text-medium{
+    font-size:16px;
+}
+
+.text-large{
+    font-size:19px;
+}
+
+hr{
+    border:0;
+    border-top:1px solid #eceef3;
+    margin:16px 0;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="login">
+
+    <div class="login-card">
+
+        <h1>🔐 Admin Login</h1>
+
+        <label>Admin Password</label>
+
+        <input
+            id="loginPassword"
+            type="password"
+            placeholder="Enter password"
+        >
+
+        <button
+            class="btn btn-purple"
+            onclick="login()"
+        >
+            🔐 LOGIN
+        </button>
+
+        <div
+            id="loginError"
+            class="error"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- ADMIN -->
+<div
+    id="adminPage"
+    class="app hidden"
+>
+
+    <div class="header">
+
+        <h1>👑 SOHEL VAI ADMIN PANEL</h1>
+
+        <p>
+            Welcome System Control Panel
+        </p>
+
+    </div>
+
+
+    <!-- BASIC -->
+    <div class="card">
+
+        <h2>⚙️ Basic Welcome Settings</h2>
+
+        <div class="switch-row">
+
+            <b>👤 Profile Photo</b>
+
+            <label class="switch">
+                <input
+                    id="profilePhoto"
+                    type="checkbox"
+                >
+                <span class="slider"></span>
+            </label>
+
+        </div>
+
+
+        <div class="switch-row">
+
+            <b>🎉 Welcome System</b>
+
+            <label class="switch">
+                <input
+                    id="welcomeEnabled"
+                    type="checkbox"
+                >
+                <span class="slider"></span>
+            </label>
+
+        </div>
+
+
+        <label>📢 Channel Name</label>
+
+        <input
+            id="channelTitle"
+            type="text"
+        >
+
+
+        <label>📝 Welcome Text</label>
+
+        <textarea
+            id="welcomeText"
+        ></textarea>
+
+
+        <div class="small">
+            Available:
+            <b>{first_name}</b>
+            and
+            <b>{channel_title}</b>
+        </div>
+
+
+        <label>
+            🔠 Welcome Text Size
+        </label>
+
+        <select id="welcomeTextSize">
+
+            <option value="small">
+                Small
+            </option>
+
+            <option value="medium">
+                Medium
+            </option>
+
+            <option value="large">
+                Large
+            </option>
+
+        </select>
+
+
+        <button
+            class="btn btn-purple"
+            onclick="saveBasic()"
+        >
+            💾 SAVE BASIC SETTINGS
+        </button>
+
+        <div id="basicStatus" class="status"></div>
+
+    </div>
+
+
+    <!-- MAIN BUTTONS -->
+    <div class="card">
+
+        <h2>🔘 Main Buttons</h2>
+
+
+        <div class="button-box">
+
+            <div class="button-title">
+                Main Button 1
+            </div>
+
+            <div class="switch-row">
+
+                <span>ON / OFF</span>
+
+                <label class="switch">
+                    <input id="main1Enabled" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+            <label>Button Text</label>
+
+            <input id="main1Text">
+
+            <label>Button URL</label>
+
+            <input id="main1Url">
+
+        </div>
+
+
+        <div class="button-box">
+
+            <div class="button-title">
+                Main Button 2
+            </div>
+
+            <div class="switch-row">
+
+                <span>ON / OFF</span>
+
+                <label class="switch">
+                    <input id="main2Enabled" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+            <label>Button Text</label>
+
+            <input id="main2Text">
+
+            <label>Button URL</label>
+
+            <input id="main2Url">
+
+        </div>
+
+
+        <div class="button-box">
+
+            <div class="button-title">
+                Main Button 3
+            </div>
+
+            <div class="switch-row">
+
+                <span>ON / OFF</span>
+
+                <label class="switch">
+                    <input id="main3Enabled" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+            <label>Button Text</label>
+
+            <input id="main3Text">
+
+            <label>Button URL</label>
+
+            <input id="main3Url">
+
+        </div>
+
+
+        <button
+            class="btn btn-purple"
+            onclick="saveMainButtons()"
+        >
+            💾 SAVE MAIN BUTTONS
+        </button>
+
+        <div id="mainStatus" class="status"></div>
+
+    </div>
+
+
+    <!-- VIDEO -->
+    <div class="card">
+
+        <h2>🎬 Welcome Video</h2>
+
+        <label>
+            Select Video
+        </label>
+
+        <input
+            id="videoFile"
+            type="file"
+            accept="video/*"
+        >
+
+        <button
+            class="btn btn-green"
+            onclick="uploadVideo()"
+        >
+            🎬 UPLOAD VIDEO
+        </button>
+
+        <div
+            id="videoStatus"
+            class="status"
+        ></div>
+
+        <div
+            id="videoName"
+            class="media-name"
+        >
+            No video uploaded
+        </div>
+
+
+        <button
+            class="btn btn-purple"
+            onclick="saveVideo()"
+        >
+            💾 SAVE VIDEO
+        </button>
+
+
+        <button
+            class="btn btn-red"
+            onclick="removeVideo()"
+        >
+            🗑 REMOVE VIDEO
+        </button>
+
+    </div>
+
+
+    <!-- VIDEO BUTTONS -->
+    <div class="card">
+
+        <h2>🎬 Video Buttons</h2>
+
+
+        <div class="button-box">
+
+            <div class="button-title">
+                Video Button 1
+            </div>
+
+            <div class="switch-row">
+
+                <span>ON / OFF</span>
+
+                <label class="switch">
+                    <input
+                        id="video1Enabled"
+                        type="checkbox"
+                    >
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+            <label>Button Text</label>
+
+            <input id="video1Text">
+
+            <label>Button URL</label>
+
+            <input id="video1Url">
+
+        </div>
+
+
+        <div class="button-box">
+
+            <div class="button-title">
+                Video Button 2
+            </div>
+
+            <div class="switch-row">
+
+                <span>ON / OFF</span>
+
+                <label class="switch">
+                    <input
+                        id="video2Enabled"
+                        type="checkbox"
+                    >
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+            <label>Button Text</label>
+
+            <input id="video2Text">
+
+            <label>Button URL</label>
+
+            <input id="video2Url">
+
+        </div>
+
+
+        <button
+            class="btn btn-purple"
+            onclick="saveVideoButtons()"
+        >
+            💾 SAVE VIDEO BUTTONS
+        </button>
+
+        <div id="videoButtonStatus" class="status"></div>
+
+    </div>
+
+
+    <!-- VOICE -->
+    <div class="card">
+
+        <h2>🎶 Voice System</h2>
+
+        <label>🎶 Voice Text</label>
+
+        <textarea
+            id="voiceText"
+            style="min-height:100px"
+        ></textarea>
+
+
+        <label>🎵 Voice / Audio File</label>
+
+        <input
+            id="audioFile"
+            type="file"
+            accept="audio/*"
+        >
+
+
+        <button
+            class="btn btn-green"
+            onclick="uploadAudio()"
+        >
+            🎵 UPLOAD VOICE
+        </button>
+
+        <div id="audioStatus" class="status"></div>
+
+
+        <div
+            id="audioName"
+            class="media-name"
+        >
+            No audio uploaded
+        </div>
+
+
+        <label>
+            Voice Button Text
+        </label>
+
+        <input id="voiceButtonText">
+
+
+        <button
+            class="btn btn-purple"
+            onclick="saveVoice()"
+        >
+            💾 SAVE VOICE
+        </button>
+
+
+        <button
+            class="btn btn-red"
+            onclick="removeAudio()"
+        >
+            🗑 REMOVE VOICE
+        </button>
+
+    </div>
+
+
+    <!-- DELETE -->
+    <div class="card">
+
+        <h2>⏱ Auto Delete</h2>
+
+        <select id="duration">
+
+            <option value="30">
+                30 Seconds
+            </option>
+
+            <option value="60">
+                1 Minute
+            </option>
+
+            <option value="120">
+                2 Minutes
+            </option>
+
+            <option value="300">
+                5 Minutes
+            </option>
+
+            <option value="600">
+                10 Minutes
+            </option>
+
+            <option value="900">
+                15 Minutes
+            </option>
+
+        </select>
+
+
+        <button
+            class="btn btn-purple"
+            onclick="saveDeleteTime()"
+        >
+            💾 SAVE DELETE TIME
+        </button>
+
+        <div id="deleteStatus" class="status"></div>
+
+    </div>
+
+
+    <!-- PREVIEW -->
+    <div class="card">
+
+        <h2>👁️‍🗨️ All System View</h2>
+
+        <div
+            id="preview"
+            class="preview"
+        ></div>
+
+        <button
+            class="btn btn-dark"
+            onclick="updatePreview()"
+        >
+            👁️ REFRESH PREVIEW
+        </button>
+
+    </div>
+
+
+    <!-- ALL SAVE -->
+    <div class="card">
+
+        <h2>💾 Complete System</h2>
+
+        <button
+            class="btn btn-purple"
+            onclick="saveAll()"
+        >
+            💾 ALL WELCOME SYSTEM SAVE
+        </button>
+
+
+        <button
+            class="btn btn-red"
+            onclick="resetAll()"
+        >
+            🚫 ALL WELCOME SYSTEM RESET
+        </button>
+
+        <div
+            id="allStatus"
+            class="status"
+        ></div>
+
+    </div>
+
+
+    <!-- PASSWORD -->
+    <div class="card">
+
+        <h2>🔐 Admin Password Change</h2>
+
+        <label>
+            Current Password
+        </label>
+
+        <input
+            id="oldPassword"
+            type="password"
+        >
+
+
+        <label>
+            New Password
+        </label>
+
+        <input
+            id="newPassword"
+            type="password"
+        >
+
+
+        <label>
+            Confirm New Password
+        </label>
+
+        <input
+            id="confirmPassword"
+            type="password"
+        >
+
+
+        <button
+            class="btn btn-dark"
+            onclick="changePassword()"
+        >
+            🔐 CHANGE PASSWORD
+        </button>
+
+        <div
+            id="passwordStatus"
+            class="status"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API = {
+    settings: "/api/settings",
+    upload: "/api/upload",
+    remove: "/api/remove-media",
+    reset: "/api/reset",
+    password: "/api/change-password"
+};
+
+
+let PASSWORD = "";
+
+let settings = {};
+
+
+/* =========================================================
+   DEFAULT
+========================================================= */
+
+const DEFAULT = {
+
+    welcome_enabled: true,
+
+    profile_photo_enabled: true,
+
+    channel_title:
+        "SOHEL VAI OFFICIAL CHANNEL",
+
+    welcome_text:
+`👋 👤 {first_name} ⸙ 🇧🇩
+
+🎉 আপনাকে স্বাগতম!
+👑 SOHEL VAI OFFICIAL CHANNEL JOIN করার জন্য 💖
+
+❤️ আসসালামু আলাইকুম প্রিয় ভাই ❤️
+আমাদের Official Channel-এ Join করার জন্য আপনাকে আন্তরিক ধন্যবাদ।
+
+প্রিয় ভাই আমাদের সাথেই থাকুন আশা করি কোন না কোন একদিন অবশ্যই আপনার উপকারে আসবোই ইনশাআল্লাহ 🥰
+
+📢 নিয়মিত নতুন Update পেতে আমাদের সাথে থাকুন।🫶😘
+👑 — SOHEL VAI — 👑`,
+
+    welcome_text_size:
+        "medium",
+
+    duration:
+        300,
+
+    video_file_id:
+        "",
+
+    video_filename:
+        "",
+
+    audio_file_id:
+        "",
+
+    audio_filename:
+        "",
+
+    voice_text:
+        "🎶 গুরুত্বপূর্ণ ভয়েস শুনুন 🎵🎵",
+
+    voice_button_text:
+        "🎶🎶 𝗢𝗣𝗘𝗡 𝗩𝗢𝗜𝗖𝗘 🎵🎵",
+
+    main_buttons: [
+
+        {
+            enabled:true,
+            text:"👑 𝗩𝗜𝗣 𝗚𝗥𝗢𝗨𝗣 𝗙𝗔𝗦𝗧 𝗝𝗢𝗜𝗡 👑",
+            url:"https://t.me/+WZR7nsATt1szNmRh"
+        },
+
+        {
+            enabled:true,
+            text:"😈 𝗔𝗜 𝗛𝗔𝗖𝗞 𝐋𝐈𝐍𝐊 𝐎𝐏𝐄𝐍 😈",
+            url:"https://t.me/sohel_ai_prediction_bot"
+        },
+
+        {
+            enabled:true,
+            text:"💬 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗔𝗗𝗠𝗜𝗡 ☎️",
+            url:"https://t.me/TRADER_SOHEL_BDT_TOP"
+        }
+
+    ],
+
+    video_buttons: [
+
+        {
+            enabled:true,
+            text:"🔵 𝗕𝗗𝗪𝗜𝗡𝟮𝟰 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗝𝗢𝗜𝗡🎰",
+            url:"https://t.me/+gNZZwOIN72BjYzQ1"
+        },
+
+        {
+            enabled:true,
+            text:"🟡 𝐃𝐊𝐖𝐈𝐍 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗝𝗎𝗈𝗜𝗡🎰",
+            url:"https://t.me/EARNING_TEME_bd"
+        }
+
+    ]
+
+};
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function api(url,options={}){
+
+    options.headers = {
+
+        ...(options.headers || {}),
+
+        "X-Admin-Password":
+            PASSWORD
+
+    };
+
+    const response =
+        await fetch(
+            url,
+            options
+        );
+
+    if(!response.ok){
+
+        throw new Error(
+            "HTTP " + response.status
+        );
+
+    }
+
+    return await response.json();
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function login(){
+
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value
+        .trim();
+
+    if(!password){
+
+        document
+        .getElementById("loginError")
+        .textContent =
+            "Password দিন";
+
+        return;
+    }
+
+    try{
+
+        const response =
+            await fetch(
+                API.settings,
+                {
+                    headers:{
+                        "X-Admin-Password":
+                            password
+                    }
+                }
+            );
+
+        if(!response.ok){
+
+            throw new Error(
+                "Wrong password"
+            );
+
+        }
+
+        const result =
+            await response.json();
+
+        PASSWORD =
+            password;
+
+        settings =
+            normalize(result.settings || DEFAULT);
+
+        loadSettings();
+
+        document
+        .getElementById("loginPage")
+        .classList
+        .add("hidden");
+
+        document
+        .getElementById("adminPage")
+        .classList
+        .remove("hidden");
+
+        updatePreview();
+
+    }catch(error){
+
+        document
+        .getElementById("loginError")
+        .textContent =
+            "❌ Password সঠিক নয়";
+
+    }
+
+}
+
+
+/* =========================================================
+   NORMALIZE
+========================================================= */
+
+function normalize(s){
+
+    const x =
+        JSON.parse(
+            JSON.stringify(DEFAULT)
+        );
+
+    Object.assign(
+        x,
+        s || {}
+    );
+
+    if(!Array.isArray(x.main_buttons)){
+        x.main_buttons =
+            JSON.parse(
+                JSON.stringify(DEFAULT.main_buttons)
+            );
+    }
+
+    if(!Array.isArray(x.video_buttons)){
+        x.video_buttons =
+            JSON.parse(
+                JSON.stringify(DEFAULT.video_buttons)
+            );
+    }
+
+    return x;
+
+}
+
+
+/* =========================================================
+   LOAD
+========================================================= */
+
+function loadSettings(){
+
+    settings =
+        normalize(settings);
+
+
+    document.getElementById(
+        "profilePhoto"
+    ).checked =
+        !!settings.profile_photo_enabled;
+
+
+    document.getElementById(
+        "welcomeEnabled"
+    ).checked =
+        !!settings.welcome_enabled;
+
+
+    document.getElementById(
+        "channelTitle"
+    ).value =
+        settings.channel_title;
+
+
+    document.getElementById(
+        "welcomeText"
+    ).value =
+        settings.welcome_text;
+
+
+    document.getElementById(
+        "welcomeTextSize"
+    ).value =
+        settings.welcome_text_size ||
+        "medium";
+
+
+    document.getElementById(
+        "duration"
+    ).value =
+        String(settings.duration || 300);
+
+
+    const m =
+        settings.main_buttons;
+
+    for(let i=0;i<3;i++){
+
+        document.getElementById(
+            `main${i+1}Enabled`
+        ).checked =
+            !!m[i].enabled;
+
+        document.getElementById(
+            `main${i+1}Text`
+        ).value =
+            m[i].text || "";
+
+        document.getElementById(
+            `main${i+1}Url`
+        ).value =
+            m[i].url || "";
+
+    }
+
+
+    const v =
+        settings.video_buttons;
+
+    for(let i=0;i<2;i++){
+
+        document.getElementById(
+            `video${i+1}Enabled`
+        ).checked =
+            !!v[i].enabled;
+
+        document.getElementById(
+            `video${i+1}Text`
+        ).value =
+            v[i].text || "";
+
+        document.getElementById(
+            `video${i+1}Url`
+        ).value =
+            v[i].url || "";
+
+    }
+
+
+    document.getElementById(
+        "voiceText"
+    ).value =
+        settings.voice_text || "";
+
+
+    document.getElementById(
+        "voiceButtonText"
+    ).value =
+        settings.voice_button_text || "";
+
+
+    document.getElementById(
+        "videoName"
+    ).textContent =
+        settings.video_filename ||
+        "No video uploaded";
+
+
+    document.getElementById(
+        "audioName"
+    ).textContent =
+        settings.audio_filename ||
+        "No audio uploaded";
+
+}
+
+
+/* =========================================================
+   COLLECT BASIC
+========================================================= */
+
+function collectBasic(){
+
+    settings.welcome_enabled =
+        document.getElementById(
+            "welcomeEnabled"
+        ).checked;
+
+    settings.profile_photo_enabled =
+        document.getElementById(
+            "profilePhoto"
+        ).checked;
+
+    settings.channel_title =
+        document.getElementById(
+            "channelTitle"
+        ).value;
+
+    settings.welcome_text =
+        document.getElementById(
+            "welcomeText"
+        ).value;
+
+    settings.welcome_text_size =
+        document.getElementById(
+            "welcomeTextSize"
+        ).value;
+
+}
+
+
+/* =========================================================
+   MAIN BUTTONS
+========================================================= */
+
+function collectMainButtons(){
+
+    settings.main_buttons = [];
+
+    for(let i=1;i<=3;i++){
+
+        settings.main_buttons.push({
+
+            enabled:
+                document.getElementById(
+                    `main${i}Enabled`
+                ).checked,
+
+            text:
+                document.getElementById(
+                    `main${i}Text`
+                ).value,
+
+            url:
+                document.getElementById(
+                    `main${i}Url`
+                ).value
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   VIDEO BUTTONS
+========================================================= */
+
+function collectVideoButtons(){
+
+    settings.video_buttons = [];
+
+    for(let i=1;i<=2;i++){
+
+        settings.video_buttons.push({
+
+            enabled:
+                document.getElementById(
+                    `video${i}Enabled`
+                ).checked,
+
+            text:
+                document.getElementById(
+                    `video${i}Text`
+                ).value,
+
+            url:
+                document.getElementById(
+                    `video${i}Url`
+                ).value
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE BASIC
+========================================================= */
+
+async function saveBasic(){
+
+    collectBasic();
+
+    await saveSettingsToServer(
+        "basicStatus"
+    );
+
+}
+
+
+/* =========================================================
+   SAVE MAIN
+========================================================= */
+
+async function saveMainButtons(){
+
+    collectMainButtons();
+
+    await saveSettingsToServer(
+        "mainStatus"
+    );
+
+}
+
+
+/* =========================================================
+   SAVE VIDEO
+========================================================= */
+
+async function saveVideo(){
+
+    await saveSettingsToServer(
+        "videoStatus"
+    );
+
+}
+
+
+/* =========================================================
+   SAVE VIDEO BUTTONS
+========================================================= */
+
+async function saveVideoButtons(){
+
+    collectVideoButtons();
+
+    await saveSettingsToServer(
+        "videoButtonStatus"
+    );
+
+}
+
+
+/* =========================================================
+   SAVE VOICE
+========================================================= */
+
+async function saveVoice(){
+
+    settings.voice_text =
+        document.getElementById(
+            "voiceText"
+        ).value;
+
+    settings.voice_button_text =
+        document.getElementById(
+            "voiceButtonText"
+        ).value;
+
+    await saveSettingsToServer(
+        "audioStatus"
+    );
+
+}
+
+
+/* =========================================================
+   DELETE TIME
+========================================================= */
+
+async function saveDeleteTime(){
+
+    settings.duration =
+        Number(
+            document.getElementById(
+                "duration"
+            ).value
+        );
+
+    await saveSettingsToServer(
+        "deleteStatus"
+    );
+
+}
+
+
+/* =========================================================
+   SAVE SERVER
+========================================================= */
+
+async function saveSettingsToServer(
+    statusId
+){
+
+    try{
+
+        const result =
+            await api(
+                API.settings,
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+                        "X-Admin-Password":
+                            PASSWORD
+                    },
+                    body:
+                        JSON.stringify({
+                            settings
+                        })
+                }
+            );
+
+        settings =
+            normalize(
+                result.settings || settings
+            );
+
+        loadSettings();
+
+        document.getElementById(
+            statusId
+        ).textContent =
+            "✅ Saved successfully";
+
+        document.getElementById(
+            statusId
+        ).className =
+            "status success";
+
+        updatePreview();
+
+    }catch(error){
+
+        document.getElementById(
+            statusId
+        ).textContent =
+            "❌ Save failed: " +
+            error.message;
+
+    }
+
+}
+
+
+/* =========================================================
+   VIDEO UPLOAD
+========================================================= */
+
+async function uploadVideo(){
+
+    const file =
+        document.getElementById(
+            "videoFile"
+        ).files[0];
+
+    if(!file){
+
+        alert(
+            "Video select করুন"
+        );
+
+        return;
+    }
+
+    const form =
+        new FormData();
+
+    form.append(
+        "file",
+        file
+    );
+
+    form.append(
+        "media_type",
+        "video"
+    );
+
+
+    try{
+
+        document.getElementById(
+            "videoStatus"
+        ).textContent =
+            "⏳ Uploading...";
+
+
+        const result =
+            await api(
+                API.upload,
+                {
+                    method:"POST",
+                    body:form
+                }
+            );
+
+
+        if(!result.ok){
+
+            throw new Error(
+                result.error ||
+                "Upload failed"
+            );
+
+        }
+
+
+        settings.video_file_id =
+            result.file_id ||
+            result.telegram_file_id ||
+            "";
+
+        settings.video_filename =
+            result.filename ||
+            file.name;
+
+
+        document.getElementById(
+            "videoName"
+        ).textContent =
+            settings.video_filename;
+
+
+        document.getElementById(
+            "videoStatus"
+        ).textContent =
+            "✅ Video uploaded";
+
+
+        await saveVideo();
+
+    }catch(error){
+
+        document.getElementById(
+            "videoStatus"
+        ).textContent =
+            "❌ " + error.message;
+
+    }
+
+}
+
+
+/* =========================================================
+   AUDIO UPLOAD
+========================================================= */
+
+async function uploadAudio(){
+
+    const file =
+        document.getElementById(
+            "audioFile"
+        ).files[0];
+
+    if(!file){
+
+        alert(
+            "Audio select করুন"
+        );
+
+        return;
+    }
+
+
+    const form =
+        new FormData();
+
+    form.append(
+        "file",
+        file
+    );
+
+    form.append(
+        "media_type",
+        "audio"
+    );
+
+
+    try{
+
+        document.getElementById(
+            "audioStatus"
+        ).textContent =
+            "⏳ Uploading...";
+
+
+        const result =
+            await api(
+                API.upload,
+                {
+                    method:"POST",
+                    body:form
+                }
+            );
+
+
+        if(!result.ok){
+
+            throw new Error(
+                result.error ||
+                "Upload failed"
+            );
+
+        }
+
+
+        settings.audio_file_id =
+            result.file_id ||
+            result.telegram_file_id ||
+            "";
+
+        settings.audio_filename =
+            result.filename ||
+            file.name;
+
+
+        document.getElementById(
+            "audioName"
+        ).textContent =
+            settings.audio_filename;
+
+
+        document.getElementById(
+            "audioStatus"
+        ).textContent =
+            "✅ Voice uploaded";
+
+
+        await saveVoice();
+
+    }catch(error){
+
+        document.getElementById(
+            "audioStatus"
+        ).textContent =
+            "❌ " + error.message;
+
+    }
+
+}
+
+
+/* =========================================================
+   REMOVE MEDIA
+========================================================= */
+
+async function removeMedia(type){
+
+    try{
+
+        const result =
+            await api(
+                API.remove,
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+                        "X-Admin-Password":
+                            PASSWORD
+                    },
+                    body:
+                        JSON.stringify({
+                            media_type:type
+                        })
+                }
+            );
+
+
+        if(!result.ok){
+
+            throw new Error(
+                result.error ||
+                "Remove failed"
+            );
+
+        }
+
+
+        if(type === "video"){
+
+            settings.video_file_id = "";
+            settings.video_filename = "";
+
+            document.getElementById(
+                "videoName"
+            ).textContent =
+                "No video uploaded";
+
+        }else{
+
+            settings.audio_file_id = "";
+            settings.audio_filename = "";
+
+            document.getElementById(
+                "audioName"
+            ).textContent =
+                "No audio uploaded";
+
+        }
+
+
+        await saveSettingsToServer(
+            type === "video"
+            ? "videoStatus"
+            : "audioStatus"
+        );
+
+    }catch(error){
+
+        alert(
+            error.message
+        );
+
+    }
+
+}
+
+
+function removeVideo(){
+    removeMedia("video");
+}
+
+
+function removeAudio(){
+    removeMedia("audio");
+}
+
+
+/* =========================================================
+   SAVE ALL
+========================================================= */
+
+async function saveAll(){
+
+    collectBasic();
+    collectMainButtons();
+    collectVideoButtons();
+
+    settings.voice_text =
+        document.getElementById(
+            "voiceText"
+        ).value;
+
+    settings.voice_button_text =
+        document.getElementById(
+            "voiceButtonText"
+        ).value;
+
+    settings.duration =
+        Number(
+            document.getElementById(
+                "duration"
+            ).value
+        );
+
+
+    try{
+
+        const result =
+            await api(
+                API.settings,
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+                        "X-Admin-Password":
+                            PASSWORD
+                    },
+                    body:
+                        JSON.stringify({
+                            settings
+                        })
+                }
+            );
+
+
+        settings =
+            normalize(
+                result.settings
+            );
+
+        loadSettings();
+
+        updatePreview();
+
+
+        document.getElementById(
+            "allStatus"
+        ).textContent =
+            "✅ ALL WELCOME SYSTEM SAVED";
+
+        document.getElementById(
+            "allStatus"
+        ).className =
+            "status success";
+
+    }catch(error){
+
+        document.getElementById(
+            "allStatus"
+        ).textContent =
+            "❌ Save failed: " +
+            error.message;
+
+    }
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+async function resetAll(){
+
+    if(!confirm(
+        "সব Welcome System Default-এ Reset করবেন?"
+    )) return;
+
+
+    try{
+
+        const result =
+            await api(
+                API.reset,
+                {
+                    method:"POST"
+                }
+            );
+
+
+        if(!result.ok){
+
+            throw new Error(
+                result.error ||
+                "Reset failed"
+            );
+
+        }
+
+
+        settings =
+            normalize(
+                result.settings
+            );
+
+        loadSettings();
+
+        updatePreview();
+
+
+        document.getElementById(
+            "allStatus"
+        ).textContent =
+            "✅ ALL SYSTEM RESET COMPLETE";
+
+    }catch(error){
+
+        document.getElementById(
+            "allStatus"
+        ).textContent =
+            "❌ " + error.message;
+
+    }
+
+}
+
+
+/* =========================================================
+   PASSWORD CHANGE
+========================================================= */
+
+async function changePassword(){
+
+    const oldPassword =
+        document.getElementById(
+            "oldPassword"
+        ).value;
+
+    const newPassword =
+        document.getElementById(
+            "newPassword"
+        ).value;
+
+    const confirmPassword =
+        document.getElementById(
+            "confirmPassword"
+        ).value;
+
+
+    if(!oldPassword ||
+       !newPassword ||
+       !confirmPassword){
+
+        document.getElementById(
+            "passwordStatus"
+        ).textContent =
+            "সব Password field পূরণ করুন";
+
+        return;
+    }
+
+
+    if(newPassword !== confirmPassword){
+
+        document.getElementById(
+            "passwordStatus"
+        ).textContent =
+            "❌ New Password মিলছে না";
+
+        return;
+    }
+
+
+    try{
+
+        const result =
+            await fetch(
+                API.password,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+
+                        "X-Admin-Password":
+                            PASSWORD
+                    },
+
+                    body:
+                        JSON.stringify({
+                            old_password:
+                                oldPassword,
+
+                            new_password:
+                                newPassword
+                        })
+                }
+            );
+
+
+        const data =
+            await result.json();
+
+
+        if(!result.ok || !data.ok){
+
+            throw new Error(
+                data.error ||
+                "Password change failed"
+            );
+
+        }
+
+
+        PASSWORD =
+            newPassword;
+
+
+        document.getElementById(
+            "passwordStatus"
+        ).textContent =
+            "✅ Password changed successfully";
+
+        document.getElementById(
+            "oldPassword"
+        ).value = "";
+
+        document.getElementById(
+            "newPassword"
+        ).value = "";
+
+        document.getElementById(
+            "confirmPassword"
+        ).value = "";
+
+    }catch(error){
+
+        document.getElementById(
+            "passwordStatus"
+        ).textContent =
+            "❌ " + error.message;
+
+    }
+
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+function updatePreview(){
+
+    collectBasic();
+    collectMainButtons();
+    collectVideoButtons();
+
+
+    let text =
+        settings.welcome_text
+        .replace(
+            /{first_name}/g,
+            "Sohel User"
+        )
+        .replace(
+            /{channel_title}/g,
+            settings.channel_title
+        );
+
+
+    const preview =
+        document.getElementById(
+            "preview"
+        );
+
+
+    preview.innerHTML = "";
+
+
+    const textBox =
+        document.createElement(
+            "div"
+        );
+
+
+    textBox.textContent =
+        text;
+
+
+    textBox.className =
+        "text-" +
+        (
+            settings.welcome_text_size ||
+            "medium"
+        );
+
+
+    preview.appendChild(
+        textBox
+    );
+
+
+    const buttonBox =
+        document.createElement(
+            "div"
+        );
+
+    buttonBox.className =
+        "preview-buttons";
+
+
+    for(
+        const button
+        of settings.main_buttons
+    ){
+
+        if(
+            !button.enabled ||
+            !button.text ||
+            !button.url
+        ) continue;
+
+
+        const a =
+            document.createElement(
+                "a"
+            );
+
+        a.href =
+            button.url;
+
+        a.target =
+            "_blank";
+
+        a.textContent =
+            button.text;
+
+        a.className =
+            "preview-button";
+
+        buttonBox.appendChild(
+            a
+        );
+
+    }
+
+
+    preview.appendChild(
+        buttonBox
+    );
+
+
+    if(settings.video_file_id){
+
+        const videoInfo =
+            document.createElement(
+                "div"
+            );
+
+        videoInfo.className =
+            "media-name";
+
+        videoInfo.textContent =
+            "🎬 Video: " +
+            (
+                settings.video_filename ||
+                "Uploaded"
+            );
+
+        preview.appendChild(
+            videoInfo
+        );
+
+    }
+
+
+    const voice =
+        document.createElement(
+            "div"
+        );
+
+    voice.className =
+        "media-name";
+
+    voice.textContent =
+        settings.voice_text || "";
+
+    preview.appendChild(
+        voice
+    );
+
+}
+
+
+/* =========================================================
+   LIVE PREVIEW
+========================================================= */
+
+document
+.getElementById("welcomeText")
+.addEventListener(
+    "input",
+    updatePreview
+);
+
+document
+.getElementById("channelTitle")
+.addEventListener(
+    "input",
+    updatePreview
+);
+
+</script>
+
+</body>
+</html>
