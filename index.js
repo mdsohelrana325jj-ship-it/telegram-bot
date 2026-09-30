@@ -20,14 +20,22 @@
 // 12. Admin Panel Settings Support
 //
 // IMPORTANT:
-// Bot-কে Telegram Channel-এর Administrator করতে হবে.
+// বটটি Telegram Channel-এর Administrator হতে হবে।
 //
 // ============================================================
 
 const { Telegraf } = require("telegraf");
 
-// আপনার টেলিগ্রাম বটের টোকেনটি এখানে বসিয়ে দিন
-const bot = new Telegraf("8898220751:AAEQYaYOjnnn92-Z9O9qoTRQawrC-mGm9xg");
+// পরিবেশ থেকে টেলিগ্রাম বট টোকেন রিড বা প্রসেস করা হচ্ছে
+const BOT_TOKEN = String(process.env.BOT_TOKEN || "").trim();
+
+if (!BOT_TOKEN) {
+    throw new Error(
+        "BOT_TOKEN environment variable is missing. Add your Telegram bot token in Render Environment Variables."
+    );
+}
+
+const bot = new Telegraf(BOT_TOKEN);
 
 // ============================================================
 // CONFIG
@@ -39,7 +47,7 @@ const CONFIG = {
     // CHANNEL
     // --------------------------------------------------------
 
-    CHANNEL_ID: -1003985236266,
+    CHANNEL_ID: Number(process.env.CHANNEL_ID || -1003985236266),
 
     CHANNEL_NAME: "SOHEL VAI OFFICIAL CHANNEL",
 
@@ -50,12 +58,12 @@ const CONFIG = {
     // ADMIN PANEL SETTINGS API
     // --------------------------------------------------------
     //
-    // Admin Panel যদি একই NxCreate server-এ থাকে,
-    // তাহলে এই URL ব্যবহার করুন:
+    // Admin Panel থেকে কোনো NxCreate server-এ থাকলে,
+    // সেটির URL ব্যবহার করতে হবে:
     //
     // /api/settings
     //
-    // অন্য server হলে সম্পূর্ণ URL দিতে হবে।
+    // এর পর server হিসেবে সঠিক URL দিতে হবে।
     //
     // --------------------------------------------------------
 
@@ -84,7 +92,7 @@ const CONFIG = {
     // ========================================================
 
     WELCOME_TEXT:
-`👋 👤 {first_name} ⸙ 🇧🇩
+`👋 👤 স্বাগতম {first_name} ভাই 
 
 🎉 আপনাকে স্বাগতম!
 👑 SOHEL VAI OFFICIAL CHANNEL JOIN করার জন্য 💖
@@ -106,7 +114,7 @@ const CONFIG = {
 
         {
             text:
-                "👑 𝗩𝗜𝗣 𝗚𝗥𝗢𝗨𝗣 𝗙𝗔𝗦𝗧 𝗝𝗢𝗜𝗡 👑",
+                "👑 𝗦𝗢𝗛𝗘𝗟 𝗩𝗔𝗜 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟 𝗖𝗛𝗔𝗡𝗡𝗘𝗟 👑",
 
             url:
                 "https://t.me/+WZR7nsATt1szNmRh"
@@ -114,7 +122,7 @@ const CONFIG = {
 
         {
             text:
-                "😈 𝗔𝗜 𝗛𝗔𝗖𝗞 𝐋𝐈𝐍𝐊 𝐎𝐏𝐄𝐍 😈",
+                "🚨 𝗦𝗢𝗛𝗘𝗟 𝗔𝗜 𝗣𝗥𝗘𝗗𝗜𝗖𝗧𝗜𝗢𝗡 𝗕𝗢𝗧 🚨",
 
             url:
                 "https://t.me/sohel_ai_prediction_bot"
@@ -122,7 +130,7 @@ const CONFIG = {
 
         {
             text:
-                "💬 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗔𝗗𝗠𝗜𝗡 ☎️",
+                "💎 𝗧𝗥𝗔𝗗𝗜𝗡𝗚 𝗖𝗛𝗔𝗡𝗡𝗘𝗟 𝗕𝗗 ⭐️প",
 
             url:
                 "https://t.me/TRADER_SOHEL_BDT_TOP"
@@ -135,12 +143,12 @@ const CONFIG = {
     // VIDEO
     // ========================================================
     //
-    // Telegram file_id থাকলে FILE_ID ব্যবহার হবে।
+    // Telegram file_id ব্যবহার করে FILE_ID ব্যবহার করতে হবে।
     //
-    // FILE_ID না থাকলে VIDEO_URL ব্যবহার করার চেষ্টা করবে।
+    // FILE_ID না থাকলে VIDEO_URL ব্যবহার করতে চয়েস করতে পারেন।
     //
     // Recommended:
-    // Admin Panel থেকে upload করে Telegram file_id save করা।
+    // Admin Panel থেকে upload করে Telegram file_id save করুন।
     //
     // ========================================================
 
@@ -158,7 +166,7 @@ const CONFIG = {
 
         {
             text:
-                "🔵 𝗕𝗗𝗪𝗜𝗡𝟮𝟰 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗝𝗢𝗜𝗡🎰",
+                "🎁 𝗖𝗢𝗨𝗣𝗢𝗡 𝗖𝗢𝗗𝗘 𝗩𝗜𝗗𝗘𝗢 𝗗𝗘𝗧𝗔𝗜𝗟𝗦 𝗣𝗔𝗚𝗘🌸",
 
             url:
                 "https://t.me/+gNZZwOIN72BjYzQ1"
@@ -166,7 +174,7 @@ const CONFIG = {
 
         {
             text:
-                "🟡 𝐃𝐊𝐖𝐈𝐍 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗝𝗎𝗈𝗜𝗡🎰",
+                "🎉 𝗧𝗘𝗔𝗠 𝗩𝗜𝗗𝗘𝗢 𝗗𝗘𝗧𝗔𝗜𝗟𝗦 𝗣𝗔𝗚𝗘 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟🌸",
 
             url:
                 "https://t.me/EARNING_TEME_bd"
@@ -180,7 +188,7 @@ const CONFIG = {
     // ========================================================
 
     VOICE_TEXT:
-        "🎶 গুরুত্বপূর্ণ ভয়েস শুনুন 🎵🎵",
+        "🎙 ভয়েসমেসেস টেস্ট ভরিভিশন 🎶🎶",
 
 
     // ========================================================
@@ -188,7 +196,7 @@ const CONFIG = {
     // ========================================================
 
     VOICE_BUTTON_TEXT:
-        "🎶🎶 𝗢𝗣𝗘𝗡 𝗩𝗢𝗜𝗖𝗘 🎵🎵",
+        "🎙🎙 𝗦𝗢𝗛𝗘𝗟 𝗩𝗔𝗜 𝗩𝗢𝗜𝗖𝗘 𝗠𝗘𝗦𝗦𝗔𝗚𝗘 🎶🎶",
 
 
     // ========================================================
@@ -259,13 +267,37 @@ const PROCESSED_USERS = new Set();
 
 
 // ============================================================
+// SHARED SETTINGS LOADER
+// ============================================================
+// server.js injects its local getSettings() function here.
+// This keeps the Bot and Admin API in the same process and
+// removes the old HTTP/auth mismatch completely.
+
+let SETTINGS_LOADER = null;
+
+function setSettingsLoader(loader) {
+
+    if (typeof loader !== "function") {
+
+        throw new TypeError(
+            "setSettingsLoader expects a function"
+        );
+
+    }
+
+    SETTINGS_LOADER = loader;
+
+}
+
+
+// ============================================================
 // PRIVATE MESSAGE OPTIONS
 // ============================================================
 //
-// এই অংশটি NxCreate-এর private/ephemeral delivery-এর জন্য।
+// এই ফিচারটি NxCreate-এর private/ephemeral delivery-এর জন্য।
 //
-// উদ্দেশ্য:
-// একজন Member-এর Welcome অন্য Member দেখতে পারবে না।
+// কার্যপদ্ধতি:
+// কোনো Member-কে Welcome দেওয়ার পর Member নিজে দেখতে পারে না।
 //
 // ============================================================
 
@@ -387,6 +419,7 @@ function makeKeyboard(buttons) {
 
 
         if (
+            button.enabled === false ||
             !text ||
             !url
         ) {
@@ -429,52 +462,27 @@ async function loadAdminSettings() {
 
     try {
 
-        if (
-            !CONFIG.SETTINGS_URL
-        ) {
+        if (typeof SETTINGS_LOADER !== "function") {
 
-            return;
+            return false;
 
         }
 
 
-        const response =
-            await fetch(
-                CONFIG.SETTINGS_URL,
-                {
-
-                    method: "GET",
-
-                    headers: {
-
-                        "Accept":
-                            "application/json"
-
-                    }
-
-                }
-            );
-
-
-        if (
-            !response.ok
-        ) {
-
-            return;
-
-        }
+        const loaded = await SETTINGS_LOADER();
 
 
         const data =
-            await response.json();
+            loaded &&
+            loaded.settings &&
+            typeof loaded.settings === "object"
+                ? loaded.settings
+                : loaded;
 
 
-        if (
-            !data ||
-            typeof data !== "object"
-        ) {
+        if (!data || typeof data !== "object") {
 
-            return;
+            return false;
 
         }
 
@@ -483,13 +491,9 @@ async function loadAdminSettings() {
         // Welcome ON/OFF
         // ----------------------------------------------------
 
-        if (
-            typeof data.welcome_enabled ===
-            "boolean"
-        ) {
+        if (typeof data.welcome_enabled === "boolean") {
 
-            RUNTIME.welcome_enabled =
-                data.welcome_enabled;
+            RUNTIME.welcome_enabled = data.welcome_enabled;
 
         }
 
@@ -498,14 +502,9 @@ async function loadAdminSettings() {
         // Channel Title
         // ----------------------------------------------------
 
-        if (
-            data.channel_title
-        ) {
+        if (data.channel_title !== undefined) {
 
-            RUNTIME.channel_title =
-                String(
-                    data.channel_title
-                );
+            RUNTIME.channel_title = String(data.channel_title || "");
 
         }
 
@@ -514,14 +513,9 @@ async function loadAdminSettings() {
         // Welcome Text
         // ----------------------------------------------------
 
-        if (
-            data.welcome_text
-        ) {
+        if (data.welcome_text !== undefined) {
 
-            RUNTIME.welcome_text =
-                String(
-                    data.welcome_text
-                );
+            RUNTIME.welcome_text = String(data.welcome_text || "");
 
         }
 
@@ -530,13 +524,9 @@ async function loadAdminSettings() {
         // Profile Photo
         // ----------------------------------------------------
 
-        if (
-            typeof data.profile_photo_enabled ===
-            "boolean"
-        ) {
+        if (typeof data.profile_photo_enabled === "boolean") {
 
-            RUNTIME.profile_photo_enabled =
-                data.profile_photo_enabled;
+            RUNTIME.profile_photo_enabled = data.profile_photo_enabled;
 
         }
 
@@ -545,179 +535,106 @@ async function loadAdminSettings() {
         // Delete Time
         // ----------------------------------------------------
 
-        if (
-            data.duration !== undefined
-        ) {
+        if (data.duration !== undefined) {
 
-            RUNTIME.delete_seconds =
-                normalizeDeleteTime(
-                    data.duration
-                );
+            RUNTIME.delete_seconds = normalizeDeleteTime(data.duration);
 
         }
 
+        if (data.delete_seconds !== undefined) {
 
-        if (
-            data.delete_seconds !== undefined
-        ) {
-
-            RUNTIME.delete_seconds =
-                normalizeDeleteTime(
-                    data.delete_seconds
-                );
+            RUNTIME.delete_seconds = normalizeDeleteTime(data.delete_seconds);
 
         }
 
 
         // ----------------------------------------------------
-        // Video File ID
+        // Video
         // ----------------------------------------------------
 
-        if (
-            data.video_file_id
-        ) {
+        if (data.video_file_id !== undefined) {
 
-            RUNTIME.video_file_id =
-                String(
-                    data.video_file_id
-                );
+            RUNTIME.video_file_id = String(data.video_file_id || "");
+
+        }
+
+        if (data.video_url) {
+
+            RUNTIME.video_url = String(data.video_url);
 
         }
 
 
         // ----------------------------------------------------
-        // Video URL
+        // Audio
         // ----------------------------------------------------
 
-        if (
-            data.video_url
-        ) {
+        if (data.audio_file_id !== undefined) {
 
-            RUNTIME.video_url =
-                String(
-                    data.video_url
-                );
+            RUNTIME.audio_file_id = String(data.audio_file_id || "");
+
+        }
+
+        if (data.audio_url) {
+
+            RUNTIME.audio_url = String(data.audio_url);
 
         }
 
 
         // ----------------------------------------------------
-        // Audio File ID
+        // Voice Text / Button
         // ----------------------------------------------------
 
-        if (
-            data.audio_file_id
-        ) {
+        if (data.voice_text !== undefined) {
 
-            RUNTIME.audio_file_id =
-                String(
-                    data.audio_file_id
-                );
+            RUNTIME.voice_text = String(data.voice_text || "");
+
+        }
+
+        if (data.voice_button_text !== undefined) {
+
+            RUNTIME.voice_button_text = String(data.voice_button_text || "");
 
         }
 
 
         // ----------------------------------------------------
-        // Audio URL
+        // Main Buttons
         // ----------------------------------------------------
 
-        if (
-            data.audio_url
-        ) {
+        if (Array.isArray(data.main_buttons)) {
 
-            RUNTIME.audio_url =
-                String(
-                    data.audio_url
-                );
+            RUNTIME.main_buttons = data.main_buttons;
+
+        } else if (Array.isArray(data.buttons)) {
+
+            RUNTIME.main_buttons = data.buttons.slice(0, 3);
 
         }
 
 
         // ----------------------------------------------------
-        // Voice Text
+        // Video Buttons
         // ----------------------------------------------------
 
-        if (
-            data.voice_text
-        ) {
+        if (Array.isArray(data.video_buttons)) {
 
-            RUNTIME.voice_text =
-                String(
-                    data.voice_text
-                );
+            RUNTIME.video_buttons = data.video_buttons;
 
         }
 
 
-        // ----------------------------------------------------
-        // Voice Button Text
-        // ----------------------------------------------------
+        return true;
 
-        if (
-            data.voice_button_text
-        ) {
-
-            RUNTIME.voice_button_text =
-                String(
-                    data.voice_button_text
-                );
-
-        }
-
-
-        // ----------------------------------------------------
-        // MAIN BUTTONS
-        // ----------------------------------------------------
-
-        if (
-            Array.isArray(
-                data.main_buttons
-            )
-        ) {
-
-            RUNTIME.main_buttons =
-                data.main_buttons;
-
-        }
-        else if (
-            Array.isArray(
-                data.buttons
-            )
-        ) {
-
-            RUNTIME.main_buttons =
-                data.buttons.slice(
-                    0,
-                    3
-                );
-
-        }
-
-
-        // ----------------------------------------------------
-        // VIDEO BUTTONS
-        // ----------------------------------------------------
-
-        if (
-            Array.isArray(
-                data.video_buttons
-            )
-        ) {
-
-            RUNTIME.video_buttons =
-                data.video_buttons;
-
-        }
-
-
-    }
-    catch (error) {
+    } catch (error) {
 
         console.log(
             "Admin settings load failed:",
-            error?.message ||
-            error
+            error?.message || error
         );
+
+        return false;
 
     }
 
@@ -804,7 +721,7 @@ function createWelcomeText(member) {
         String(
             member?.first_name ||
             member?.username ||
-            "প্রিয় ভাই"
+            "ржкрзНрж░рж┐рзЯ ржнрж╛ржЗ"
         );
 
 
@@ -1017,18 +934,25 @@ async function deleteLater(
 
             try {
 
-                if (
-                    bot.telegram.deleteEphemeralMessage
-                ) {
+                // Telegraf 4.16.3 predates the new helper method,
+                // so call the current Bot API method directly when needed.
+                if (typeof bot.telegram.deleteEphemeralMessage === "function") {
 
                     await bot.telegram.deleteEphemeralMessage(
-
                         CONFIG.CHANNEL_ID,
-
                         Number(userId),
-
                         messageId
+                    );
 
+                } else {
+
+                    await bot.telegram.callApi(
+                        "deleteEphemeralMessage",
+                        {
+                            chat_id: CONFIG.CHANNEL_ID,
+                            user_id: Number(userId),
+                            message_id: Number(messageId)
+                        }
                     );
 
                 }
@@ -1386,11 +1310,6 @@ async function handleNewMember(
     }
 
 
-    PROCESSED_USERS.add(
-        userId
-    );
-
-
     // --------------------------------------------------------
     // Load latest Admin Panel settings
     // --------------------------------------------------------
@@ -1419,6 +1338,10 @@ async function handleNewMember(
 
         await sendWelcome(
             member
+        );
+
+        PROCESSED_USERS.add(
+            userId
         );
 
     }
@@ -1616,6 +1539,148 @@ bot.command(
 
 
 // ============================================================
+// BOT START / STOP
+// ============================================================
+
+let BOT_STARTED = false;
+
+async function startBot() {
+
+    if (BOT_STARTED) {
+
+        return;
+
+    }
+
+
+    // Remove any old webhook so polling can receive chat_member updates.
+    try {
+
+        await bot.telegram.deleteWebhook({
+            drop_pending_updates: false
+        });
+
+    } catch (error) {
+
+        console.log(
+            "Webhook cleanup warning:",
+            error?.message || error
+        );
+
+    }
+
+
+    const me = await bot.telegram.getMe();
+
+
+    console.log(
+        "Telegram bot authenticated:",
+        `@${me.username || me.first_name}`
+    );
+
+
+    // Telegram requires chat_member to be explicitly allowed.
+    await bot.launch({
+        allowedUpdates: [
+            "chat_member",
+            "message"
+        ],
+        dropPendingUpdates: false
+    });
+
+
+    BOT_STARTED = true;
+
+
+    // Helpful startup permission check. It does not stop the bot.
+    try {
+
+        const member =
+            await bot.telegram.getChatMember(
+                CONFIG.CHANNEL_ID,
+                me.id
+            );
+
+        console.log(
+            "Channel bot status:",
+            member?.status || "unknown"
+        );
+
+        if (member?.status === "administrator") {
+
+            console.log(
+                "can_send_welcome_messages:",
+                member?.can_send_welcome_messages
+            );
+
+            if (member?.can_send_welcome_messages === false) {
+
+                console.log(
+                    "WARNING: Bot does not have can_send_welcome_messages permission."
+                );
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Channel permission check warning:",
+            error?.message || error
+        );
+
+    }
+
+
+    console.log(
+        "Telegram Welcome Bot polling started."
+    );
+
+}
+
+
+function stopBot(reason = "shutdown") {
+
+    if (!BOT_STARTED) {
+
+        return;
+
+    }
+
+    try {
+
+        bot.stop(reason);
+
+    } catch (error) {
+
+        console.log(
+            "Bot stop warning:",
+            error?.message || error
+        );
+
+    } finally {
+
+        BOT_STARTED = false;
+
+    }
+
+}
+
+
+bot.catch((error, ctx) => {
+
+    console.error(
+        "TELEGRAF ERROR:",
+        error?.message || error,
+        "update:",
+        ctx?.update?.update_id
+    );
+
+});
+
+
+// ============================================================
 // START LOG
 // ============================================================
 
@@ -1650,3 +1715,16 @@ console.log(
 console.log(
     "=============================================="
 );
+
+// ============================================================
+// MODULE EXPORTS
+// ============================================================
+
+module.exports = {
+    bot,
+    CONFIG,
+    startBot,
+    stopBot,
+    setSettingsLoader,
+    loadAdminSettings
+};
