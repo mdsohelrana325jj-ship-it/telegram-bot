@@ -17,19 +17,20 @@ fs.mkdirSync(PUBLIC_DIR,{recursive:true});
 const DEFAULT_SETTINGS={
   welcome_enabled:true, profile_photo_enabled:true,
   channel_title:'SOHEL VAI OFFICIAL CHANNEL',
-  welcome_text:`🎉 স্বাগতম {first_name} ভাই 🇧🇩\n\n📢 আমাদের চ্যানেল জয়েন করার জন্য ধন্যবাদ 👑\n\nএখান থেকে নিয়মিত নতুন Update পাবেন.\n\nআমাদের সাথে যুক্ত থাকুন আশা করি কোনো না কোনো দিন আপনার উপকারে আসবো ইনশাআল্লাহ 🥰`,
+  welcome_text:`🎉 স্বাগতম {first_name} ভাই ❤️\n\n📢 আমাদের চ্যানেলে যুক্ত হওয়ার জন্য ধন্যবাদ!\n🔥 SOHEL VAI OFFICIAL CHANNEL JOIN করতে ভুলবেন না 🚀\n\n⭐ বিশেষ নির্দেশিকা ও নিয়মাবলী ⭐\nআপনার আইডি সুরক্ষিত রাখতে এবং অফিশিয়াল Channel-এ Join করতে ভুলবেন না যাতে কোনো আপডেট মিস না হয়।\n\nনিয়ম মেনে চলুন এবং কোনো প্রকার সমস্যা হলে এডমিনের সাথে যোগাযোগ করতে পারেন 🌸\n\n📌 নিয়মিত নতুন Update পেতে আমাদের সাথেই থাকুন!\n✨ ▬ SOHEL VAI ▬ ✨`,
   welcome_text_size:'medium', duration:300,
   video_file_id:'',video_filename:'',video_url:'',
   audio_file_id:'',audio_filename:'',audio_url:'',
-  voice_text:'🎵 ব্রাদার্স মিক্সড ভয়েস মেসেজ 🎵🎵',voice_button_text:'🎵🎵 𝐒𝐎𝐇𝐄𝐋 𝐕𝐀𝐈 🎵🎵',
+  voice_text:'🎙 ব্রডকাস্ট ভয়েস মেসেজ শুনুন 🎙️🎙️',
+  voice_button_text:'🎙🎙️ ব্রডকাস্ট ভয়েস মেসেজ 🎙️🎙️',
   main_buttons:[
-    {enabled:true,text:'👑 𝐎𝐅𝐅𝐈𝐂𝐈𝐀𝐋 𝐆𝐑𝐎𝐔𝐏 𝐉𝐎𝐈𝐍 👑',url:'https://t.me/+WZR7nsATt1szNmRh'},
-    {enabled:true,text:'🤖 AI PREDICTION VIP HACK 🤖',url:'https://t.me/sohel_ai_prediction_bot'},
-    {enabled:true,text:'⚡ TRADER SOHEL BDT TOP ⭐⏱️',url:'https://t.me/TRADER_SOHEL_BDT_TOP'}
+    {enabled:true,text:'🔥 সোয়েল এআই প্রেডিকশন চ্যানেল 🔥',url:'https://t.me/+WZR7nsATt1szNmRh'},
+    {enabled:true,text:'🌟 ভিআইপি সিগন্যাল গ্রুপ 🌟',url:'https://t.me/sohel_ai_prediction_bot'},
+    {enabled:true,text:'💎 ট্রেডার সোয়েল বিডি চ্যানেল 💎',url:'https://t.me/TRADER_SOHEL_BDT_TOP'}
   ],
   video_buttons:[
-    {enabled:true,text:'🎥 𝐕𝐈𝐏 𝐂𝐇𝐀𝐍𝐍𝐄𝐋 𝐉𝐎𝐈𝐍 𝐋𝐈𝐍𝐊 🏓',url:'https://t.me/+gNZZwOIN72BjYzQ1'},
-    {enabled:true,text:'🚀 𝐄𝐀𝐑𝐍𝐈𝐍𝐆 𝐓𝐄𝐌𝐄 𝐉𝐎𝐈𝐍 𝐋𝐈𝐍𝐊 🏓',url:'https://t.me/EARNING_TEME_bd'}
+    {enabled:true,text:'📌 অফিশিয়াল সিগন্যাল গ্রুপ লিংক 📌',url:'https://t.me/+gNZZwOIN72BjYzQ1'},
+    {enabled:true,text:'🎁 আর্নিং টিম বিডি গ্রুপ লিংক 🎁',url:'https://t.me/EARNING_TEME_bd'}
   ]
 };
 const clone=o=>JSON.parse(JSON.stringify(o));
