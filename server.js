@@ -43,6 +43,18 @@ if(!fs.existsSync(PUBLIC_DIR)){
 
 
 /* =========================================================
+   TELEGRAM BOT MODULE
+========================================================= */
+
+const {
+    bot,
+    setSettingsLoader,
+    startBot,
+    stopBot
+} = require("./index.js");
+
+
+/* =========================================================
    DEFAULT SETTINGS
 ========================================================= */
 
@@ -56,7 +68,7 @@ const DEFAULT_SETTINGS = {
         "SOHEL VAI OFFICIAL CHANNEL",
 
     welcome_text:
-`👋 👤 {first_name} ⸙ 🇧🇩
+ `👋 👤 স্বাগতম {first_name} ভাই 
 
 🎉 আপনাকে স্বাগতম!
 👑 SOHEL VAI OFFICIAL CHANNEL JOIN করার জন্য 💖
@@ -68,6 +80,7 @@ const DEFAULT_SETTINGS = {
 
 📢 নিয়মিত নতুন Update পেতে আমাদের সাথে থাকুন।🫶😘
 👑 — SOHEL VAI — 👑`,
+
 
     welcome_text_size:
         "medium",
@@ -81,49 +94,47 @@ const DEFAULT_SETTINGS = {
     audio_filename:"",
 
     voice_text:
-        "🎶 গুরুত্বপূর্ণ ভয়েস শুনুন 🎵🎵",
+        "🎙 ভয়েসমেসেস টেস্ট ভরিভিশন 🎶🎶",
 
     voice_button_text:
-        "🎶🎶 𝗢𝗣𝗘𝗡 𝗩𝗢𝗜𝗖𝗘 🎵🎵",
+        "🎙🎙 𝗦𝗢𝗛𝗘𝗟 𝗩𝗔𝗜 𝗩𝗢𝗜𝗖𝗘 𝗠𝗘𝗦𝗦𝗔𝗚𝗘 🎶🎶",
 
-    main_buttons:[
-
+    main_buttons: [
         {
-            enabled:true,
-            text:"👑 𝗩𝗜𝗣 𝗚𝗥𝗢𝗨𝗣 𝗙𝗔𝗦𝗧 𝗝𝗢𝗜𝗡 👑",
-            url:"https://t.me/+WZR7nsATt1szNmRh"
+            enabled: true,
+            text: "👑 𝗦𝗢𝗛𝗘𝗟 𝗩𝗔𝗜 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟 𝗖𝗛𝗔𝗡𝗡𝗘𝗟 👑",
+            url: "https://t.me/+WZR7nsATt1szNmRh"
         },
-
+        
         {
-            enabled:true,
-            text:"😈 𝗔𝗜 𝗛𝗔𝗖𝗞 𝐋𝐈𝐍𝐊 𝐎𝐏𝐄𝐍 😈",
-            url:"https://t.me/sohel_ai_prediction_bot"
+            enabled: true,
+            text: "🚨 𝗦𝗢𝗛𝗘𝗟 𝗔𝗜 𝗣𝗥𝗘𝗗𝗜𝗖𝗧𝗜𝗢𝗡 𝗕𝗢𝗧 🚨",
+            url: "https://t.me/sohel_ai_prediction_bot"
         },
-
+        
         {
-            enabled:true,
-            text:"💬 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗔𝗗𝗠𝗜𝗡 ☎️",
-            url:"https://t.me/TRADER_SOHEL_BDT_TOP"
+            enabled: true,
+            text: "💎 𝗧𝗥𝗔𝗗𝗜𝗡𝗚 𝗖𝗛𝗔𝗡𝗡𝗘𝗟 𝗕𝗗 ⭐️প",
+            url: "https://t.me/TRADER_SOHEL_BDT_TOP"
         }
-
+        
     ],
 
-    video_buttons:[
-
+    video_buttons: [
         {
-            enabled:true,
-            text:"🔵 𝗕𝗗𝗪𝗜𝗡𝟮𝟰 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗝𝗢𝗜𝗡🎰",
-            url:"https://t.me/+gNZZwOIN72BjYzQ1"
+            enabled: true,
+            text: "🎁 𝗖𝗢𝗨𝗣𝗢𝗡 𝗖𝗢𝗗𝗘 𝗩𝗜𝗗𝗘𝗢 𝗗𝗘𝗧𝗔𝗜𝗟𝗦 𝗣𝗔𝗚𝗘🌸",
+            url: "https://t.me/+gNZZwOIN72BjYzQ1"
         },
-
+        
         {
-            enabled:true,
-            text:"🟡 𝐃𝐊𝐖𝐈𝐍 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗝𝗎𝗈𝗜𝗡🎰",
-            url:"https://t.me/EARNING_TEME_bd"
+            enabled: true,
+            text: "🎉 𝗧𝗘𝗔𝗠 𝗩𝗜𝗗𝗘𝗢 𝗗𝗘𝗧𝗔𝗜𝗟𝗦 𝗣𝗔𝗚𝗘 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟🌸",
+            url: "https://t.me/EARNING_TEME_bd"
         }
-
+        
     ]
-
+    
 };
 
 
@@ -512,10 +523,10 @@ const upload =
 /*
    IMPORTANT:
 
-   NxCreate-এর environment-এ আপনার existing `bot`
-   object থাকলে এই function-এ সেই bot ব্যবহার করতে হবে।
+   এনভায়রনমেন্টে থাকা এক্সিস্টিং `bot` অবজেক্ট ব্যবহার করে 
+   এই ফাংশনটির মাধ্যমে বট মেসেজ বা মিডিয়া হ্যান্ডেল করা হয়।
 
-   Telegram file_id bot-specific।
+   Telegram file_id হলো বট স্পেসিফিক।
 */
 
 async function uploadToTelegram(
@@ -523,23 +534,11 @@ async function uploadToTelegram(
     mediaType
 ){
 
-    if(
-        typeof bot === "undefined"
-    ){
-
-        throw new Error(
-            "NxCreate bot object is not available"
-        );
-
-    }
 
 
     /*
-       এখানে আপনার NxCreate-এর Telegram upload
-       capability ব্যবহার করতে হবে।
-
-       Standard Telegraf হলে সাধারণত Buffer upload
-       এইভাবে করা যায়:
+       এখানে আপনার টেলিগ্রাম আপলোড ক্যাপাবিলিটি ব্যবহার করা হচ্ছে। 
+       স্ট্যান্ডার্ড টেলিগ্রাম ব্রডকাস্ট বা বাফার আপলোড যেভাবে কাজ করে:
     */
 
     let result;
@@ -957,12 +956,71 @@ app.get(
    START
 ========================================================= */
 
-app.listen(
-    PORT,
-    ()=>{
-        console.log(
-            "SOHEL VAI ADMIN API running on port",
-            PORT
-        );
-    }
+// The bot reads the exact same settings object used by the Admin API.
+setSettingsLoader(() => getSettings());
+
+
+const httpServer =
+    app.listen(
+        PORT,
+        async () => {
+
+            console.log(
+                "SOHEL VAI ADMIN API running on port",
+                PORT
+            );
+
+            try {
+
+                await startBot();
+
+            } catch (error) {
+
+                console.error(
+                    "TELEGRAM BOT START ERROR:",
+                    error?.message || error
+                );
+
+                console.error(
+                    "Admin Panel is still running, but Telegram Welcome Bot is offline until the bot starts successfully."
+                );
+
+            }
+
+        }
+    );
+
+
+function gracefulShutdown(signal) {
+
+    console.log(
+        `Received ${signal}. Shutting down...`
+    );
+
+    stopBot(signal);
+
+    httpServer.close(() => {
+
+        process.exit(0);
+
+    });
+
+
+    setTimeout(() => {
+
+        process.exit(0);
+
+    }, 10000).unref();
+
+}
+
+
+process.once(
+    "SIGINT",
+    () => gracefulShutdown("SIGINT")
+);
+
+process.once(
+    "SIGTERM",
+    () => gracefulShutdown("SIGTERM")
 );
