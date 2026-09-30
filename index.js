@@ -28,8 +28,9 @@ const DEFAULTS = {
     { enabled: true, text: '🤖 🔤🔠 🔤🔠🔠🔠 🔠🔠🔠🔠 🔠🔠🔠🔠 🤖', url: 'https://t.me/sohel_ai_prediction_bot' },
     { enabled: true, text: '🚀 🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠 ⏰', url: 'https://t.me/TRADER_SOHEL_BDT_TOP' }
   ],
-  video_buttons: [
-    { enabled: true, text: '🎬 🔤🔠🔠🔠🔠🟢🔠 🔤🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🟢', url: 'https://t.me/+gNZZwOIN72BjYzQ1' },
+  // video_buttons এর পরিবর্তে media_buttons নামকরণ করা হলো
+  media_buttons: [
+    { enabled: true, text: '🎬 🔤🔠🔠🔠🔠🟢🔠 🔤🔠🔠🔠🔠🔠🔠 🔤🔠🔠🔠🔠🔠🔠 🔤🔠🔠🔠🔠🟢', url: 'https://t.me/+gNZZwOIN72BjYzQ1' },
     { enabled: true, text: '📢 🔤🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🟢', url: 'https://t.me/EARNING_TEME_bd' }
   ]
 };
@@ -41,9 +42,10 @@ function normalize(raw) {
   s.duration = Math.max(30, Math.min(900, Math.floor(Number(s.duration) || 300)));
   if (!['small', 'medium', 'large'].includes(s.welcome_text_size)) s.welcome_text_size = 'medium';
   s.main_buttons = Array.isArray(s.main_buttons) ? s.main_buttons.slice(0, 3) : clone(DEFAULTS.main_buttons);
-  s.video_buttons = Array.isArray(s.video_buttons) ? s.video_buttons.slice(0, 2) : clone(DEFAULTS.video_buttons);
+  // normalization এ video_buttons এর পরিবর্তে media_buttons চেক করা হচ্ছে
+  s.media_buttons = Array.isArray(s.media_buttons) ? s.media_buttons.slice(0, 2) : clone(DEFAULTS.media_buttons);
   while (s.main_buttons.length < 3) s.main_buttons.push({ enabled: false, text: '', url: '' });
-  while (s.video_buttons.length < 2) s.video_buttons.push({ enabled: false, text: '', url: '' });
+  while (s.media_buttons.length < 2) s.media_buttons.push({ enabled: false, text: '', url: '' });
   return s;
 }
 
@@ -192,17 +194,7 @@ async function sendWelcome(member) {
 
   const ttl = settings.duration;
   const mainKeys = keyboard(settings.main_buttons);
-  const mediaKeys = keyboard(settings.video_buttons);
-
-  console.log('WELCOME START', {
-    userId,
-    channelId: CHANNEL_ID,
-    duration: ttl,
-    videoFileId: shortFileId(settings.video_file_id),
-    audioFileId: shortFileId(settings.audio_file_id),
-    videoUrl: Boolean(settings.video_url),
-    audioUrl: Boolean(settings.audio_url)
-  });
+  const mediaKeys = keyboard(settings.media_buttons);
 
   // 1) Welcome + profile photo + 3 main buttons
   try {
@@ -211,80 +203,50 @@ async function sendWelcome(member) {
       ? await sendEphemeralPhoto(userId, photo, welcomeText(member, settings), mainKeys)
       : await sendEphemeralMessage(userId, welcomeText(member, settings), mainKeys);
 
-    console.log('WELCOME SENT', {
-      userId,
-      ephemeralMessageId: result?.ephemeral_message_id,
-      rawMessageId: result?.message_id
-    });
-
     deleteLater(userId, result?.ephemeral_message_id, ttl, 'welcome');
   } catch (e) {
     console.error('WELCOME SEND FAILED:', e?.response?.description || e?.message || e);
   }
 
-  // 2) Video
+  // 2) Video (স্ক্রিনশটের মতো ভিডিওর সাথে বাটন যুক্ত করার জন্য এখানে mediaKeys দেওয়া হলো)
   let videoSent = false;
   const video = settings.video_file_id || String(settings.video_url || '').trim();
 
   if (video) {
     try {
-      const result = await sendEphemeralVideo(
-        userId,
-        video,
-        settings.audio_file_id || settings.audio_url ? null : mediaKeys
-      );
+      // যদি অডিও না থাকে, তবে ভিডিওর সাথেই মিডিয়া বাটনগুলো শো করবে
+      const videoMarkup = (settings.audio_file_id || settings.audio_url) ? null : mediaKeys;
+      const result = await sendEphemeralVideo(userId, video, videoMarkup);
 
       videoSent = true;
-      console.log('VIDEO SENT', {
-        userId,
-        source: settings.video_file_id ? 'file_id' : 'url',
-        ephemeralMessageId: result?.ephemeral_message_id,
-        rawMessageId: result?.message_id
-      });
-
       deleteLater(userId, result?.ephemeral_message_id, ttl, 'video');
     } catch (e) {
       console.error('VIDEO SEND FAILED:', e?.response?.description || e?.message || e);
     }
-  } else {
-    console.log('VIDEO SKIPPED: no video_file_id and no video_url');
   }
 
-  // 3) Audio; if both video+audio exist, buttons go under the final audio
+  // 3) Audio (অডিও থাকলে অডিওর নিচে মিডিয়া বাটনগুলো শো করবে)
   const audio = settings.audio_file_id || String(settings.audio_url || '').trim();
 
   if (audio) {
     try {
       const result = await sendEphemeralAudio(userId, audio, mediaKeys);
-
-      console.log('AUDIO SENT', {
-        userId,
-        source: settings.audio_file_id ? 'file_id' : 'url',
-        ephemeralMessageId: result?.ephemeral_message_id,
-        rawMessageId: result?.message_id
-      });
-
       deleteLater(userId, result?.ephemeral_message_id, ttl, 'audio');
     } catch (e) {
       console.error('AUDIO SEND FAILED:', e?.response?.description || e?.message || e);
     }
   } else {
-    console.log('AUDIO SKIPPED: no audio_file_id and no audio_url');
-
-    // If there is no audio but there is a video, keep the 2 media buttons under video.
-    if (videoSent) {
-      // The video was intentionally sent without buttons only when audio existed.
-      // If audio is absent, video already received mediaKeys above.
-    } else if (mediaKeys.inline_keyboard.length) {
+    // যদি ভিডিও থাকে কিন্তু অডিও না থাকে, আর ভিডিওর সাথে যদি বাটন না গিয়ে থাকে
+    if (!videoSent && mediaKeys.inline_keyboard.length) {
       try {
         const result = await sendEphemeralMessage(userId, '📌 মিডিয়া বাটন লিংক', mediaKeys);
-        console.log('MEDIA BUTTONS SENT', { userId, ephemeralMessageId: result?.ephemeral_message_id });
         deleteLater(userId, result?.ephemeral_message_id, ttl, 'media-buttons');
       } catch (e) {
         console.error('MEDIA BUTTON SEND FAILED:', e?.response?.description || e?.message || e);
       }
     }
   }
+}
 
   console.log('WELCOME FINISHED', { userId });
 }
@@ -325,7 +287,6 @@ bot.on('chat_member', async ctx => {
   }
 });
 
-// Kept for compatibility with group/supergroup joins.
 bot.on('new_chat_members', async ctx => {
   if (Number(ctx.chat?.id) !== CHANNEL_ID) return;
   for (const member of ctx.message?.new_chat_members || []) {
@@ -333,7 +294,6 @@ bot.on('new_chat_members', async ctx => {
   }
 });
 
-// Send the full welcome privately to the person who runs this command.
 bot.command('welcome_test', async ctx => {
   try {
     console.log('WELCOME TEST FROM', ctx.from?.id);
