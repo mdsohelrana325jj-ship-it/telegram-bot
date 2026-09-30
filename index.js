@@ -1,41 +1,30 @@
 // ============================================================
 // SOHEL VAI OFFICIAL CHANNEL
-// NxCreate PRIVATE WELCOME SYSTEM
-// FINAL VERSION
-// ============================================================
-//
-// SYSTEM:
-//
-// 1. Member Profile Photo
-// 2. Member Name
-// 3. Channel Name
-// 4. Welcome Text
-// 5. 3 Main Buttons
-// 6. Automatic Video
-// 7. 2 Video Buttons
-// 8. Voice Text
-// 9. Audio Voice
-// 10. Private/Ephemeral Welcome
-// 11. Auto Delete 30 Seconds - 15 Minutes
-// 12. Admin Panel Settings Support
-//
-// IMPORTANT:
-// বটটি Telegram Channel-এর Administrator হতে হবে।
-//
+// PRIVATE / EPHEMERAL WELCOME BOT
+// FINAL NODE.JS VERSION
 // ============================================================
 
 const { Telegraf } = require("telegraf");
 
-// পরিবেশ থেকে টেলিগ্রাম বট টোকেন রিড বা প্রসেস করা হচ্ছে
-const BOT_TOKEN = String(process.env.BOT_TOKEN || "").trim();
+
+// ============================================================
+// BOT TOKEN
+// ============================================================
+
+const BOT_TOKEN =
+    String(process.env.BOT_TOKEN || "").trim();
 
 if (!BOT_TOKEN) {
+
     throw new Error(
-        "BOT_TOKEN environment variable is missing. Add your Telegram bot token in Render Environment Variables."
+        "BOT_TOKEN environment variable is missing."
     );
+
 }
 
-const bot = new Telegraf(BOT_TOKEN);
+const bot =
+    new Telegraf(BOT_TOKEN);
+
 
 // ============================================================
 // CONFIG
@@ -43,170 +32,91 @@ const bot = new Telegraf(BOT_TOKEN);
 
 const CONFIG = {
 
-    // --------------------------------------------------------
-    // CHANNEL
-    // --------------------------------------------------------
+    CHANNEL_ID:
+        Number(
+            process.env.CHANNEL_ID ||
+            -1003985236266
+        ),
 
-    CHANNEL_ID: Number(process.env.CHANNEL_ID || -1003985236266),
+    CHANNEL_NAME:
+        "SOHEL VAI OFFICIAL CHANNEL",
 
-    CHANNEL_NAME: "SOHEL VAI OFFICIAL CHANNEL",
+    WELCOME_ENABLED:
+        true,
 
-    WELCOME_ENABLED: true,
+    DELETE_AFTER_SECONDS:
+        300,
 
-
-    // --------------------------------------------------------
-    // ADMIN PANEL SETTINGS API
-    // --------------------------------------------------------
-    //
-    // Admin Panel থেকে কোনো NxCreate server-এ থাকলে,
-    // সেটির URL ব্যবহার করতে হবে:
-    //
-    // /api/settings
-    //
-    // এর পর server হিসেবে সঠিক URL দিতে হবে।
-    //
-    // --------------------------------------------------------
-
-    SETTINGS_URL: "/api/settings",
-
-
-    // --------------------------------------------------------
-    // DEFAULT DELETE TIME
-    //
-    // Minimum 30 seconds
-    // Maximum 900 seconds = 15 minutes
-    // --------------------------------------------------------
-
-    DELETE_AFTER_SECONDS: 300,
-
-
-    // --------------------------------------------------------
-    // PROFILE PHOTO
-    // --------------------------------------------------------
-
-    PROFILE_PHOTO_ENABLED: true,
-
-
-    // ========================================================
-    // DEFAULT WELCOME TEXT
-    // ========================================================
+    PROFILE_PHOTO_ENABLED:
+        true,
 
     WELCOME_TEXT:
-`👋 👤 স্বাগতম {first_name} ভাই 
+`প্রিয় {first_name} ভাই,
 
-🎉 আপনাকে স্বাগতম!
-👑 SOHEL VAI OFFICIAL CHANNEL JOIN করার জন্য 💖
+SOHEL VAI OFFICIAL CHANNEL এ আপনাকে স্বাগতম!
 
-❤️ আসসালামু আলাইকুম প্রিয় ভাই ❤️
-আমাদের Official Channel-এ Join করার জন্য আপনাকে আন্তরিক ধন্যবাদ।
+{channel_title}
 
-প্রিয় ভাই আমাদের সাথেই থাকুন আশা করি কোন না কোন একদিন অবশ্যই আপনার উপকারে আসবোই ইনশাআল্লাহ 🥰
+আমাদের Official Channel-এ Join করার জন্য আপনাকে ধন্যবাদ।
 
-📢 নিয়মিত নতুন Update পেতে আমাদের সাথে থাকুন।🫶😘
-👑 — SOHEL VAI — 👑`,
+নিয়মিত Update পেতে আমাদের Channel-এর সাথে যুক্ত থাকুন।
 
-
-    // ========================================================
-    // MAIN BUTTONS
-    // ========================================================
+— SOHEL VAI`,
 
     MAIN_BUTTONS: [
 
         {
-            text:
-                "👑 𝗦𝗢𝗛𝗘𝗟 𝗩𝗔𝗜 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟 𝗖𝗛𝗔𝗡𝗡𝗘𝗟 👑",
-
+            enabled: true,
+            text: "📢 OFFICIAL CHANNEL",
             url:
                 "https://t.me/+WZR7nsATt1szNmRh"
         },
 
         {
-            text:
-                "🚨 𝗦𝗢𝗛𝗘𝗟 𝗔𝗜 𝗣𝗥𝗘𝗗𝗜𝗖𝗧𝗜𝗢𝗡 𝗕𝗢𝗧 🚨",
-
+            enabled: true,
+            text: "🤖 SUPPORT BOT",
             url:
                 "https://t.me/sohel_ai_prediction_bot"
         },
 
         {
-            text:
-                "💎 𝗧𝗥𝗔𝗗𝗜𝗡𝗚 𝗖𝗛𝗔𝗡𝗡𝗘𝗟 𝗕𝗗 ⭐️প",
-
+            enabled: true,
+            text: "🔗 BUTTON 3",
             url:
                 "https://t.me/TRADER_SOHEL_BDT_TOP"
         }
 
     ],
 
-
-    // ========================================================
-    // VIDEO
-    // ========================================================
-    //
-    // Telegram file_id ব্যবহার করে FILE_ID ব্যবহার করতে হবে।
-    //
-    // FILE_ID না থাকলে VIDEO_URL ব্যবহার করতে চয়েস করতে পারেন।
-    //
-    // Recommended:
-    // Admin Panel থেকে upload করে Telegram file_id save করুন।
-    //
-    // ========================================================
-
-    VIDEO_FILE_ID: "",
-
-    VIDEO_URL:
-        "https://raw.githubusercontent.com/mdsohelrana325jj-ship-it/my-media/refs/heads/main/VID_20260912_181613_200.mp4",
-
-
-    // ========================================================
-    // VIDEO BUTTONS
-    // ========================================================
-
     VIDEO_BUTTONS: [
 
         {
-            text:
-                "🎁 𝗖𝗢𝗨𝗣𝗢𝗡 𝗖𝗢𝗗𝗘 𝗩𝗜𝗗𝗘𝗢 𝗗𝗘𝗧𝗔𝗜𝗟𝗦 𝗣𝗔𝗚𝗘🌸",
-
+            enabled: true,
+            text: "📺 VIDEO BUTTON 1",
             url:
                 "https://t.me/+gNZZwOIN72BjYzQ1"
         },
 
         {
-            text:
-                "🎉 𝗧𝗘𝗔𝗠 𝗩𝗜𝗗𝗘𝗢 𝗗𝗘𝗧𝗔𝗜𝗟𝗦 𝗣𝗔𝗚𝗘 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟🌸",
-
+            enabled: true,
+            text: "🔗 VIDEO BUTTON 2",
             url:
                 "https://t.me/EARNING_TEME_bd"
         }
 
     ],
 
-
-    // ========================================================
-    // VOICE TEXT
-    // ========================================================
-
     VOICE_TEXT:
-        "🎙 ভয়েসমেসেস টেস্ট ভরিভিশন 🎶🎶",
-
-
-    // ========================================================
-    // VOICE BUTTON
-    // ========================================================
+        "🎙️ আমাদের Voice Message শুনুন।",
 
     VOICE_BUTTON_TEXT:
-        "🎙🎙 𝗦𝗢𝗛𝗘𝗟 𝗩𝗔𝗜 𝗩𝗢𝗜𝗖𝗘 𝗠𝗘𝗦𝗦𝗔𝗚𝗘 🎶🎶",
+        "🔊 AUDIO LINK",
 
-
-    // ========================================================
-    // AUDIO
-    // ========================================================
-
-    AUDIO_FILE_ID: "",
+    VIDEO_URL:
+        "",
 
     AUDIO_URL:
-        "https://raw.githubusercontent.com/mdsohelrana325jj-ship-it/my-media/refs/heads/main/audio_example%20(1).mp3"
+        ""
 
 };
 
@@ -232,14 +142,23 @@ let RUNTIME = {
     delete_seconds:
         CONFIG.DELETE_AFTER_SECONDS,
 
+    media_type:
+        "none",
+
     video_file_id:
-        CONFIG.VIDEO_FILE_ID,
+        "",
+
+    video_filename:
+        "",
 
     video_url:
         CONFIG.VIDEO_URL,
 
     audio_file_id:
-        CONFIG.AUDIO_FILE_ID,
+        "",
+
+    audio_filename:
+        "",
 
     audio_url:
         CONFIG.AUDIO_URL,
@@ -263,21 +182,22 @@ let RUNTIME = {
 // DUPLICATE PROTECTION
 // ============================================================
 
-const PROCESSED_USERS = new Set();
+const PROCESSED_USERS =
+    new Set();
 
 
 // ============================================================
-// SHARED SETTINGS LOADER
+// SETTINGS LOADER
 // ============================================================
-// server.js injects its local getSettings() function here.
-// This keeps the Bot and Admin API in the same process and
-// removes the old HTTP/auth mismatch completely.
 
 let SETTINGS_LOADER = null;
 
+
 function setSettingsLoader(loader) {
 
-    if (typeof loader !== "function") {
+    if (
+        typeof loader !== "function"
+    ) {
 
         throw new TypeError(
             "setSettingsLoader expects a function"
@@ -285,34 +205,8 @@ function setSettingsLoader(loader) {
 
     }
 
-    SETTINGS_LOADER = loader;
-
-}
-
-
-// ============================================================
-// PRIVATE MESSAGE OPTIONS
-// ============================================================
-//
-// এই ফিচারটি NxCreate-এর private/ephemeral delivery-এর জন্য।
-//
-// কার্যপদ্ধতি:
-// কোনো Member-কে Welcome দেওয়ার পর Member নিজে দেখতে পারে না।
-//
-// ============================================================
-
-function privateOptions(userId) {
-
-    return {
-
-        ephemeral_message_parameters: {
-
-            receiver_user_id:
-                Number(userId)
-
-        }
-
-    };
+    SETTINGS_LOADER =
+        loader;
 
 }
 
@@ -321,7 +215,10 @@ function privateOptions(userId) {
 // SAFE NUMBER
 // ============================================================
 
-function safeNumber(value, fallback) {
+function safeNumber(
+    value,
+    fallback
+) {
 
     const number =
         Number(value);
@@ -342,13 +239,10 @@ function safeNumber(value, fallback) {
 // ============================================================
 // DELETE TIME
 // ============================================================
-//
-// Minimum = 30 sec
-// Maximum = 900 sec
-//
-// ============================================================
 
-function normalizeDeleteTime(value) {
+function normalizeDeleteTime(
+    value
+) {
 
     let seconds =
         safeNumber(
@@ -356,67 +250,59 @@ function normalizeDeleteTime(value) {
             CONFIG.DELETE_AFTER_SECONDS
         );
 
-    if (seconds < 30) {
+    seconds =
+        Math.max(
+            30,
+            Math.min(
+                900,
+                seconds
+            )
+        );
 
-        seconds = 30;
-
-    }
-
-    if (seconds > 900) {
-
-        seconds = 900;
-
-    }
-
-    return Math.floor(seconds);
+    return Math.floor(
+        seconds
+    );
 
 }
 
 
 // ============================================================
-// BUILD KEYBOARD
+// KEYBOARD
 // ============================================================
 
-function makeKeyboard(buttons) {
+function makeKeyboard(
+    buttons
+) {
 
     if (
         !Array.isArray(buttons)
     ) {
 
         return {
-
             inline_keyboard: []
-
         };
 
     }
 
-
     const rows = [];
-
 
     for (
         const button of buttons
     ) {
 
         if (!button) {
-
             continue;
-
         }
-
 
         const text =
             String(
                 button.text || ""
             ).trim();
 
-
         const url =
             String(
                 button.url || ""
             ).trim();
-
 
         if (
             button.enabled === false ||
@@ -428,49 +314,41 @@ function makeKeyboard(buttons) {
 
         }
 
-
         rows.push([
-
             {
-
-                text: text,
-
-                url: url
-
+                text,
+                url
             }
-
         ]);
 
     }
 
-
     return {
-
         inline_keyboard:
             rows
-
     };
 
 }
 
 
 // ============================================================
-// LOAD ADMIN PANEL SETTINGS
+// LOAD ADMIN SETTINGS
 // ============================================================
 
 async function loadAdminSettings() {
 
     try {
 
-        if (typeof SETTINGS_LOADER !== "function") {
+        if (
+            typeof SETTINGS_LOADER !== "function"
+        ) {
 
             return false;
 
         }
 
-
-        const loaded = await SETTINGS_LOADER();
-
+        const loaded =
+            await SETTINGS_LOADER();
 
         const data =
             loaded &&
@@ -479,8 +357,10 @@ async function loadAdminSettings() {
                 ? loaded.settings
                 : loaded;
 
-
-        if (!data || typeof data !== "object") {
+        if (
+            !data ||
+            typeof data !== "object"
+        ) {
 
             return false;
 
@@ -488,146 +368,264 @@ async function loadAdminSettings() {
 
 
         // ----------------------------------------------------
-        // Welcome ON/OFF
+        // BASIC
         // ----------------------------------------------------
 
-        if (typeof data.welcome_enabled === "boolean") {
+        if (
+            typeof data.welcome_enabled ===
+            "boolean"
+        ) {
 
-            RUNTIME.welcome_enabled = data.welcome_enabled;
+            RUNTIME.welcome_enabled =
+                data.welcome_enabled;
+
+        }
+
+
+        if (
+            data.channel_title !== undefined
+        ) {
+
+            RUNTIME.channel_title =
+                String(
+                    data.channel_title || ""
+                );
+
+        }
+
+
+        if (
+            data.welcome_text !== undefined
+        ) {
+
+            RUNTIME.welcome_text =
+                String(
+                    data.welcome_text || ""
+                );
+
+        }
+
+
+        if (
+            typeof data.profile_photo_enabled ===
+            "boolean"
+        ) {
+
+            RUNTIME.profile_photo_enabled =
+                data.profile_photo_enabled;
 
         }
 
 
         // ----------------------------------------------------
-        // Channel Title
+        // DELETE TIME
         // ----------------------------------------------------
 
-        if (data.channel_title !== undefined) {
+        if (
+            data.duration !== undefined
+        ) {
 
-            RUNTIME.channel_title = String(data.channel_title || "");
+            RUNTIME.delete_seconds =
+                normalizeDeleteTime(
+                    data.duration
+                );
+
+        }
+
+        if (
+            data.delete_seconds !== undefined
+        ) {
+
+            RUNTIME.delete_seconds =
+                normalizeDeleteTime(
+                    data.delete_seconds
+                );
 
         }
 
 
         // ----------------------------------------------------
-        // Welcome Text
+        // MEDIA TYPE
         // ----------------------------------------------------
 
-        if (data.welcome_text !== undefined) {
+        if (
+            data.media_type !== undefined
+        ) {
 
-            RUNTIME.welcome_text = String(data.welcome_text || "");
+            const mediaType =
+                String(
+                    data.media_type
+                ).toLowerCase();
+
+            if (
+                mediaType === "audio" ||
+                mediaType === "video"
+            ) {
+
+                RUNTIME.media_type =
+                    mediaType;
+
+            } else {
+
+                RUNTIME.media_type =
+                    "none";
+
+            }
 
         }
 
 
         // ----------------------------------------------------
-        // Profile Photo
+        // VIDEO
         // ----------------------------------------------------
 
-        if (typeof data.profile_photo_enabled === "boolean") {
+        if (
+            data.video_file_id !== undefined
+        ) {
 
-            RUNTIME.profile_photo_enabled = data.profile_photo_enabled;
+            RUNTIME.video_file_id =
+                String(
+                    data.video_file_id || ""
+                );
+
+        }
+
+        if (
+            data.video_filename !== undefined
+        ) {
+
+            RUNTIME.video_filename =
+                String(
+                    data.video_filename || ""
+                );
+
+        }
+
+        if (
+            data.video_url !== undefined
+        ) {
+
+            RUNTIME.video_url =
+                String(
+                    data.video_url || ""
+                );
 
         }
 
 
         // ----------------------------------------------------
-        // Delete Time
+        // AUDIO
         // ----------------------------------------------------
 
-        if (data.duration !== undefined) {
+        if (
+            data.audio_file_id !== undefined
+        ) {
 
-            RUNTIME.delete_seconds = normalizeDeleteTime(data.duration);
+            RUNTIME.audio_file_id =
+                String(
+                    data.audio_file_id || ""
+                );
 
         }
 
-        if (data.delete_seconds !== undefined) {
+        if (
+            data.audio_filename !== undefined
+        ) {
 
-            RUNTIME.delete_seconds = normalizeDeleteTime(data.delete_seconds);
-
-        }
-
-
-        // ----------------------------------------------------
-        // Video
-        // ----------------------------------------------------
-
-        if (data.video_file_id !== undefined) {
-
-            RUNTIME.video_file_id = String(data.video_file_id || "");
+            RUNTIME.audio_filename =
+                String(
+                    data.audio_filename || ""
+                );
 
         }
 
-        if (data.video_url) {
+        if (
+            data.audio_url !== undefined
+        ) {
 
-            RUNTIME.video_url = String(data.video_url);
-
-        }
-
-
-        // ----------------------------------------------------
-        // Audio
-        // ----------------------------------------------------
-
-        if (data.audio_file_id !== undefined) {
-
-            RUNTIME.audio_file_id = String(data.audio_file_id || "");
-
-        }
-
-        if (data.audio_url) {
-
-            RUNTIME.audio_url = String(data.audio_url);
+            RUNTIME.audio_url =
+                String(
+                    data.audio_url || ""
+                );
 
         }
 
 
         // ----------------------------------------------------
-        // Voice Text / Button
+        // VOICE
         // ----------------------------------------------------
 
-        if (data.voice_text !== undefined) {
+        if (
+            data.voice_text !== undefined
+        ) {
 
-            RUNTIME.voice_text = String(data.voice_text || "");
+            RUNTIME.voice_text =
+                String(
+                    data.voice_text || ""
+                );
 
         }
 
-        if (data.voice_button_text !== undefined) {
+        if (
+            data.voice_button_text !== undefined
+        ) {
 
-            RUNTIME.voice_button_text = String(data.voice_button_text || "");
-
-        }
-
-
-        // ----------------------------------------------------
-        // Main Buttons
-        // ----------------------------------------------------
-
-        if (Array.isArray(data.main_buttons)) {
-
-            RUNTIME.main_buttons = data.main_buttons;
-
-        } else if (Array.isArray(data.buttons)) {
-
-            RUNTIME.main_buttons = data.buttons.slice(0, 3);
+            RUNTIME.voice_button_text =
+                String(
+                    data.voice_button_text || ""
+                );
 
         }
 
 
         // ----------------------------------------------------
-        // Video Buttons
+        // MAIN BUTTONS
         // ----------------------------------------------------
 
-        if (Array.isArray(data.video_buttons)) {
+        if (
+            Array.isArray(
+                data.main_buttons
+            )
+        ) {
 
-            RUNTIME.video_buttons = data.video_buttons;
+            RUNTIME.main_buttons =
+                data.main_buttons;
+
+        } else if (
+            Array.isArray(
+                data.buttons
+            )
+        ) {
+
+            RUNTIME.main_buttons =
+                data.buttons.slice(
+                    0,
+                    3
+                );
+
+        }
+
+
+        // ----------------------------------------------------
+        // VIDEO BUTTONS
+        // ----------------------------------------------------
+
+        if (
+            Array.isArray(
+                data.video_buttons
+            )
+        ) {
+
+            RUNTIME.video_buttons =
+                data.video_buttons;
 
         }
 
 
         return true;
 
-    } catch (error) {
+    }
+    catch (error) {
 
         console.log(
             "Admin settings load failed:",
@@ -642,10 +640,12 @@ async function loadAdminSettings() {
 
 
 // ============================================================
-// GET MEMBER PROFILE PHOTO
+// PROFILE PHOTO
 // ============================================================
 
-async function getProfilePhoto(userId) {
+async function getProfilePhoto(
+    userId
+) {
 
     try {
 
@@ -657,14 +657,12 @@ async function getProfilePhoto(userId) {
 
         }
 
-
         const result =
             await bot.telegram.getUserProfilePhotos(
                 userId,
                 0,
                 1
             );
-
 
         if (
             !result ||
@@ -676,10 +674,8 @@ async function getProfilePhoto(userId) {
 
         }
 
-
         const photos =
             result.photos[0];
-
 
         if (
             !photos ||
@@ -690,7 +686,6 @@ async function getProfilePhoto(userId) {
 
         }
 
-
         return photos[
             photos.length - 1
         ].file_id;
@@ -700,8 +695,7 @@ async function getProfilePhoto(userId) {
 
         console.log(
             "Profile photo error:",
-            error?.message ||
-            error
+            error?.message || error
         );
 
         return null;
@@ -712,18 +706,19 @@ async function getProfilePhoto(userId) {
 
 
 // ============================================================
-// CREATE WELCOME TEXT
+// WELCOME TEXT
 // ============================================================
 
-function createWelcomeText(member) {
+function createWelcomeText(
+    member
+) {
 
     const firstName =
         String(
             member?.first_name ||
             member?.username ||
-            "ржкрзНрж░рж┐рзЯ ржнрж╛ржЗ"
+            "প্রিয় ভাই"
         );
-
 
     const channelName =
         String(
@@ -731,13 +726,11 @@ function createWelcomeText(member) {
             CONFIG.CHANNEL_NAME
         );
 
-
     let text =
         String(
             RUNTIME.welcome_text ||
             CONFIG.WELCOME_TEXT
         );
-
 
     text =
         text.replaceAll(
@@ -745,13 +738,11 @@ function createWelcomeText(member) {
             firstName
         );
 
-
     text =
         text.replaceAll(
             "{channel_title}",
             channelName
         );
-
 
     return text;
 
@@ -759,7 +750,7 @@ function createWelcomeText(member) {
 
 
 // ============================================================
-// SEND PRIVATE TEXT
+// PRIVATE TEXT
 // ============================================================
 
 async function sendPrivateText(
@@ -769,20 +760,21 @@ async function sendPrivateText(
 ) {
 
     const options =
-        privateOptions(
-            userId
-        );
+        {
 
+            ephemeral_message_parameters: {
+                receiver_user_id:
+                    Number(userId)
+            }
 
-    if (
-        keyboard
-    ) {
+        };
+
+    if (keyboard) {
 
         options.reply_markup =
             keyboard;
 
     }
-
 
     return await bot.telegram.sendMessage(
         CONFIG.CHANNEL_ID,
@@ -794,45 +786,43 @@ async function sendPrivateText(
 
 
 // ============================================================
-// SEND PRIVATE PHOTO
+// PRIVATE PHOTO
 // ============================================================
 
 async function sendPrivatePhoto(
     userId,
-    photoFileId,
+    photo,
     caption,
     keyboard = null
 ) {
 
     const options =
-        privateOptions(
-            userId
-        );
+        {
 
+            ephemeral_message_parameters: {
+                receiver_user_id:
+                    Number(userId)
+            }
 
-    if (
-        caption
-    ) {
+        };
+
+    if (caption) {
 
         options.caption =
             caption;
 
     }
 
-
-    if (
-        keyboard
-    ) {
+    if (keyboard) {
 
         options.reply_markup =
             keyboard;
 
     }
 
-
     return await bot.telegram.sendPhoto(
         CONFIG.CHANNEL_ID,
-        photoFileId,
+        photo,
         options
     );
 
@@ -840,7 +830,7 @@ async function sendPrivatePhoto(
 
 
 // ============================================================
-// SEND PRIVATE VIDEO
+// PRIVATE VIDEO
 // ============================================================
 
 async function sendPrivateVideo(
@@ -850,24 +840,24 @@ async function sendPrivateVideo(
 ) {
 
     const options =
-        privateOptions(
-            userId
-        );
+        {
 
+            ephemeral_message_parameters: {
+                receiver_user_id:
+                    Number(userId)
+            },
 
-    options.supports_streaming =
-        true;
+            supports_streaming:
+                true
 
+        };
 
-    if (
-        keyboard
-    ) {
+    if (keyboard) {
 
         options.reply_markup =
             keyboard;
 
     }
-
 
     return await bot.telegram.sendVideo(
         CONFIG.CHANNEL_ID,
@@ -879,7 +869,7 @@ async function sendPrivateVideo(
 
 
 // ============================================================
-// SEND PRIVATE AUDIO
+// PRIVATE AUDIO
 // ============================================================
 
 async function sendPrivateAudio(
@@ -889,20 +879,21 @@ async function sendPrivateAudio(
 ) {
 
     const options =
-        privateOptions(
-            userId
-        );
+        {
 
+            ephemeral_message_parameters: {
+                receiver_user_id:
+                    Number(userId)
+            }
 
-    if (
-        keyboard
-    ) {
+        };
+
+    if (keyboard) {
 
         options.reply_markup =
             keyboard;
 
     }
-
 
     return await bot.telegram.sendAudio(
         CONFIG.CHANNEL_ID,
@@ -914,7 +905,7 @@ async function sendPrivateAudio(
 
 
 // ============================================================
-// DELETE EPHEMERAL MESSAGE
+// DELETE EPHEMERAL
 // ============================================================
 
 async function deleteLater(
@@ -928,30 +919,37 @@ async function deleteLater(
             seconds
         );
 
-
     setTimeout(
         async () => {
 
             try {
 
-                // Telegraf 4.16.3 predates the new helper method,
-                // so call the current Bot API method directly when needed.
-                if (typeof bot.telegram.deleteEphemeralMessage === "function") {
+                if (
+                    typeof bot.telegram
+                        .deleteEphemeralMessage ===
+                    "function"
+                ) {
 
-                    await bot.telegram.deleteEphemeralMessage(
-                        CONFIG.CHANNEL_ID,
-                        Number(userId),
-                        messageId
-                    );
+                    await bot.telegram
+                        .deleteEphemeralMessage(
+                            CONFIG.CHANNEL_ID,
+                            Number(userId),
+                            Number(messageId)
+                        );
 
                 } else {
 
                     await bot.telegram.callApi(
                         "deleteEphemeralMessage",
                         {
-                            chat_id: CONFIG.CHANNEL_ID,
-                            user_id: Number(userId),
-                            message_id: Number(messageId)
+                            chat_id:
+                                CONFIG.CHANNEL_ID,
+
+                            user_id:
+                                Number(userId),
+
+                            message_id:
+                                Number(messageId)
                         }
                     );
 
@@ -962,23 +960,20 @@ async function deleteLater(
 
                 console.log(
                     "Delete error:",
-                    error?.message ||
-                    error
+                    error?.message || error
                 );
 
             }
 
         },
-
         delay * 1000
-
     );
 
 }
 
 
 // ============================================================
-// SEND WELCOME SYSTEM
+// SEND WELCOME
 // ============================================================
 
 async function sendWelcome(
@@ -993,7 +988,6 @@ async function sendWelcome(
         return;
 
     }
-
 
     const userId =
         Number(
@@ -1012,7 +1006,7 @@ async function sendWelcome(
 
 
     // --------------------------------------------------------
-    // WELCOME TEXT
+    // TEXT
     // --------------------------------------------------------
 
     const welcomeText =
@@ -1022,7 +1016,7 @@ async function sendWelcome(
 
 
     // --------------------------------------------------------
-    // MAIN KEYBOARD
+    // MAIN BUTTONS
     // --------------------------------------------------------
 
     const mainKeyboard =
@@ -1031,123 +1025,103 @@ async function sendWelcome(
         );
 
 
+    // --------------------------------------------------------
+    // WELCOME MESSAGE
+    // --------------------------------------------------------
+
     let welcomeMessage;
 
-
-    // --------------------------------------------------------
-    // PROFILE PHOTO + TEXT
-    // --------------------------------------------------------
-
-    if (
-        profilePhoto
-    ) {
+    if (profilePhoto) {
 
         welcomeMessage =
             await sendPrivatePhoto(
-
                 userId,
-
                 profilePhoto,
-
                 welcomeText,
-
                 mainKeyboard
-
             );
 
-    }
-    else {
+    } else {
 
         welcomeMessage =
             await sendPrivateText(
-
                 userId,
-
                 welcomeText,
-
                 mainKeyboard
-
             );
 
     }
 
 
-    // --------------------------------------------------------
-    // DELETE WELCOME
-    // --------------------------------------------------------
-
     if (
-        welcomeMessage &&
-        welcomeMessage.message_id
+        welcomeMessage?.message_id
     ) {
 
         deleteLater(
-
             userId,
-
             welcomeMessage.message_id,
-
             RUNTIME.delete_seconds
-
         );
 
     }
 
 
     // ========================================================
+    // MEDIA TYPE
+    // ========================================================
+
+    const mediaType =
+        String(
+            RUNTIME.media_type || "none"
+        ).toLowerCase();
+
+
+    // ========================================================
     // VIDEO
     // ========================================================
 
-    const video =
-        RUNTIME.video_file_id ||
-        RUNTIME.video_url;
-
-
     if (
-        video
+        mediaType === "video"
     ) {
 
-        try {
+        const video =
+            RUNTIME.video_file_id ||
+            RUNTIME.video_url;
 
-            const videoMessage =
-                await sendPrivateVideo(
+        if (video) {
 
-                    userId,
+            try {
 
-                    video,
+                const videoMessage =
+                    await sendPrivateVideo(
+                        userId,
+                        video,
+                        makeKeyboard(
+                            RUNTIME.video_buttons
+                        )
+                    );
 
-                    makeKeyboard(
-                        RUNTIME.video_buttons
-                    )
+                if (
+                    videoMessage?.message_id
+                ) {
 
-                );
+                    deleteLater(
+                        userId,
+                        videoMessage.message_id,
+                        RUNTIME.delete_seconds
+                    );
 
+                }
 
-            if (
-                videoMessage &&
-                videoMessage.message_id
-            ) {
+            }
+            catch (error) {
 
-                deleteLater(
-
-                    userId,
-
-                    videoMessage.message_id,
-
-                    RUNTIME.delete_seconds
-
+                console.log(
+                    "Video send failed:",
+                    error?.message || error
                 );
 
             }
-
-        }
-        catch (error) {
-
-            console.log(
-                "Video send failed:",
-                error?.message ||
-                error
-            );
 
         }
 
@@ -1158,99 +1132,42 @@ async function sendWelcome(
     // VOICE TEXT
     // ========================================================
 
-    try {
-
-        const voiceTextMessage =
-            await sendPrivateText(
-
-                userId,
-
-                RUNTIME.voice_text,
-
-                makeKeyboard([
-
-                    {
-
-                        text:
-                            RUNTIME.voice_button_text,
-
-                        url:
-                            RUNTIME.audio_url
-
-                    }
-
-                ])
-
-            );
-
-
-        if (
-            voiceTextMessage &&
-            voiceTextMessage.message_id
-        ) {
-
-            deleteLater(
-
-                userId,
-
-                voiceTextMessage.message_id,
-
-                RUNTIME.delete_seconds
-
-            );
-
-        }
-
-    }
-    catch (error) {
-
-        console.log(
-            "Voice text error:",
-            error?.message ||
-            error
-        );
-
-    }
-
-
-    // ========================================================
-    // AUDIO
-    // ========================================================
-
-    const audio =
-        RUNTIME.audio_file_id ||
-        RUNTIME.audio_url;
-
-
     if (
-        audio
+        String(
+            RUNTIME.voice_text || ""
+        ).trim()
     ) {
 
         try {
 
-            const audioMessage =
-                await sendPrivateAudio(
+            const voiceKeyboard =
+                RUNTIME.audio_url
+                    ? makeKeyboard([
+                        {
+                            enabled: true,
+                            text:
+                                RUNTIME.voice_button_text,
+                            url:
+                                RUNTIME.audio_url
+                        }
+                    ])
+                    : null;
 
+            const voiceTextMessage =
+                await sendPrivateText(
                     userId,
-
-                    audio
-
+                    RUNTIME.voice_text,
+                    voiceKeyboard
                 );
 
-
             if (
-                audioMessage &&
-                audioMessage.message_id
+                voiceTextMessage?.message_id
             ) {
 
                 deleteLater(
-
                     userId,
-
-                    audioMessage.message_id,
-
+                    voiceTextMessage.message_id,
                     RUNTIME.delete_seconds
-
                 );
 
             }
@@ -1259,10 +1176,58 @@ async function sendWelcome(
         catch (error) {
 
             console.log(
-                "Audio send failed:",
-                error?.message ||
-                error
+                "Voice text error:",
+                error?.message || error
             );
+
+        }
+
+    }
+
+
+    // ========================================================
+    // AUDIO
+    // ========================================================
+
+    if (
+        mediaType === "audio"
+    ) {
+
+        const audio =
+            RUNTIME.audio_file_id ||
+            RUNTIME.audio_url;
+
+        if (audio) {
+
+            try {
+
+                const audioMessage =
+                    await sendPrivateAudio(
+                        userId,
+                        audio
+                    );
+
+                if (
+                    audioMessage?.message_id
+                ) {
+
+                    deleteLater(
+                        userId,
+                        audioMessage.message_id,
+                        RUNTIME.delete_seconds
+                    );
+
+                }
+
+            }
+            catch (error) {
+
+                console.log(
+                    "Audio send failed:",
+                    error?.message || error
+                );
+
+            }
 
         }
 
@@ -1272,7 +1237,7 @@ async function sendWelcome(
 
 
 // ============================================================
-// NEW MEMBER HANDLER
+// NEW MEMBER
 // ============================================================
 
 async function handleNewMember(
@@ -1288,16 +1253,11 @@ async function handleNewMember(
 
     }
 
-
     const userId =
         Number(
             member.id
         );
 
-
-    // --------------------------------------------------------
-    // DUPLICATE CHECK
-    // --------------------------------------------------------
 
     if (
         PROCESSED_USERS.has(
@@ -1310,16 +1270,9 @@ async function handleNewMember(
     }
 
 
-    // --------------------------------------------------------
-    // Load latest Admin Panel settings
-    // --------------------------------------------------------
-
+    // Load latest settings BEFORE marking processed.
     await loadAdminSettings();
 
-
-    // --------------------------------------------------------
-    // Welcome OFF
-    // --------------------------------------------------------
 
     if (
         !RUNTIME.welcome_enabled
@@ -1329,10 +1282,6 @@ async function handleNewMember(
 
     }
 
-
-    // --------------------------------------------------------
-    // Send
-    // --------------------------------------------------------
 
     try {
 
@@ -1349,8 +1298,7 @@ async function handleNewMember(
 
         console.log(
             "Welcome send error:",
-            error?.message ||
-            error
+            error?.message || error
         );
 
     }
@@ -1359,7 +1307,7 @@ async function handleNewMember(
 
 
 // ============================================================
-// CHAT MEMBER UPDATE
+// CHAT MEMBER
 // ============================================================
 
 bot.on(
@@ -1371,40 +1319,37 @@ bot.on(
             const update =
                 ctx.update?.chat_member;
 
+            if (!update) {
+                return;
+            }
+
 
             if (
-                !update
+                Number(
+                    update.chat?.id
+                ) !==
+                CONFIG.CHANNEL_ID
             ) {
 
                 return;
 
             }
-
-
-            const newStatus =
-                update.new_chat_member?.status;
 
 
             const oldStatus =
                 update.old_chat_member?.status;
 
+            const newStatus =
+                update.new_chat_member?.status;
 
             const user =
                 update.new_chat_member?.user;
 
 
-            if (
-                !user
-            ) {
-
+            if (!user) {
                 return;
-
             }
 
-
-            // ------------------------------------------------
-            // JOIN DETECTION
-            // ------------------------------------------------
 
             const wasOut =
                 oldStatus === "left" ||
@@ -1433,8 +1378,7 @@ bot.on(
 
             console.log(
                 "chat_member error:",
-                error?.message ||
-                error
+                error?.message || error
             );
 
         }
@@ -1444,7 +1388,7 @@ bot.on(
 
 
 // ============================================================
-// NEW CHAT MEMBERS FALLBACK
+// FALLBACK
 // ============================================================
 
 bot.on(
@@ -1456,17 +1400,13 @@ bot.on(
             const members =
                 ctx.message?.new_chat_members;
 
-
             if (
-                !Array.isArray(
-                    members
-                )
+                !Array.isArray(members)
             ) {
 
                 return;
 
             }
-
 
             for (
                 const member of members
@@ -1483,8 +1423,7 @@ bot.on(
 
             console.log(
                 "new_chat_members error:",
-                error?.message ||
-                error
+                error?.message || error
             );
 
         }
@@ -1505,31 +1444,20 @@ bot.command(
 
             await loadAdminSettings();
 
+            if (ctx.from) {
 
-            const user =
-                ctx.from;
-
-
-            if (
-                !user
-            ) {
-
-                return;
+                await sendWelcome(
+                    ctx.from
+                );
 
             }
-
-
-            await sendWelcome(
-                user
-            );
 
         }
         catch (error) {
 
             console.log(
-                "Test welcome error:",
-                error?.message ||
-                error
+                "Welcome test error:",
+                error?.message || error
             );
 
         }
@@ -1539,10 +1467,12 @@ bot.command(
 
 
 // ============================================================
-// BOT START / STOP
+// START BOT
 // ============================================================
 
-let BOT_STARTED = false;
+let BOT_STARTED =
+    false;
+
 
 async function startBot() {
 
@@ -1553,14 +1483,14 @@ async function startBot() {
     }
 
 
-    // Remove any old webhook so polling can receive chat_member updates.
     try {
 
         await bot.telegram.deleteWebhook({
             drop_pending_updates: false
         });
 
-    } catch (error) {
+    }
+    catch (error) {
 
         console.log(
             "Webhook cleanup warning:",
@@ -1570,7 +1500,8 @@ async function startBot() {
     }
 
 
-    const me = await bot.telegram.getMe();
+    const me =
+        await bot.telegram.getMe();
 
 
     console.log(
@@ -1579,20 +1510,27 @@ async function startBot() {
     );
 
 
-    // Telegram requires chat_member to be explicitly allowed.
     await bot.launch({
+
         allowedUpdates: [
             "chat_member",
             "message"
         ],
-        dropPendingUpdates: false
+
+        dropPendingUpdates:
+            false
+
     });
 
 
-    BOT_STARTED = true;
+    BOT_STARTED =
+        true;
 
 
-    // Helpful startup permission check. It does not stop the bot.
+    // --------------------------------------------------------
+    // PERMISSION CHECK
+    // --------------------------------------------------------
+
     try {
 
         const member =
@@ -1606,24 +1544,20 @@ async function startBot() {
             member?.status || "unknown"
         );
 
-        if (member?.status === "administrator") {
+        if (
+            member?.status ===
+            "administrator"
+        ) {
 
             console.log(
                 "can_send_welcome_messages:",
                 member?.can_send_welcome_messages
             );
 
-            if (member?.can_send_welcome_messages === false) {
-
-                console.log(
-                    "WARNING: Bot does not have can_send_welcome_messages permission."
-                );
-
-            }
-
         }
 
-    } catch (error) {
+    }
+    catch (error) {
 
         console.log(
             "Channel permission check warning:",
@@ -1640,7 +1574,13 @@ async function startBot() {
 }
 
 
-function stopBot(reason = "shutdown") {
+// ============================================================
+// STOP BOT
+// ============================================================
+
+function stopBot(
+    reason = "shutdown"
+) {
 
     if (!BOT_STARTED) {
 
@@ -1650,81 +1590,63 @@ function stopBot(reason = "shutdown") {
 
     try {
 
-        bot.stop(reason);
+        bot.stop(
+            reason
+        );
 
-    } catch (error) {
+    }
+    catch (error) {
 
         console.log(
             "Bot stop warning:",
             error?.message || error
         );
 
-    } finally {
+    }
+    finally {
 
-        BOT_STARTED = false;
+        BOT_STARTED =
+            false;
 
     }
 
 }
 
 
-bot.catch((error, ctx) => {
+// ============================================================
+// ERROR HANDLER
+// ============================================================
 
-    console.error(
-        "TELEGRAF ERROR:",
-        error?.message || error,
-        "update:",
-        ctx?.update?.update_id
-    );
+bot.catch(
+    (error, ctx) => {
 
-});
+        console.error(
+            "TELEGRAF ERROR:",
+            error?.message || error,
+            "update:",
+            ctx?.update?.update_id
+        );
+
+    }
+);
 
 
 // ============================================================
-// START LOG
-// ============================================================
-
-console.log(
-    "=============================================="
-);
-
-console.log(
-    "SOHEL VAI PRIVATE WELCOME BOT"
-);
-
-console.log(
-    "Channel ID:",
-    CONFIG.CHANNEL_ID
-);
-
-console.log(
-    "Delete Time:",
-    RUNTIME.delete_seconds,
-    "seconds"
-);
-
-console.log(
-    "Private Welcome: ENABLED"
-);
-
-console.log(
-    "Admin Settings:",
-    CONFIG.SETTINGS_URL
-);
-
-console.log(
-    "=============================================="
-);
-
-// ============================================================
-// MODULE EXPORTS
+// EXPORT
 // ============================================================
 
 module.exports = {
+
     bot,
+
     CONFIG,
+
     startBot,
+
     stopBot,
+
     setSettingsLoader,
+
     loadAdminSettings
+
 };
