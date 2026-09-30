@@ -28,10 +28,9 @@ const DEFAULTS = {
     { enabled: true, text: '🤖 🔤🔠 🔤🔠🔠🔠 🔠🔠🔠🔠 🔠🔠🔠🔠 🤖', url: 'https://t.me/sohel_ai_prediction_bot' },
     { enabled: true, text: '🚀 🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠 ⏰', url: 'https://t.me/TRADER_SOHEL_BDT_TOP' }
   ],
-  // video_buttons এর পরিবর্তে media_buttons নামকরণ করা হলো
   media_buttons: [
     { enabled: true, text: '🎬 🔤🔠🔠🔠🔠🟢🔠 🔤🔠🔠🔠🔠🔠🔠 🔤🔠🔠🔠🔠🔠🔠 🔤🔠🔠🔠🔠🟢', url: 'https://t.me/+gNZZwOIN72BjYzQ1' },
-    { enabled: true, text: '📢 🔤🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🟢', url: 'https://t.me/EARNING_TEME_bd' }
+    { enabled: true, text: '📢 🔤🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔤🔠🔠🔠🔠🔠🔠 🔤🔠🔠🔠🔠🟢', url: 'https://t.me/EARNING_TEME_bd' }
   ]
 };
 
@@ -42,7 +41,6 @@ function normalize(raw) {
   s.duration = Math.max(30, Math.min(900, Math.floor(Number(s.duration) || 300)));
   if (!['small', 'medium', 'large'].includes(s.welcome_text_size)) s.welcome_text_size = 'medium';
   s.main_buttons = Array.isArray(s.main_buttons) ? s.main_buttons.slice(0, 3) : clone(DEFAULTS.main_buttons);
-  // normalization এ video_buttons এর পরিবর্তে media_buttons চেক করা হচ্ছে
   s.media_buttons = Array.isArray(s.media_buttons) ? s.media_buttons.slice(0, 2) : clone(DEFAULTS.media_buttons);
   while (s.main_buttons.length < 3) s.main_buttons.push({ enabled: false, text: '', url: '' });
   while (s.media_buttons.length < 2) s.media_buttons.push({ enabled: false, text: '', url: '' });
@@ -91,20 +89,16 @@ function rememberTimer(userId, timer) {
 
 function deleteLater(userId, ephemeralMessageId, seconds, label) {
   const eid = Number(ephemeralMessageId || 0);
-  if (!eid) {
-    console.error('NO EPHEMERAL MESSAGE ID - CANNOT SCHEDULE DELETE', { userId, label });
-    return;
-  }
+  if (!eid) return;
 
   const delay = Math.max(30, Math.min(900, Number(seconds) || 300)) * 1000;
   const timer = setTimeout(async () => {
     try {
-      const result = await bot.telegram.callApi('deleteEphemeralMessage', {
+      await bot.telegram.callApi('deleteEphemeralMessage', {
         chat_id: CHANNEL_ID,
         receiver_user_id: Number(userId),
         ephemeral_message_id: eid
       });
-      console.log('EPHEMERAL DELETED', { userId, eid, label, result });
     } catch (e) {
       console.error('DELETE EPHEMERAL FAILED', {
         userId,
@@ -116,7 +110,6 @@ function deleteLater(userId, ephemeralMessageId, seconds, label) {
   }, delay);
 
   rememberTimer(userId, timer);
-  console.log('DELETE SCHEDULED', { userId, eid, label, afterSeconds: delay / 1000 });
 }
 
 function welcomeText(member, settings) {
@@ -133,7 +126,6 @@ async function getProfilePhotoFileId(userId, enabled) {
     if (!photo?.length) return null;
     return photo[photo.length - 1].file_id;
   } catch (e) {
-    console.error('PROFILE PHOTO ERROR:', e?.message || e);
     return null;
   }
 }
@@ -180,11 +172,6 @@ async function sendEphemeralAudio(userId, audio, replyMarkup) {
   return bot.telegram.callApi('sendAudio', payload);
 }
 
-function shortFileId(id) {
-  const s = String(id || '');
-  return s ? `${s.slice(0, 12)}...` : '';
-}
-
 async function sendWelcome(member) {
   if (!member?.id) return;
 
@@ -196,7 +183,6 @@ async function sendWelcome(member) {
   const mainKeys = keyboard(settings.main_buttons);
   const mediaKeys = keyboard(settings.media_buttons);
 
-  // 1) Welcome + profile photo + 3 main buttons
   try {
     const photo = await getProfilePhotoFileId(userId, settings.profile_photo_enabled);
     const result = photo
@@ -208,13 +194,11 @@ async function sendWelcome(member) {
     console.error('WELCOME SEND FAILED:', e?.response?.description || e?.message || e);
   }
 
-  // 2) Video (স্ক্রিনশটের মতো ভিডিওর সাথে বাটন যুক্ত করার জন্য এখানে mediaKeys দেওয়া হলো)
   let videoSent = false;
   const video = settings.video_file_id || String(settings.video_url || '').trim();
 
   if (video) {
     try {
-      // যদি অডিও না থাকে, তবে ভিডিওর সাথেই মিডিয়া বাটনগুলো শো করবে
       const videoMarkup = (settings.audio_file_id || settings.audio_url) ? null : mediaKeys;
       const result = await sendEphemeralVideo(userId, video, videoMarkup);
 
@@ -225,7 +209,6 @@ async function sendWelcome(member) {
     }
   }
 
-  // 3) Audio (অডিও থাকলে অডিওর নিচে মিডিয়া বাটনগুলো শো করবে)
   const audio = settings.audio_file_id || String(settings.audio_url || '').trim();
 
   if (audio) {
@@ -236,7 +219,6 @@ async function sendWelcome(member) {
       console.error('AUDIO SEND FAILED:', e?.response?.description || e?.message || e);
     }
   } else {
-    // যদি ভিডিও থাকে কিন্তু অডিও না থাকে, আর ভিডিওর সাথে যদি বাটন না গিয়ে থাকে
     if (!videoSent && mediaKeys.inline_keyboard.length) {
       try {
         const result = await sendEphemeralMessage(userId, '📌 মিডিয়া বাটন লিংক', mediaKeys);
@@ -246,7 +228,6 @@ async function sendWelcome(member) {
       }
     }
   }
-}
 
   console.log('WELCOME FINISHED', { userId });
 }
@@ -255,10 +236,7 @@ async function handleNewMember(member, chatId) {
   if (Number(chatId) !== CHANNEL_ID || !member?.id) return;
 
   const id = Number(member.id);
-  if (PROCESSED_USERS.has(id)) {
-    console.log('WELCOME ALREADY PROCESSED IN THIS SERVER SESSION', { userId: id });
-    return;
-  }
+  if (PROCESSED_USERS.has(id)) return;
 
   try {
     await sendWelcome(member);
@@ -296,7 +274,6 @@ bot.on('new_chat_members', async ctx => {
 
 bot.command('welcome_test', async ctx => {
   try {
-    console.log('WELCOME TEST FROM', ctx.from?.id);
     await sendWelcome(ctx.from);
   } catch (e) {
     console.error('welcome_test ERROR:', e?.response?.description || e?.message || e);
@@ -310,8 +287,6 @@ async function startBot() {
   console.log('==========================================');
   console.log('SOHEL VAI BOT:', `@${me.username}`);
   console.log('CHANNEL_ID:', CHANNEL_ID);
-  console.log('MEDIA_STORAGE_CHAT_ID: NOT USED');
-  console.log('MEDIA SYSTEM: Telegram file_id / direct URL');
   console.log('==========================================');
 
   await bot.launch({
