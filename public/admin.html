@@ -2,19 +2,22 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
       content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 <title>SOHEL VAI — Admin Panel</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
 }
 
-html,body{
+html,
+body{
     width:100%;
     min-height:100%;
     font-family:Arial,"Noto Sans Bengali",sans-serif;
@@ -32,6 +35,8 @@ body{
     margin:0 auto;
 }
 
+/* ================= HEADER ================= */
+
 .header{
     background:linear-gradient(135deg,#7138f5,#4c20bd);
     color:white;
@@ -39,6 +44,13 @@ body{
     border-radius:18px;
     margin-bottom:15px;
     box-shadow:0 12px 30px rgba(70,35,170,.20);
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
 }
 
 .header h1{
@@ -50,6 +62,18 @@ body{
     opacity:.85;
     font-size:13px;
 }
+
+.logout-btn{
+    border:0;
+    background:rgba(255,255,255,.18);
+    color:white;
+    padding:9px 12px;
+    border-radius:10px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+/* ================= CARD ================= */
 
 .card{
     background:white;
@@ -63,6 +87,8 @@ body{
     font-size:17px;
     margin-bottom:14px;
 }
+
+/* ================= FORM ================= */
 
 label{
     display:block;
@@ -94,17 +120,21 @@ select:focus{
     border-color:#7138f5;
 }
 
+/* ================= SWITCH ================= */
+
 .switch-row{
     display:flex;
     justify-content:space-between;
     align-items:center;
     padding:8px 0;
+    gap:10px;
 }
 
 .switch{
     position:relative;
     width:50px;
     height:28px;
+    flex-shrink:0;
 }
 
 .switch input{
@@ -140,17 +170,7 @@ select:focus{
     transform:translateX(22px);
 }
 
-.button-box{
-    border:1px solid #e5e8ef;
-    border-radius:13px;
-    padding:13px;
-    margin-top:10px;
-}
-
-.button-title{
-    font-weight:800;
-    margin-bottom:10px;
-}
+/* ================= BUTTON ================= */
 
 .btn{
     border:0;
@@ -182,10 +202,53 @@ select:focus{
     color:white;
 }
 
+.btn-orange{
+    background:#f08a00;
+    color:white;
+}
+
+/* ================= STATUS ================= */
+
 .status{
     font-size:13px;
     margin-top:8px;
     min-height:18px;
+    line-height:1.5;
+}
+
+.success{
+    color:#168b5c;
+}
+
+.error{
+    color:#dc3545;
+}
+
+.warning{
+    color:#b36b00;
+}
+
+/* ================= BOX ================= */
+
+.button-box{
+    border:1px solid #e5e8ef;
+    border-radius:13px;
+    padding:13px;
+    margin-top:10px;
+}
+
+.button-title{
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.media-name{
+    background:#f1f3f8;
+    border-radius:9px;
+    padding:10px;
+    margin-top:9px;
+    font-size:12px;
+    word-break:break-all;
 }
 
 .preview{
@@ -212,24 +275,51 @@ select:focus{
     font-size:13px;
 }
 
-.media-name{
-    background:#f1f3f8;
-    border-radius:9px;
-    padding:10px;
-    margin-top:9px;
+.small{
     font-size:12px;
-    word-break:break-all;
+    color:#7d8497;
+    line-height:1.5;
 }
 
 .hidden{
     display:none!important;
 }
 
-.small{
-    font-size:12px;
-    color:#7d8497;
-    line-height:1.5;
+.text-small{
+    font-size:13px;
 }
+
+.text-medium{
+    font-size:16px;
+}
+
+.text-large{
+    font-size:19px;
+}
+
+hr{
+    border:0;
+    border-top:1px solid #eceef3;
+    margin:16px 0;
+}
+
+.info-box{
+    background:#f4f1ff;
+    border:1px solid #ddd2ff;
+    border-radius:11px;
+    padding:11px;
+    font-size:12px;
+    line-height:1.6;
+    color:#55458a;
+    margin-top:10px;
+}
+
+.media-active{
+    border:1px solid #7138f5;
+    background:#f7f3ff;
+}
+
+/* ================= LOGIN ================= */
 
 .login{
     min-height:85vh;
@@ -252,51 +342,60 @@ select:focus{
     margin-bottom:20px;
 }
 
-.error{
-    color:#dc3545;
-    font-size:13px;
-    margin-top:8px;
+.login-logo{
+    text-align:center;
+    font-size:45px;
+    margin-bottom:8px;
 }
 
-.success{
-    color:#168b5c;
+/* ================= MOBILE ================= */
+
+@media(max-width:480px){
+
+    body{
+        padding:10px;
+    }
+
+    .header h1{
+        font-size:19px;
+    }
+
+    .card{
+        padding:14px;
+    }
+
 }
 
-.text-small{
-    font-size:13px;
-}
-
-.text-medium{
-    font-size:16px;
-}
-
-.text-large{
-    font-size:19px;
-}
-
-hr{
-    border:0;
-    border-top:1px solid #eceef3;
-    margin:16px 0;
-}
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
 <div id="loginPage" class="login">
 
     <div class="login-card">
 
-        <h1>🔐 Admin Login</h1>
+        <div class="login-logo">
+            👑
+        </div>
 
-        <label>Admin Password</label>
+        <h1>
+            🔐 Admin Login
+        </h1>
+
+        <label>
+            Admin Password
+        </label>
 
         <input
             id="loginPassword"
             type="password"
             placeholder="Enter password"
+            autocomplete="current-password"
         >
 
         <button
@@ -308,7 +407,7 @@ hr{
 
         <div
             id="loginError"
-            class="error"
+            class="status error"
         ></div>
 
     </div>
@@ -316,568 +415,905 @@ hr{
 </div>
 
 
-<!-- ADMIN -->
+<!-- =====================================================
+     ADMIN
+===================================================== -->
+
 <div
     id="adminPage"
     class="app hidden"
 >
 
-    <div class="header">
+<!-- HEADER -->
 
-        <h1>👑 SOHEL VAI ADMIN PANEL</h1>
+<div class="header">
 
-        <p>
-            Welcome System Control Panel
-        </p>
+    <div class="header-top">
+
+        <div>
+
+            <h1>
+                👑 SOHEL VAI ADMIN PANEL
+            </h1>
+
+            <p>
+                Welcome System Control Panel
+            </p>
+
+        </div>
+
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
+            🚪 Logout
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     BASIC SETTINGS
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        ⚙️ Basic Welcome Settings
+    </h2>
+
+    <div class="switch-row">
+
+        <b>
+            👤 Profile Photo
+        </b>
+
+        <label class="switch">
+
+            <input
+                id="profilePhoto"
+                type="checkbox"
+            >
+
+            <span class="slider"></span>
+
+        </label>
 
     </div>
 
 
-    <!-- BASIC -->
-    <div class="card">
+    <div class="switch-row">
 
-        <h2>⚙️ Basic Welcome Settings</h2>
+        <b>
+            🎉 Welcome System
+        </b>
+
+        <label class="switch">
+
+            <input
+                id="welcomeEnabled"
+                type="checkbox"
+            >
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <label>
+        📢 Channel Name
+    </label>
+
+    <input
+        id="channelTitle"
+        type="text"
+        placeholder="Channel name"
+    >
+
+
+    <label>
+        📝 Welcome Text
+    </label>
+
+    <textarea
+        id="welcomeText"
+        placeholder="Welcome message"
+    ></textarea>
+
+
+    <div class="small">
+
+        Available variables:
+
+        <b>{first_name}</b>
+
+        and
+
+        <b>{channel_title}</b>
+
+    </div>
+
+
+    <label>
+        🔠 Welcome Text Size
+    </label>
+
+    <select id="welcomeTextSize">
+
+        <option value="small">
+            Small
+        </option>
+
+        <option value="medium">
+            Medium
+        </option>
+
+        <option value="large">
+            Large
+        </option>
+
+    </select>
+
+
+    <button
+        class="btn btn-purple"
+        onclick="saveBasic()"
+    >
+        💾 SAVE BASIC SETTINGS
+    </button>
+
+    <div
+        id="basicStatus"
+        class="status"
+    ></div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN BUTTONS
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        🔘 Main Buttons
+    </h2>
+
+
+    <div class="button-box">
+
+        <div class="button-title">
+            Main Button 1
+        </div>
 
         <div class="switch-row">
 
-            <b>👤 Profile Photo</b>
+            <span>
+                ON / OFF
+            </span>
 
             <label class="switch">
+
                 <input
-                    id="profilePhoto"
+                    id="main1Enabled"
                     type="checkbox"
                 >
+
                 <span class="slider"></span>
+
             </label>
 
         </div>
 
-
-        <div class="switch-row">
-
-            <b>🎉 Welcome System</b>
-
-            <label class="switch">
-                <input
-                    id="welcomeEnabled"
-                    type="checkbox"
-                >
-                <span class="slider"></span>
-            </label>
-
-        </div>
-
-
-        <label>📢 Channel Name</label>
+        <label>
+            Button Text
+        </label>
 
         <input
-            id="channelTitle"
+            id="main1Text"
             type="text"
         >
 
-
-        <label>📝 Welcome Text</label>
-
-        <textarea
-            id="welcomeText"
-        ></textarea>
-
-
-        <div class="small">
-            Available:
-            <b>{first_name}</b>
-            and
-            <b>{channel_title}</b>
-        </div>
-
-
         <label>
-            🔠 Welcome Text Size
-        </label>
-
-        <select id="welcomeTextSize">
-
-            <option value="small">
-                Small
-            </option>
-
-            <option value="medium">
-                Medium
-            </option>
-
-            <option value="large">
-                Large
-            </option>
-
-        </select>
-
-
-        <button
-            class="btn btn-purple"
-            onclick="saveBasic()"
-        >
-            💾 SAVE BASIC SETTINGS
-        </button>
-
-        <div id="basicStatus" class="status"></div>
-
-    </div>
-
-
-    <!-- MAIN BUTTONS -->
-    <div class="card">
-
-        <h2>🔘 Main Buttons</h2>
-
-
-        <div class="button-box">
-
-            <div class="button-title">
-                Main Button 1
-            </div>
-
-            <div class="switch-row">
-
-                <span>ON / OFF</span>
-
-                <label class="switch">
-                    <input id="main1Enabled" type="checkbox">
-                    <span class="slider"></span>
-                </label>
-
-            </div>
-
-            <label>Button Text</label>
-
-            <input id="main1Text">
-
-            <label>Button URL</label>
-
-            <input id="main1Url">
-
-        </div>
-
-
-        <div class="button-box">
-
-            <div class="button-title">
-                Main Button 2
-            </div>
-
-            <div class="switch-row">
-
-                <span>ON / OFF</span>
-
-                <label class="switch">
-                    <input id="main2Enabled" type="checkbox">
-                    <span class="slider"></span>
-                </label>
-
-            </div>
-
-            <label>Button Text</label>
-
-            <input id="main2Text">
-
-            <label>Button URL</label>
-
-            <input id="main2Url">
-
-        </div>
-
-
-        <div class="button-box">
-
-            <div class="button-title">
-                Main Button 3
-            </div>
-
-            <div class="switch-row">
-
-                <span>ON / OFF</span>
-
-                <label class="switch">
-                    <input id="main3Enabled" type="checkbox">
-                    <span class="slider"></span>
-                </label>
-
-            </div>
-
-            <label>Button Text</label>
-
-            <input id="main3Text">
-
-            <label>Button URL</label>
-
-            <input id="main3Url">
-
-        </div>
-
-
-        <button
-            class="btn btn-purple"
-            onclick="saveMainButtons()"
-        >
-            💾 SAVE MAIN BUTTONS
-        </button>
-
-        <div id="mainStatus" class="status"></div>
-
-    </div>
-
-
-    <!-- VIDEO -->
-    <div class="card">
-
-        <h2>🎬 Welcome Video</h2>
-
-        <label>
-            Select Video
+            Button URL
         </label>
 
         <input
-            id="videoFile"
-            type="file"
-            accept="video/*"
+            id="main1Url"
+            type="url"
         >
-
-        <button
-            class="btn btn-green"
-            onclick="uploadVideo()"
-        >
-            🎬 UPLOAD VIDEO
-        </button>
-
-        <div
-            id="videoStatus"
-            class="status"
-        ></div>
-
-        <div
-            id="videoName"
-            class="media-name"
-        >
-            No video uploaded
-        </div>
-
-
-        <button
-            class="btn btn-purple"
-            onclick="saveVideo()"
-        >
-            💾 SAVE VIDEO
-        </button>
-
-
-        <button
-            class="btn btn-red"
-            onclick="removeVideo()"
-        >
-            🗑 REMOVE VIDEO
-        </button>
 
     </div>
 
 
-    <!-- VIDEO BUTTONS -->
-    <div class="card">
+    <div class="button-box">
 
-        <h2>🎬 Video Buttons</h2>
+        <div class="button-title">
+            Main Button 2
+        </div>
 
+        <div class="switch-row">
 
-        <div class="button-box">
+            <span>
+                ON / OFF
+            </span>
 
-            <div class="button-title">
-                Video Button 1
-            </div>
+            <label class="switch">
 
-            <div class="switch-row">
+                <input
+                    id="main2Enabled"
+                    type="checkbox"
+                >
 
-                <span>ON / OFF</span>
+                <span class="slider"></span>
 
-                <label class="switch">
-                    <input
-                        id="video1Enabled"
-                        type="checkbox"
-                    >
-                    <span class="slider"></span>
-                </label>
-
-            </div>
-
-            <label>Button Text</label>
-
-            <input id="video1Text">
-
-            <label>Button URL</label>
-
-            <input id="video1Url">
+            </label>
 
         </div>
 
+        <label>
+            Button Text
+        </label>
 
-        <div class="button-box">
+        <input
+            id="main2Text"
+            type="text"
+        >
 
-            <div class="button-title">
-                Video Button 2
-            </div>
+        <label>
+            Button URL
+        </label>
 
-            <div class="switch-row">
+        <input
+            id="main2Url"
+            type="url"
+        >
 
-                <span>ON / OFF</span>
+    </div>
 
-                <label class="switch">
-                    <input
-                        id="video2Enabled"
-                        type="checkbox"
-                    >
-                    <span class="slider"></span>
-                </label>
 
-            </div>
+    <div class="button-box">
 
-            <label>Button Text</label>
+        <div class="button-title">
+            Main Button 3
+        </div>
 
-            <input id="video2Text">
+        <div class="switch-row">
 
-            <label>Button URL</label>
+            <span>
+                ON / OFF
+            </span>
 
-            <input id="video2Url">
+            <label class="switch">
+
+                <input
+                    id="main3Enabled"
+                    type="checkbox"
+                >
+
+                <span class="slider"></span>
+
+            </label>
 
         </div>
 
+        <label>
+            Button Text
+        </label>
 
-        <button
-            class="btn btn-purple"
-            onclick="saveVideoButtons()"
+        <input
+            id="main3Text"
+            type="text"
         >
-            💾 SAVE VIDEO BUTTONS
-        </button>
 
-        <div id="videoButtonStatus" class="status"></div>
+        <label>
+            Button URL
+        </label>
+
+        <input
+            id="main3Url"
+            type="url"
+        >
 
     </div>
 
 
-    <!-- VOICE -->
-    <div class="card">
+    <button
+        class="btn btn-purple"
+        onclick="saveMainButtons()"
+    >
+        💾 SAVE MAIN BUTTONS
+    </button>
 
-        <h2>🎶 Voice System</h2>
+    <div
+        id="mainStatus"
+        class="status"
+    ></div>
 
-        <label>🎶 Voice Text</label>
-
-        <textarea
-            id="voiceText"
-            style="min-height:100px"
-        ></textarea>
-
-
-        <label>🎵 Voice / Audio File</label>
-
-        <input
-            id="audioFile"
-            type="file"
-            accept="audio/*"
-        >
+</div>
 
 
-        <button
-            class="btn btn-green"
-            onclick="uploadAudio()"
-        >
-            🎵 UPLOAD VOICE
-        </button>
+<!-- =====================================================
+     MEDIA TYPE
+===================================================== -->
 
-        <div id="audioStatus" class="status"></div>
+<div class="card">
+
+    <h2>
+        🎯 Welcome Media System
+    </h2>
+
+    <label>
+        Select Welcome Media
+    </label>
+
+    <select id="mediaType">
+
+        <option value="none">
+            🚫 No Media
+        </option>
+
+        <option value="video">
+            🎬 Video
+        </option>
+
+        <option value="audio">
+            🎵 Audio / Voice
+        </option>
+
+    </select>
 
 
-        <div
-            id="audioName"
-            class="media-name"
-        >
-            No audio uploaded
+    <div class="info-box">
+
+        <b>Important:</b>
+
+        একই Welcome-এর সাথে Video এবং Audio দুটো একসাথে পাঠানো হবে না।
+
+        <br>
+
+        <b>Video</b> select করলে Video যাবে।
+
+        <br>
+
+        <b>Audio</b> select করলে Audio যাবে।
+
+        <br>
+
+        <b>No Media</b> হলে কোনো media যাবে না।
+
+    </div>
+
+
+    <button
+        class="btn btn-purple"
+        onclick="saveMediaType()"
+    >
+        💾 SAVE MEDIA TYPE
+    </button>
+
+    <div
+        id="mediaTypeStatus"
+        class="status"
+    ></div>
+
+</div>
+
+
+<!-- =====================================================
+     VIDEO
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        🎬 Welcome Video
+    </h2>
+
+
+    <label>
+        Select Video
+    </label>
+
+    <input
+        id="videoFile"
+        type="file"
+        accept="video/*"
+    >
+
+
+    <button
+        class="btn btn-green"
+        onclick="uploadVideo()"
+    >
+        🎬 UPLOAD VIDEO
+    </button>
+
+    <div
+        id="videoStatus"
+        class="status"
+    ></div>
+
+
+    <div
+        id="videoName"
+        class="media-name"
+    >
+        No video uploaded
+    </div>
+
+
+    <label>
+        🔗 Video Direct URL
+    </label>
+
+    <input
+        id="videoUrl"
+        type="url"
+        placeholder="https://example.com/video.mp4"
+    >
+
+    <div class="small">
+        File ID থাকলে Bot আগে File ID ব্যবহার করবে।
+        File ID না থাকলে Direct URL ব্যবহার করবে।
+    </div>
+
+
+    <button
+        class="btn btn-purple"
+        onclick="saveVideo()"
+    >
+        💾 SAVE VIDEO
+    </button>
+
+    <div
+        id="videoSaveStatus"
+        class="status"
+    ></div>
+
+
+    <button
+        class="btn btn-red"
+        onclick="removeVideo()"
+    >
+        🗑 REMOVE VIDEO
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     VIDEO BUTTONS
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        🎬 Video Buttons
+    </h2>
+
+
+    <div class="button-box">
+
+        <div class="button-title">
+            Video Button 1
         </div>
 
+        <div class="switch-row">
+
+            <span>
+                ON / OFF
+            </span>
+
+            <label class="switch">
+
+                <input
+                    id="video1Enabled"
+                    type="checkbox"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
 
         <label>
-            Voice Button Text
-        </label>
-
-        <input id="voiceButtonText">
-
-
-        <button
-            class="btn btn-purple"
-            onclick="saveVoice()"
-        >
-            💾 SAVE VOICE
-        </button>
-
-
-        <button
-            class="btn btn-red"
-            onclick="removeAudio()"
-        >
-            🗑 REMOVE VOICE
-        </button>
-
-    </div>
-
-
-    <!-- DELETE -->
-    <div class="card">
-
-        <h2>⏱ Auto Delete</h2>
-
-        <select id="duration">
-
-            <option value="30">
-                30 Seconds
-            </option>
-
-            <option value="60">
-                1 Minute
-            </option>
-
-            <option value="120">
-                2 Minutes
-            </option>
-
-            <option value="300">
-                5 Minutes
-            </option>
-
-            <option value="600">
-                10 Minutes
-            </option>
-
-            <option value="900">
-                15 Minutes
-            </option>
-
-        </select>
-
-
-        <button
-            class="btn btn-purple"
-            onclick="saveDeleteTime()"
-        >
-            💾 SAVE DELETE TIME
-        </button>
-
-        <div id="deleteStatus" class="status"></div>
-
-    </div>
-
-
-    <!-- PREVIEW -->
-    <div class="card">
-
-        <h2>👁️‍🗨️ All System View</h2>
-
-        <div
-            id="preview"
-            class="preview"
-        ></div>
-
-        <button
-            class="btn btn-dark"
-            onclick="updatePreview()"
-        >
-            👁️ REFRESH PREVIEW
-        </button>
-
-    </div>
-
-
-    <!-- ALL SAVE -->
-    <div class="card">
-
-        <h2>💾 Complete System</h2>
-
-        <button
-            class="btn btn-purple"
-            onclick="saveAll()"
-        >
-            💾 ALL WELCOME SYSTEM SAVE
-        </button>
-
-
-        <button
-            class="btn btn-red"
-            onclick="resetAll()"
-        >
-            🚫 ALL WELCOME SYSTEM RESET
-        </button>
-
-        <div
-            id="allStatus"
-            class="status"
-        ></div>
-
-    </div>
-
-
-    <!-- PASSWORD -->
-    <div class="card">
-
-        <h2>🔐 Admin Password Change</h2>
-
-        <label>
-            Current Password
+            Button Text
         </label>
 
         <input
-            id="oldPassword"
-            type="password"
+            id="video1Text"
+            type="text"
         >
 
-
         <label>
-            New Password
+            Button URL
         </label>
 
         <input
-            id="newPassword"
-            type="password"
+            id="video1Url"
+            type="url"
         >
-
-
-        <label>
-            Confirm New Password
-        </label>
-
-        <input
-            id="confirmPassword"
-            type="password"
-        >
-
-
-        <button
-            class="btn btn-dark"
-            onclick="changePassword()"
-        >
-            🔐 CHANGE PASSWORD
-        </button>
-
-        <div
-            id="passwordStatus"
-            class="status"
-        ></div>
 
     </div>
+
+
+    <div class="button-box">
+
+        <div class="button-title">
+            Video Button 2
+        </div>
+
+        <div class="switch-row">
+
+            <span>
+                ON / OFF
+            </span>
+
+            <label class="switch">
+
+                <input
+                    id="video2Enabled"
+                    type="checkbox"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+        <label>
+            Button Text
+        </label>
+
+        <input
+            id="video2Text"
+            type="text"
+        >
+
+        <label>
+            Button URL
+        </label>
+
+        <input
+            id="video2Url"
+            type="url"
+        >
+
+    </div>
+
+
+    <button
+        class="btn btn-purple"
+        onclick="saveVideoButtons()"
+    >
+        💾 SAVE VIDEO BUTTONS
+    </button>
+
+    <div
+        id="videoButtonStatus"
+        class="status"
+    ></div>
+
+</div>
+
+
+<!-- =====================================================
+     VOICE / AUDIO
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        🎶 Voice / Audio System
+    </h2>
+
+
+    <label>
+        🎶 Voice Text
+    </label>
+
+    <textarea
+        id="voiceText"
+        style="min-height:100px"
+    ></textarea>
+
+
+    <label>
+        🎵 Voice / Audio File
+    </label>
+
+    <input
+        id="audioFile"
+        type="file"
+        accept="audio/*"
+    >
+
+
+    <button
+        class="btn btn-green"
+        onclick="uploadAudio()"
+    >
+        🎵 UPLOAD VOICE
+    </button>
+
+    <div
+        id="audioStatus"
+        class="status"
+    ></div>
+
+
+    <div
+        id="audioName"
+        class="media-name"
+    >
+        No audio uploaded
+    </div>
+
+
+    <label>
+        🔗 Audio Direct URL
+    </label>
+
+    <input
+        id="audioUrl"
+        type="url"
+        placeholder="https://example.com/audio.mp3"
+    >
+
+
+    <div class="small">
+
+        File ID থাকলে Bot আগে Telegram File ID ব্যবহার করবে।
+
+        File ID না থাকলে Direct URL ব্যবহার করবে।
+
+    </div>
+
+
+    <label>
+        Voice Button Text
+    </label>
+
+    <input
+        id="voiceButtonText"
+        type="text"
+    >
+
+
+    <button
+        class="btn btn-purple"
+        onclick="saveVoice()"
+    >
+        💾 SAVE VOICE
+    </button>
+
+    <div
+        id="audioSaveStatus"
+        class="status"
+    ></div>
+
+
+    <button
+        class="btn btn-red"
+        onclick="removeAudio()"
+    >
+        🗑 REMOVE VOICE
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     AUTO DELETE
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        ⏱ Auto Delete
+    </h2>
+
+
+    <select id="duration">
+
+        <option value="30">
+            30 Seconds
+        </option>
+
+        <option value="60">
+            1 Minute
+        </option>
+
+        <option value="120">
+            2 Minutes
+        </option>
+
+        <option value="300">
+            5 Minutes
+        </option>
+
+        <option value="600">
+            10 Minutes
+        </option>
+
+        <option value="900">
+            15 Minutes
+        </option>
+
+    </select>
+
+
+    <button
+        class="btn btn-purple"
+        onclick="saveDeleteTime()"
+    >
+        💾 SAVE DELETE TIME
+    </button>
+
+    <div
+        id="deleteStatus"
+        class="status"
+    ></div>
+
+</div>
+
+
+<!-- =====================================================
+     PREVIEW
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        👁️‍🗨️ All System View
+    </h2>
+
+
+    <div
+        id="preview"
+        class="preview"
+    ></div>
+
+
+    <button
+        class="btn btn-dark"
+        onclick="updatePreview()"
+    >
+        👁️ REFRESH PREVIEW
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     COMPLETE SYSTEM
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        💾 Complete System
+    </h2>
+
+
+    <button
+        class="btn btn-purple"
+        onclick="saveAll()"
+    >
+        💾 ALL WELCOME SYSTEM SAVE
+    </button>
+
+
+    <button
+        class="btn btn-red"
+        onclick="resetAll()"
+    >
+        🚫 ALL WELCOME SYSTEM RESET
+    </button>
+
+
+    <div
+        id="allStatus"
+        class="status"
+    ></div>
+
+</div>
+
+
+<!-- =====================================================
+     PASSWORD
+===================================================== -->
+
+<div class="card">
+
+    <h2>
+        🔐 Admin Password Change
+    </h2>
+
+
+    <label>
+        Current Password
+    </label>
+
+    <input
+        id="oldPassword"
+        type="password"
+        autocomplete="current-password"
+    >
+
+
+    <label>
+        New Password
+    </label>
+
+    <input
+        id="newPassword"
+        type="password"
+        autocomplete="new-password"
+    >
+
+
+    <label>
+        Confirm New Password
+    </label>
+
+    <input
+        id="confirmPassword"
+        type="password"
+        autocomplete="new-password"
+    >
+
+
+    <button
+        class="btn btn-dark"
+        onclick="changePassword()"
+    >
+        🔐 CHANGE PASSWORD
+    </button>
+
+
+    <div
+        id="passwordStatus"
+        class="status"
+    ></div>
+
+</div>
+
 
 </div>
 
 
 <script>
 
+/* =========================================================
+   API
+========================================================= */
+
 const API = {
-    settings: "/api/settings",
-    upload: "/api/upload",
-    remove: "/api/remove-media",
-    reset: "/api/reset",
-    password: "/api/change-password"
+
+    settings:
+        "/api/settings",
+
+    upload:
+        "/api/upload",
+
+    remove:
+        "/api/remove-media",
+
+    reset:
+        "/api/reset",
+
+    password:
+        "/api/change-password"
+
 };
 
 
@@ -892,9 +1328,9 @@ let settings = {};
 
 const DEFAULT = {
 
-    welcome_enabled: true,
+    welcome_enabled:true,
 
-    profile_photo_enabled: true,
+    profile_photo_enabled:true,
 
     channel_title:
         "SOHEL VAI OFFICIAL CHANNEL",
@@ -919,10 +1355,20 @@ const DEFAULT = {
     duration:
         300,
 
+    /*
+       none / video / audio
+    */
+
+    media_type:
+        "video",
+
     video_file_id:
         "",
 
     video_filename:
+        "",
+
+    video_url:
         "",
 
     audio_file_id:
@@ -931,46 +1377,71 @@ const DEFAULT = {
     audio_filename:
         "",
 
+    audio_url:
+        "",
+
     voice_text:
         "🎶 গুরুত্বপূর্ণ ভয়েস শুনুন 🎵🎵",
 
     voice_button_text:
         "🎶🎶 𝗢𝗣𝗘𝗡 𝗩𝗢𝗜𝗖𝗘 🎵🎵",
 
-    main_buttons: [
+
+    main_buttons:[
 
         {
             enabled:true,
-            text:"👑 𝗩𝗜𝗣 𝗚𝗥𝗢𝗨𝗣 𝗙𝗔𝗦𝗧 𝗝𝗢𝗜𝗡 👑",
-            url:"https://t.me/+WZR7nsATt1szNmRh"
+
+            text:
+                "👑 𝗩𝗜𝗣 𝗚𝗥𝗢𝗨𝗣 𝗙𝗔𝗦𝗧 𝗝𝗢𝗜𝗡 👑",
+
+            url:
+                "https://t.me/+WZR7nsATt1szNmRh"
         },
 
         {
             enabled:true,
-            text:"😈 𝗔𝗜 𝗛𝗔𝗖𝗞 𝐋𝐈𝐍𝐊 𝐎𝐏𝐄𝐍 😈",
-            url:"https://t.me/sohel_ai_prediction_bot"
+
+            text:
+                "😈 𝗔𝗜 𝗛𝗔𝗖𝗞 𝐋𝐈𝐍𝐊 𝐎𝐏𝐄𝐍 😈",
+
+            url:
+                "https://t.me/sohel_ai_prediction_bot"
         },
 
         {
             enabled:true,
-            text:"💬 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗔𝗗𝗠𝗜𝗡 ☎️",
-            url:"https://t.me/TRADER_SOHEL_BDT_TOP"
+
+            text:
+                "💬 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗔𝗗𝗠𝗜𝗡 ☎️",
+
+            url:
+                "https://t.me/TRADER_SOHEL_BDT_TOP"
         }
 
     ],
 
-    video_buttons: [
+
+    video_buttons:[
 
         {
             enabled:true,
-            text:"🔵 𝗕𝗗𝗪𝗜𝗡𝟮𝟰 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗝𝗢𝗜𝗡🎰",
-            url:"https://t.me/+gNZZwOIN72BjYzQ1"
+
+            text:
+                "🔵 𝗕𝗗𝗪𝗜𝗡𝟮𝟰 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗝𝗢𝗜𝗡🎰",
+
+            url:
+                "https://t.me/+gNZZwOIN72BjYzQ1"
         },
 
         {
             enabled:true,
-            text:"🟡 𝐃𝐊𝐖𝐈𝐍 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗝𝗎𝗈𝗜𝗡🎰",
-            url:"https://t.me/EARNING_TEME_bd"
+
+            text:
+                "🟡 𝐃𝐊𝐖𝐈𝐍 𝗢𝗳𝗳𝗶𝗰𝗶𝗮𝗹 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗝𝗎𝗈𝗜𝗡🎰",
+
+            url:
+                "https://t.me/EARNING_TEME_bd"
         }
 
     ]
@@ -979,10 +1450,118 @@ const DEFAULT = {
 
 
 /* =========================================================
-   API
+   DEEP CLONE
 ========================================================= */
 
-async function api(url,options={}){
+function cloneDefault(){
+
+    return JSON.parse(
+        JSON.stringify(DEFAULT)
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE
+========================================================= */
+
+function normalize(s){
+
+    const x =
+        cloneDefault();
+
+    Object.assign(
+        x,
+        s || {}
+    );
+
+
+    if(
+        !["none","video","audio"]
+        .includes(x.media_type)
+    ){
+
+        x.media_type =
+            "video";
+
+    }
+
+
+    if(
+        !["small","medium","large"]
+        .includes(x.welcome_text_size)
+    ){
+
+        x.welcome_text_size =
+            "medium";
+
+    }
+
+
+    if(
+        !Array.isArray(x.main_buttons)
+    ){
+
+        x.main_buttons =
+            cloneDefault().main_buttons;
+
+    }
+
+
+    if(
+        !Array.isArray(x.video_buttons)
+    ){
+
+        x.video_buttons =
+            cloneDefault().video_buttons;
+
+    }
+
+
+    while(
+        x.main_buttons.length < 3
+    ){
+
+        x.main_buttons.push({
+
+            enabled:false,
+            text:"",
+            url:""
+
+        });
+
+    }
+
+
+    while(
+        x.video_buttons.length < 2
+    ){
+
+        x.video_buttons.push({
+
+            enabled:false,
+            text:"",
+            url:""
+
+        });
+
+    }
+
+
+    return x;
+
+}
+
+
+/* =========================================================
+   API HELPER
+========================================================= */
+
+async function api(
+    url,
+    options={}
+){
 
     options.headers = {
 
@@ -993,21 +1572,39 @@ async function api(url,options={}){
 
     };
 
+
     const response =
         await fetch(
             url,
             options
         );
 
+
+    let data = {};
+
+    try{
+
+        data =
+            await response.json();
+
+    }catch(e){
+
+        data = {};
+
+    }
+
+
     if(!response.ok){
 
         throw new Error(
-            "HTTP " + response.status
+            data.error ||
+            ("HTTP " + response.status)
         );
 
     }
 
-    return await response.json();
+
+    return data;
 
 }
 
@@ -1020,19 +1617,26 @@ async function login(){
 
     const password =
         document
-        .getElementById("loginPassword")
+        .getElementById(
+            "loginPassword"
+        )
         .value
         .trim();
+
 
     if(!password){
 
         document
-        .getElementById("loginError")
+        .getElementById(
+            "loginError"
+        )
         .textContent =
             "Password দিন";
 
         return;
+
     }
+
 
     try{
 
@@ -1040,6 +1644,8 @@ async function login(){
             await fetch(
                 API.settings,
                 {
+                    method:"GET",
+
                     headers:{
                         "X-Admin-Password":
                             password
@@ -1047,41 +1653,67 @@ async function login(){
                 }
             );
 
+
+        const result =
+            await response.json();
+
+
         if(!response.ok){
 
             throw new Error(
+                result.error ||
                 "Wrong password"
             );
 
         }
 
-        const result =
-            await response.json();
 
         PASSWORD =
             password;
 
+
         settings =
-            normalize(result.settings || DEFAULT);
+            normalize(
+                result.settings ||
+                DEFAULT
+            );
+
 
         loadSettings();
 
+
         document
-        .getElementById("loginPage")
+        .getElementById(
+            "loginPage"
+        )
         .classList
         .add("hidden");
 
+
         document
-        .getElementById("adminPage")
+        .getElementById(
+            "adminPage"
+        )
         .classList
         .remove("hidden");
 
+
         updatePreview();
+
+
+        document
+        .getElementById(
+            "loginError"
+        )
+        .textContent = "";
+
 
     }catch(error){
 
         document
-        .getElementById("loginError")
+        .getElementById(
+            "loginError"
+        )
         .textContent =
             "❌ Password সঠিক নয়";
 
@@ -1091,42 +1723,64 @@ async function login(){
 
 
 /* =========================================================
-   NORMALIZE
+   ENTER LOGIN
 ========================================================= */
 
-function normalize(s){
+document
+.getElementById(
+    "loginPassword"
+)
+.addEventListener(
+    "keydown",
+    function(e){
 
-    const x =
-        JSON.parse(
-            JSON.stringify(DEFAULT)
-        );
+        if(e.key === "Enter"){
 
-    Object.assign(
-        x,
-        s || {}
-    );
+            login();
 
-    if(!Array.isArray(x.main_buttons)){
-        x.main_buttons =
-            JSON.parse(
-                JSON.stringify(DEFAULT.main_buttons)
-            );
+        }
+
     }
+);
 
-    if(!Array.isArray(x.video_buttons)){
-        x.video_buttons =
-            JSON.parse(
-                JSON.stringify(DEFAULT.video_buttons)
-            );
-    }
 
-    return x;
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(){
+
+    PASSWORD = "";
+
+    settings = {};
+
+    document
+    .getElementById(
+        "adminPage"
+    )
+    .classList
+    .add("hidden");
+
+
+    document
+    .getElementById(
+        "loginPage"
+    )
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById(
+        "loginPassword"
+    )
+    .value = "";
 
 }
 
 
 /* =========================================================
-   LOAD
+   LOAD SETTINGS
 ========================================================= */
 
 function loadSettings(){
@@ -1150,13 +1804,13 @@ function loadSettings(){
     document.getElementById(
         "channelTitle"
     ).value =
-        settings.channel_title;
+        settings.channel_title || "";
 
 
     document.getElementById(
         "welcomeText"
     ).value =
-        settings.welcome_text;
+        settings.welcome_text || "";
 
 
     document.getElementById(
@@ -1169,11 +1823,53 @@ function loadSettings(){
     document.getElementById(
         "duration"
     ).value =
-        String(settings.duration || 300);
+        String(
+            settings.duration || 300
+        );
 
+
+    document.getElementById(
+        "mediaType"
+    ).value =
+        settings.media_type ||
+        "none";
+
+
+    /* VIDEO */
+
+    document.getElementById(
+        "videoName"
+    ).textContent =
+        settings.video_filename ||
+        "No video uploaded";
+
+
+    document.getElementById(
+        "videoUrl"
+    ).value =
+        settings.video_url || "";
+
+
+    /* AUDIO */
+
+    document.getElementById(
+        "audioName"
+    ).textContent =
+        settings.audio_filename ||
+        "No audio uploaded";
+
+
+    document.getElementById(
+        "audioUrl"
+    ).value =
+        settings.audio_url || "";
+
+
+    /* MAIN BUTTONS */
 
     const m =
         settings.main_buttons;
+
 
     for(let i=0;i<3;i++){
 
@@ -1182,10 +1878,12 @@ function loadSettings(){
         ).checked =
             !!m[i].enabled;
 
+
         document.getElementById(
             `main${i+1}Text`
         ).value =
             m[i].text || "";
+
 
         document.getElementById(
             `main${i+1}Url`
@@ -1195,8 +1893,11 @@ function loadSettings(){
     }
 
 
+    /* VIDEO BUTTONS */
+
     const v =
         settings.video_buttons;
+
 
     for(let i=0;i<2;i++){
 
@@ -1205,10 +1906,12 @@ function loadSettings(){
         ).checked =
             !!v[i].enabled;
 
+
         document.getElementById(
             `video${i+1}Text`
         ).value =
             v[i].text || "";
+
 
         document.getElementById(
             `video${i+1}Url`
@@ -1217,6 +1920,8 @@ function loadSettings(){
 
     }
 
+
+    /* VOICE */
 
     document.getElementById(
         "voiceText"
@@ -1230,18 +1935,7 @@ function loadSettings(){
         settings.voice_button_text || "";
 
 
-    document.getElementById(
-        "videoName"
-    ).textContent =
-        settings.video_filename ||
-        "No video uploaded";
-
-
-    document.getElementById(
-        "audioName"
-    ).textContent =
-        settings.audio_filename ||
-        "No audio uploaded";
+    updateMediaUI();
 
 }
 
@@ -1257,20 +1951,24 @@ function collectBasic(){
             "welcomeEnabled"
         ).checked;
 
+
     settings.profile_photo_enabled =
         document.getElementById(
             "profilePhoto"
         ).checked;
+
 
     settings.channel_title =
         document.getElementById(
             "channelTitle"
         ).value;
 
+
     settings.welcome_text =
         document.getElementById(
             "welcomeText"
         ).value;
+
 
     settings.welcome_text_size =
         document.getElementById(
@@ -1281,12 +1979,13 @@ function collectBasic(){
 
 
 /* =========================================================
-   MAIN BUTTONS
+   COLLECT MAIN BUTTONS
 ========================================================= */
 
 function collectMainButtons(){
 
     settings.main_buttons = [];
+
 
     for(let i=1;i<=3;i++){
 
@@ -1315,12 +2014,13 @@ function collectMainButtons(){
 
 
 /* =========================================================
-   VIDEO BUTTONS
+   COLLECT VIDEO BUTTONS
 ========================================================= */
 
 function collectVideoButtons(){
 
     settings.video_buttons = [];
+
 
     for(let i=1;i<=2;i++){
 
@@ -1344,6 +2044,87 @@ function collectVideoButtons(){
         });
 
     }
+
+}
+
+
+/* =========================================================
+   COLLECT MEDIA
+========================================================= */
+
+function collectMedia(){
+
+    settings.media_type =
+        document.getElementById(
+            "mediaType"
+        ).value;
+
+
+    settings.video_url =
+        document.getElementById(
+            "videoUrl"
+        ).value.trim();
+
+
+    settings.audio_url =
+        document.getElementById(
+            "audioUrl"
+        ).value.trim();
+
+}
+
+
+/* =========================================================
+   COLLECT VOICE
+========================================================= */
+
+function collectVoice(){
+
+    settings.voice_text =
+        document.getElementById(
+            "voiceText"
+        ).value;
+
+
+    settings.voice_button_text =
+        document.getElementById(
+            "voiceButtonText"
+        ).value;
+
+}
+
+
+/* =========================================================
+   COLLECT DURATION
+========================================================= */
+
+function collectDuration(){
+
+    let value =
+        Number(
+            document.getElementById(
+                "duration"
+            ).value
+        );
+
+
+    if(!Number.isFinite(value)){
+        value = 300;
+    }
+
+
+    value =
+        Math.max(
+            30,
+            Math.min(
+                900,
+                value
+            )
+        );
+
+
+    settings.duration =
+        value;
 
 }
 
@@ -1379,13 +2160,30 @@ async function saveMainButtons(){
 
 
 /* =========================================================
+   SAVE MEDIA TYPE
+========================================================= */
+
+async function saveMediaType(){
+
+    collectMedia();
+
+    await saveSettingsToServer(
+        "mediaTypeStatus"
+    );
+
+}
+
+
+/* =========================================================
    SAVE VIDEO
 ========================================================= */
 
 async function saveVideo(){
 
+    collectMedia();
+
     await saveSettingsToServer(
-        "videoStatus"
+        "videoSaveStatus"
     );
 
 }
@@ -1412,35 +2210,24 @@ async function saveVideoButtons(){
 
 async function saveVoice(){
 
-    settings.voice_text =
-        document.getElementById(
-            "voiceText"
-        ).value;
+    collectVoice();
 
-    settings.voice_button_text =
-        document.getElementById(
-            "voiceButtonText"
-        ).value;
+    collectMedia();
 
     await saveSettingsToServer(
-        "audioStatus"
+        "audioSaveStatus"
     );
 
 }
 
 
 /* =========================================================
-   DELETE TIME
+   SAVE DELETE TIME
 ========================================================= */
 
 async function saveDeleteTime(){
 
-    settings.duration =
-        Number(
-            document.getElementById(
-                "duration"
-            ).value
-        );
+    collectDuration();
 
     await saveSettingsToServer(
         "deleteStatus"
@@ -1464,45 +2251,63 @@ async function saveSettingsToServer(
                 API.settings,
                 {
                     method:"POST",
+
                     headers:{
                         "Content-Type":
-                            "application/json",
-                        "X-Admin-Password":
-                            PASSWORD
+                            "application/json"
                     },
+
                     body:
                         JSON.stringify({
-                            settings
+                            settings:
+                                settings
                         })
                 }
             );
 
+
         settings =
             normalize(
-                result.settings || settings
+                result.settings ||
+                settings
             );
+
 
         loadSettings();
 
-        document.getElementById(
-            statusId
-        ).textContent =
+
+        const status =
+            document.getElementById(
+                statusId
+            );
+
+
+        status.textContent =
             "✅ Saved successfully";
 
-        document.getElementById(
-            statusId
-        ).className =
+
+        status.className =
             "status success";
+
 
         updatePreview();
 
+
     }catch(error){
 
-        document.getElementById(
-            statusId
-        ).textContent =
+        const status =
+            document.getElementById(
+                statusId
+            );
+
+
+        status.textContent =
             "❌ Save failed: " +
             error.message;
+
+
+        status.className =
+            "status error";
 
     }
 
@@ -1520,6 +2325,7 @@ async function uploadVideo(){
             "videoFile"
         ).files[0];
 
+
     if(!file){
 
         alert(
@@ -1527,15 +2333,19 @@ async function uploadVideo(){
         );
 
         return;
+
     }
+
 
     const form =
         new FormData();
+
 
     form.append(
         "file",
         file
     );
+
 
     form.append(
         "media_type",
@@ -1548,7 +2358,7 @@ async function uploadVideo(){
         document.getElementById(
             "videoStatus"
         ).textContent =
-            "⏳ Uploading...";
+            "⏳ Uploading video...";
 
 
         const result =
@@ -1576,9 +2386,14 @@ async function uploadVideo(){
             result.telegram_file_id ||
             "";
 
+
         settings.video_filename =
             result.filename ||
             file.name;
+
+
+        settings.media_type =
+            "video";
 
 
         document.getElementById(
@@ -1588,9 +2403,21 @@ async function uploadVideo(){
 
 
         document.getElementById(
+            "mediaType"
+        ).value =
+            "video";
+
+
+        document.getElementById(
             "videoStatus"
         ).textContent =
-            "✅ Video uploaded";
+            "✅ Video uploaded successfully";
+
+
+        document.getElementById(
+            "videoStatus"
+        ).className =
+            "status success";
 
 
         await saveVideo();
@@ -1601,6 +2428,12 @@ async function uploadVideo(){
             "videoStatus"
         ).textContent =
             "❌ " + error.message;
+
+
+        document.getElementById(
+            "videoStatus"
+        ).className =
+            "status error";
 
     }
 
@@ -1618,6 +2451,7 @@ async function uploadAudio(){
             "audioFile"
         ).files[0];
 
+
     if(!file){
 
         alert(
@@ -1625,16 +2459,19 @@ async function uploadAudio(){
         );
 
         return;
+
     }
 
 
     const form =
         new FormData();
 
+
     form.append(
         "file",
         file
     );
+
 
     form.append(
         "media_type",
@@ -1647,7 +2484,7 @@ async function uploadAudio(){
         document.getElementById(
             "audioStatus"
         ).textContent =
-            "⏳ Uploading...";
+            "⏳ Uploading audio...";
 
 
         const result =
@@ -1675,9 +2512,14 @@ async function uploadAudio(){
             result.telegram_file_id ||
             "";
 
+
         settings.audio_filename =
             result.filename ||
             file.name;
+
+
+        settings.media_type =
+            "audio";
 
 
         document.getElementById(
@@ -1687,9 +2529,21 @@ async function uploadAudio(){
 
 
         document.getElementById(
+            "mediaType"
+        ).value =
+            "audio";
+
+
+        document.getElementById(
             "audioStatus"
         ).textContent =
-            "✅ Voice uploaded";
+            "✅ Voice uploaded successfully";
+
+
+        document.getElementById(
+            "audioStatus"
+        ).className =
+            "status success";
 
 
         await saveVoice();
@@ -1700,6 +2554,12 @@ async function uploadAudio(){
             "audioStatus"
         ).textContent =
             "❌ " + error.message;
+
+
+        document.getElementById(
+            "audioStatus"
+        ).className =
+            "status error";
 
     }
 
@@ -1719,15 +2579,16 @@ async function removeMedia(type){
                 API.remove,
                 {
                     method:"POST",
+
                     headers:{
                         "Content-Type":
-                            "application/json",
-                        "X-Admin-Password":
-                            PASSWORD
+                            "application/json"
                     },
+
                     body:
                         JSON.stringify({
-                            media_type:type
+                            media_type:
+                                type
                         })
                 }
             );
@@ -1746,6 +2607,7 @@ async function removeMedia(type){
         if(type === "video"){
 
             settings.video_file_id = "";
+
             settings.video_filename = "";
 
             document.getElementById(
@@ -1753,9 +2615,24 @@ async function removeMedia(type){
             ).textContent =
                 "No video uploaded";
 
-        }else{
+
+            if(
+                settings.media_type ===
+                "video"
+            ){
+
+                settings.media_type =
+                    "none";
+
+            }
+
+        }
+
+
+        if(type === "audio"){
 
             settings.audio_file_id = "";
+
             settings.audio_filename = "";
 
             document.getElementById(
@@ -1763,19 +2640,37 @@ async function removeMedia(type){
             ).textContent =
                 "No audio uploaded";
 
+
+            if(
+                settings.media_type ===
+                "audio"
+            ){
+
+                settings.media_type =
+                    "none";
+
+            }
+
         }
+
+
+        document.getElementById(
+            "mediaType"
+        ).value =
+            settings.media_type;
 
 
         await saveSettingsToServer(
             type === "video"
-            ? "videoStatus"
-            : "audioStatus"
+            ? "videoSaveStatus"
+            : "audioSaveStatus"
         );
+
 
     }catch(error){
 
         alert(
-            error.message
+            "❌ " + error.message
         );
 
     }
@@ -1784,12 +2679,16 @@ async function removeMedia(type){
 
 
 function removeVideo(){
+
     removeMedia("video");
+
 }
 
 
 function removeAudio(){
+
     removeMedia("audio");
+
 }
 
 
@@ -1800,25 +2699,16 @@ function removeAudio(){
 async function saveAll(){
 
     collectBasic();
+
     collectMainButtons();
+
     collectVideoButtons();
 
-    settings.voice_text =
-        document.getElementById(
-            "voiceText"
-        ).value;
+    collectMedia();
 
-    settings.voice_button_text =
-        document.getElementById(
-            "voiceButtonText"
-        ).value;
+    collectVoice();
 
-    settings.duration =
-        Number(
-            document.getElementById(
-                "duration"
-            ).value
-        );
+    collectDuration();
 
 
     try{
@@ -1828,15 +2718,16 @@ async function saveAll(){
                 API.settings,
                 {
                     method:"POST",
+
                     headers:{
                         "Content-Type":
-                            "application/json",
-                        "X-Admin-Password":
-                            PASSWORD
+                            "application/json"
                     },
+
                     body:
                         JSON.stringify({
-                            settings
+                            settings:
+                                settings
                         })
                 }
             );
@@ -1844,8 +2735,10 @@ async function saveAll(){
 
         settings =
             normalize(
-                result.settings
+                result.settings ||
+                settings
             );
+
 
         loadSettings();
 
@@ -1857,10 +2750,12 @@ async function saveAll(){
         ).textContent =
             "✅ ALL WELCOME SYSTEM SAVED";
 
+
         document.getElementById(
             "allStatus"
         ).className =
             "status success";
+
 
     }catch(error){
 
@@ -1869,6 +2764,12 @@ async function saveAll(){
         ).textContent =
             "❌ Save failed: " +
             error.message;
+
+
+        document.getElementById(
+            "allStatus"
+        ).className =
+            "status error";
 
     }
 
@@ -1883,7 +2784,11 @@ async function resetAll(){
 
     if(!confirm(
         "সব Welcome System Default-এ Reset করবেন?"
-    )) return;
+    )){
+
+        return;
+
+    }
 
 
     try{
@@ -1909,8 +2814,10 @@ async function resetAll(){
 
         settings =
             normalize(
-                result.settings
+                result.settings ||
+                DEFAULT
             );
+
 
         loadSettings();
 
@@ -1922,12 +2829,25 @@ async function resetAll(){
         ).textContent =
             "✅ ALL SYSTEM RESET COMPLETE";
 
+
+        document.getElementById(
+            "allStatus"
+        ).className =
+            "status success";
+
+
     }catch(error){
 
         document.getElementById(
             "allStatus"
         ).textContent =
             "❌ " + error.message;
+
+
+        document.getElementById(
+            "allStatus"
+        ).className =
+            "status error";
 
     }
 
@@ -1945,10 +2865,12 @@ async function changePassword(){
             "oldPassword"
         ).value;
 
+
     const newPassword =
         document.getElementById(
             "newPassword"
         ).value;
+
 
     const confirmPassword =
         document.getElementById(
@@ -1956,27 +2878,42 @@ async function changePassword(){
         ).value;
 
 
-    if(!oldPassword ||
-       !newPassword ||
-       !confirmPassword){
-
+    const status =
         document.getElementById(
             "passwordStatus"
-        ).textContent =
-            "সব Password field পূরণ করুন";
+        );
+
+
+    if(
+        !oldPassword ||
+        !newPassword ||
+        !confirmPassword
+    ){
+
+        status.textContent =
+            "❌ সব Password field পূরণ করুন";
+
+        status.className =
+            "status error";
 
         return;
+
     }
 
 
-    if(newPassword !== confirmPassword){
+    if(
+        newPassword !==
+        confirmPassword
+    ){
 
-        document.getElementById(
-            "passwordStatus"
-        ).textContent =
+        status.textContent =
             "❌ New Password মিলছে না";
 
+        status.className =
+            "status error";
+
         return;
+
     }
 
 
@@ -1998,11 +2935,13 @@ async function changePassword(){
 
                     body:
                         JSON.stringify({
+
                             old_password:
                                 oldPassword,
 
                             new_password:
                                 newPassword
+
                         })
                 }
             );
@@ -2012,7 +2951,10 @@ async function changePassword(){
             await result.json();
 
 
-        if(!result.ok || !data.ok){
+        if(
+            !result.ok ||
+            !data.ok
+        ){
 
             throw new Error(
                 data.error ||
@@ -2026,33 +2968,117 @@ async function changePassword(){
             newPassword;
 
 
-        document.getElementById(
-            "passwordStatus"
-        ).textContent =
+        status.textContent =
             "✅ Password changed successfully";
+
+
+        status.className =
+            "status success";
+
 
         document.getElementById(
             "oldPassword"
         ).value = "";
 
+
         document.getElementById(
             "newPassword"
         ).value = "";
+
 
         document.getElementById(
             "confirmPassword"
         ).value = "";
 
+
     }catch(error){
 
-        document.getElementById(
-            "passwordStatus"
-        ).textContent =
+        status.textContent =
             "❌ " + error.message;
+
+
+        status.className =
+            "status error";
 
     }
 
 }
+
+
+/* =========================================================
+   MEDIA UI
+========================================================= */
+
+function updateMediaUI(){
+
+    const type =
+        document.getElementById(
+            "mediaType"
+        ).value;
+
+
+    const videoCard =
+        document
+        .getElementById(
+            "videoFile"
+        )
+        .closest(".card");
+
+
+    const audioCard =
+        document
+        .getElementById(
+            "audioFile"
+        )
+        .closest(".card");
+
+
+    videoCard.classList.remove(
+        "media-active"
+    );
+
+    audioCard.classList.remove(
+        "media-active"
+    );
+
+
+    if(type === "video"){
+
+        videoCard.classList.add(
+            "media-active"
+        );
+
+    }
+
+
+    if(type === "audio"){
+
+        audioCard.classList.add(
+            "media-active"
+        );
+
+    }
+
+}
+
+
+document
+.getElementById(
+    "mediaType"
+)
+.addEventListener(
+    "change",
+    function(){
+
+        settings.media_type =
+            this.value;
+
+        updateMediaUI();
+
+        updatePreview();
+
+    }
+);
 
 
 /* =========================================================
@@ -2062,20 +3088,14 @@ async function changePassword(){
 function updatePreview(){
 
     collectBasic();
+
     collectMainButtons();
+
     collectVideoButtons();
 
+    collectMedia();
 
-    let text =
-        settings.welcome_text
-        .replace(
-            /{first_name}/g,
-            "Sohel User"
-        )
-        .replace(
-            /{channel_title}/g,
-            settings.channel_title
-        );
+    collectVoice();
 
 
     const preview =
@@ -2085,6 +3105,26 @@ function updatePreview(){
 
 
     preview.innerHTML = "";
+
+
+    /* TEXT */
+
+    let text =
+        settings.welcome_text || "";
+
+
+    text =
+        text.replace(
+            /{first_name}/g,
+            "Sohel User"
+        );
+
+
+    text =
+        text.replace(
+            /{channel_title}/g,
+            settings.channel_title || ""
+        );
 
 
     const textBox =
@@ -2110,10 +3150,13 @@ function updatePreview(){
     );
 
 
+    /* MAIN BUTTONS */
+
     const buttonBox =
         document.createElement(
             "div"
         );
+
 
     buttonBox.className =
         "preview-buttons";
@@ -2128,7 +3171,11 @@ function updatePreview(){
             !button.enabled ||
             !button.text ||
             !button.url
-        ) continue;
+        ){
+
+            continue;
+
+        }
 
 
         const a =
@@ -2136,17 +3183,26 @@ function updatePreview(){
                 "a"
             );
 
+
         a.href =
             button.url;
+
 
         a.target =
             "_blank";
 
+
+        a.rel =
+            "noopener noreferrer";
+
+
         a.textContent =
             button.text;
 
+
         a.className =
             "preview-button";
+
 
         buttonBox.appendChild(
             a
@@ -2155,49 +3211,174 @@ function updatePreview(){
     }
 
 
-    preview.appendChild(
-        buttonBox
-    );
-
-
-    if(settings.video_file_id){
-
-        const videoInfo =
-            document.createElement(
-                "div"
-            );
-
-        videoInfo.className =
-            "media-name";
-
-        videoInfo.textContent =
-            "🎬 Video: " +
-            (
-                settings.video_filename ||
-                "Uploaded"
-            );
+    if(
+        buttonBox.children.length
+    ){
 
         preview.appendChild(
-            videoInfo
+            buttonBox
         );
 
     }
 
 
-    const voice =
+    /* MEDIA */
+
+    const mediaInfo =
         document.createElement(
             "div"
         );
 
-    voice.className =
+
+    mediaInfo.className =
         "media-name";
 
-    voice.textContent =
-        settings.voice_text || "";
+
+    if(
+        settings.media_type ===
+        "video"
+    ){
+
+        mediaInfo.textContent =
+            "🎬 Active Media: VIDEO | " +
+            (
+                settings.video_filename ||
+                settings.video_url ||
+                "No video"
+            );
+
+    }
+    else if(
+        settings.media_type ===
+        "audio"
+    ){
+
+        mediaInfo.textContent =
+            "🎵 Active Media: AUDIO | " +
+            (
+                settings.audio_filename ||
+                settings.audio_url ||
+                "No audio"
+            );
+
+    }
+    else{
+
+        mediaInfo.textContent =
+            "🚫 Active Media: NONE";
+
+    }
+
 
     preview.appendChild(
-        voice
+        mediaInfo
     );
+
+
+    /* VIDEO BUTTONS */
+
+    if(
+        settings.media_type ===
+        "video"
+    ){
+
+        const videoButtons =
+            document.createElement(
+                "div"
+            );
+
+
+        videoButtons.className =
+            "preview-buttons";
+
+
+        for(
+            const button
+            of settings.video_buttons
+        ){
+
+            if(
+                !button.enabled ||
+                !button.text ||
+                !button.url
+            ){
+
+                continue;
+
+            }
+
+
+            const a =
+                document.createElement(
+                    "a"
+                );
+
+
+            a.href =
+                button.url;
+
+
+            a.target =
+                "_blank";
+
+
+            a.rel =
+                "noopener noreferrer";
+
+
+            a.textContent =
+                button.text;
+
+
+            a.className =
+                "preview-button";
+
+
+            videoButtons.appendChild(
+                a
+            );
+
+        }
+
+
+        if(
+            videoButtons.children.length
+        ){
+
+            preview.appendChild(
+                videoButtons
+            );
+
+        }
+
+    }
+
+
+    /* VOICE TEXT */
+
+    if(
+        settings.voice_text
+    ){
+
+        const voice =
+            document.createElement(
+                "div"
+            );
+
+
+        voice.className =
+            "media-name";
+
+
+        voice.textContent =
+            settings.voice_text;
+
+
+        preview.appendChild(
+            voice
+        );
+
+    }
 
 }
 
@@ -2207,18 +3388,61 @@ function updatePreview(){
 ========================================================= */
 
 document
-.getElementById("welcomeText")
+.getElementById(
+    "welcomeText"
+)
 .addEventListener(
     "input",
     updatePreview
 );
 
+
 document
-.getElementById("channelTitle")
+.getElementById(
+    "channelTitle"
+)
 .addEventListener(
     "input",
     updatePreview
 );
+
+
+document
+.getElementById(
+    "welcomeTextSize"
+)
+.addEventListener(
+    "change",
+    updatePreview
+);
+
+
+document
+.getElementById(
+    "videoUrl"
+)
+.addEventListener(
+    "input",
+    updatePreview
+);
+
+
+document
+.getElementById(
+    "audioUrl"
+)
+.addEventListener(
+    "input",
+    updatePreview
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+settings =
+    normalize(DEFAULT);
 
 </script>
 
