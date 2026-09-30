@@ -1,22 +1,108 @@
-<!doctype html><html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SOHEL VAI Admin</title><style>
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SOHEL VAI Admin</title>
+<style>
 *{box-sizing:border-box}body{margin:0;padding:14px;background:#f4f6fb;font-family:Arial,"Noto Sans Bengali",sans-serif;color:#171b2b}.app{max-width:650px;margin:auto}.card{background:#fff;padding:16px;border-radius:16px;margin:0 0 14px;box-shadow:0 5px 18px #0000000d}h1{margin:0;font-size:22px}h2{font-size:17px;margin:0 0 12px}.head{background:linear-gradient(135deg,#7138f5,#4c20bd);color:#fff}.head p{margin:6px 0 0;opacity:.85}label{display:block;font-weight:700;font-size:13px;margin:9px 0 5px}input,textarea,select{width:100%;padding:11px;border:1px solid #dfe3eb;border-radius:10px;background:#fafbfe;font-size:14px}textarea{min-height:160px}.row{display:flex;justify-content:space-between;align-items:center;margin:8px 0}.switch{width:48px;height:26px;position:relative}.switch input{display:none}.slider{position:absolute;inset:0;background:#cbd1dc;border-radius:30px}.slider:before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}.switch input:checked+.slider{background:#7138f5}.switch input:checked+.slider:before{transform:translateX(22px)}.btn{width:100%;border:0;border-radius:10px;padding:12px;margin-top:9px;font-weight:800;color:#fff;background:#7138f5}.green{background:#16a36b}.red{background:#dc3545}.dark{background:#171c2d}.box{border:1px solid #e4e7ee;border-radius:12px;padding:12px;margin-top:10px}.status{font-size:13px;margin-top:7px;min-height:18px}.ok{color:#168b5c}.err{color:#dc3545}.small{font-size:12px;color:#737b8e;line-height:1.5}.preview{background:#eef1f7;padding:14px;border-radius:12px;white-space:pre-wrap}.pb{display:block;background:#7138f5;color:#fff;text-align:center;text-decoration:none;padding:9px;border-radius:8px;margin-top:7px}.hidden{display:none!important}.login{min-height:90vh;display:flex;align-items:center;justify-content:center}.login .card{width:100%;max-width:420px}.media{padding:9px;background:#f1f3f8;border-radius:8px;font-size:12px;margin-top:8px;word-break:break-all}
-</style></head><body>
-<div id="login" class="login"><div class="card"><h2>🔑 Admin Login</h2><label>Password</label><input id="lp" type="password"><button class="btn" onclick="doLogin()">LOGIN</button><div id="le" class="status err"></div></div></div>
+</style>
+</head>
+<body>
+<div id="login" class="login">
+  <div class="card">
+    <h2>🔑 Admin Login</h2>
+    <label>Password</label>
+    <input id="lp" type="password">
+    <button class="btn" onclick="doLogin()">LOGIN</button>
+    <div id="le" class="status err"></div>
+  </div>
+</div>
 <div id="app" class="app hidden">
-<div class="card head"><h1>👑 SOHEL VAI ADMIN PANEL</h1><p>Private Welcome System Control</p></div>
-<div class="card"><h2>⚙️ Basic Welcome</h2><div class="row"><b>Welcome ON/OFF</b><label class="switch"><input id="we" type="checkbox"><span class="slider"></span></label></div><div class="row"><b>Profile Photo</b><label class="switch"><input id="pp" type="checkbox"><span class="slider"></span></label></div><label>Channel Name</label><input id="ct"><label>Welcome Text</label><textarea id="wt"></textarea><div class="small">Use {first_name} and {channel_title}</div><label>Text Size</label><select id="ws"><option>small</option><option>medium</option><option>large</option></select><button class="btn" onclick="saveBasic()">💾 SAVE BASIC</button><div id="bs" class="status"></div></div>
-<div class="card"><h2>🔗 Main Buttons (3)</h2><div id="main"></div><button class="btn" onclick="saveButtons()">💾 SAVE MAIN BUTTONS</button><div id="ms" class="status"></div></div>
-<div class="card"><h2>🎥 Welcome Video</h2><input id="vf" type="file" accept="video/*"><button class="btn green" onclick="upload('video')">UPLOAD VIDEO</button><div id="vs" class="status"></div><div id="vn" class="media">No video uploaded</div><label>Optional Video URL</label><input id="vu" placeholder="https://..."><button class="btn red" onclick="removeMedia('video')">🗑️ REMOVE VIDEO</button></div>
-<div class="card"><h2>🎵 Welcome Audio</h2><input id="af" type="file" accept="audio/*"><button class="btn green" onclick="upload('audio')">UPLOAD AUDIO</button><div id="as" class="status"></div><div id="an" class="media">No audio uploaded</div><label>Optional Audio URL</label><input id="au" placeholder="https://..."><label>Audio Caption</label><input id="vt" placeholder="Optional text shown with audio"><button class="btn red" onclick="removeMedia('audio')">🗑️ REMOVE AUDIO</button></div>
-<div class="card"><h2>🎛️ Media Buttons (2)</h2><div id="mediaButtons"></div><button class="btn" onclick="saveMediaButtons()">💾 SAVE MEDIA BUTTONS</button><div id="mbs" class="status"></div><div class="small">⚠️ Video/Audio-এর সাথে media message-এর সাথে যুক্ত হবে। Video বা Audio থাকলে তবেই Audio-এর সাথে যুক্ত হবে।</div></div>
-<div class="card"><h2>⏳ Auto Delete</h2><select id="dur"><option value="30">30 Seconds</option><option value="60">1 Minute</option><option value="120">2 Minutes</option><option value="300">5 Minutes</option><option value="600">10 Minutes</option><option value="900">15 Minutes</option></select><button class="btn" onclick="saveDuration()">💾 SAVE DELETE TIME</button><div id="ds" class="status"></div></div>
-<div class="card"><h2>📱 System Preview</h2><div id="previewBox" class="preview"></div><button class="btn dark" onclick="preview()">REFRESH PREVIEW</button></div>
-<div class="card"><h2>💾 Complete System</h2><button class="btn" onclick="saveAll()">💾 ALL WELCOME SYSTEM SAVE</button><button class="btn red" onclick="resetAll()">⚠️ RESET ALL</button><div id="alls" class="status"></div></div>
-<div class="card"><h2>🔑 Change Password</h2><input id="old" type="password" placeholder="Current password"><input id="new" type="password" placeholder="New password"><input id="conf" type="password" placeholder="Confirm new password"><button class="btn dark" onclick="changePass()">CHANGE PASSWORD</button><div id="ps" class="status"></div></div>
+  <div class="card head">
+    <h1>👑 SOHEL VAI ADMIN PANEL</h1>
+    <p>Private Welcome System Control</p>
+  </div>
+  <div class="card">
+    <h2>⚙️ Basic Welcome</h2>
+    <div class="row"><b>Welcome ON/OFF</b><label class="switch"><input id="we" type="checkbox"><span class="slider"></span></label></div>
+    <div class="row"><b>Profile Photo</b><label class="switch"><input id="pp" type="checkbox"><span class="slider"></span></label></div>
+    <label>Channel Name</label><input id="ct">
+    <label>Welcome Text</label><textarea id="wt"></textarea>
+    <div class="small">Use {first_name} and {channel_title}</div>
+    <label>Text Size</label>
+    <select id="ws"><option>small</option><option>medium</option><option>large</option></select>
+    <button class="btn" onclick="saveBasic()">💾 SAVE BASIC</button>
+    <div id="bs" class="status"></div>
+  </div>
+  <div class="card">
+    <h2>🔗 Main Buttons (3)</h2>
+    <div id="main"></div>
+    <button class="btn" onclick="saveButtons()">💾 SAVE MAIN BUTTONS</button>
+    <div id="ms" class="status"></div>
+  </div>
+  <div class="card">
+    <h2>🎥 Welcome Video</h2>
+    <input id="vf" type="file" accept="video/*">
+    <button class="btn green" onclick="upload('video')">UPLOAD VIDEO</button>
+    <div id="vs" class="status"></div>
+    <div id="vn" class="media">No video uploaded</div>
+    <label>Optional Video URL</label><input id="vu" placeholder="https://...">
+    <button class="btn red" onclick="removeMedia('video')">🗑️ REMOVE VIDEO</button>
+  </div>
+  <div class="card">
+    <h2>🎵 Welcome Audio</h2>
+    <input id="af" type="file" accept="audio/*">
+    <button class="btn green" onclick="upload('audio')">UPLOAD AUDIO</button>
+    <div id="as" class="status"></div>
+    <div id="an" class="media">No audio uploaded</div>
+    <label>Optional Audio URL</label><input id="au" placeholder="https://...">
+    <label>Audio Caption</label><input id="vt" placeholder="Optional text shown with audio">
+    <button class="btn red" onclick="removeMedia('audio')">🗑️ REMOVE AUDIO</button>
+  </div>
+  <div class="card">
+    <h2>🎛️ Media Buttons (2)</h2>
+    <div id="mediaButtons"></div>
+    <button class="btn" onclick="saveMediaButtons()">💾 SAVE MEDIA BUTTONS</button>
+    <div id="mbs" class="status"></div>
+    <div class="small">⚠️ Video বা Audio থাকলে তবেই media message-এর সাথে বা Audio-র সাথে এই বাটনগুলো যুক্ত হবে।</div>
+  </div>
+  <div class="card">
+    <h2>⏳ Auto Delete</h2>
+    <select id="dur">
+      <option value="30">30 Seconds</option>
+      <option value="60">1 Minute</option>
+      <option value="120">2 Minutes</option>
+      <option value="300">5 Minutes</option>
+      <option value="600">10 Minutes</option>
+      <option value="900">15 Minutes</option>
+    </select>
+    <button class="btn" onclick="saveDuration()">💾 SAVE DELETE TIME</button>
+    <div id="ds" class="status"></div>
+  </div>
+  <div class="card">
+    <h2>📱 System Preview</h2>
+    <div id="previewBox" class="preview"></div>
+    <button class="btn dark" onclick="preview()">REFRESH PREVIEW</button>
+  </div>
+  <div class="card">
+    <h2>💾 Complete System</h2>
+    <button class="btn" onclick="saveAll()">💾 ALL WELCOME SYSTEM SAVE</button>
+    <button class="btn red" onclick="resetAll()">⚠️ RESET ALL</button>
+    <div id="alls" class="status"></div>
+  </div>
+  <div class="card">
+    <h2>🔑 Change Password</h2>
+    <input id="old" type="password" placeholder="Current password">
+    <input id="new" type="password" placeholder="New password">
+    <input id="conf" type="password" placeholder="Confirm new password">
+    <button class="btn dark" onclick="changePass()">CHANGE PASSWORD</button>
+    <div id="ps" class="status"></div>
+  </div>
 </div>
 <script>
 const API={s:'/api/settings',u:'/api/upload',r:'/api/remove-media',reset:'/api/reset',p:'/api/change-password'};let P='',S={};
-const D={welcome_enabled:true,profile_photo_enabled:true,channel_title:'SOHEL VAI OFFICIAL CHANNEL',welcome_text:`👋 স্বাগত {first_name} ভাই 🇧🇩\n\n📢 আমাদের টেলিগ্রাম চ্যানেলে স্বাগতম!\n👑 SOHEL VAI OFFICIAL CHANNEL JOIN করতে ভুলবেন না 🚀\n\n📌 কোনো সমস্যা বা কোনো জানার প্রশ্ন থাকলে,\nআমাদের Official Channel-এ Join করতে ভুলবেন না আপনার অ্যাকাউন্ট সুরক্ষিত রাখুন।\n\nপ্রতিটি নতুন আপডেট পেতে আমাদের সাথে যুক্ত থাকুন কোনো ভুল বা কোনো সমস্যা এড়াতে আপনার প্রোফাইল নিরাপদ রাখুন 💯\n\n💬 নিয়মিত ডিলিট Update পেতে আমাদের সাথেই থাকবেন।🤝🎉\n👑 ── SOHEL VAI ── 👑`,welcome_text_size:'medium',duration:300,video_file_id:'',video_filename:'',video_url:'',audio_file_id:'',audio_filename:'',audio_url:'',voice_text:'🎵 ব্রডকাস্টার মেসেজ ভয়েস মেসেজ 🎵🎵',voice_button_text:'🎵🎵 🔤🔠🔡🔣 🔤🔠🔢🔤 🎵🎵',main_buttons:[{enabled:true,text:'👑 🔤🔠🔡 🔤🔤🔠🔡🔡 🔤🔠🔡🔤 👑',url:'https://t.me/+WZR7nsATt1szNmRh'},{enabled:true,text:'🤖 🔤🔠 🔤🔠🔠🔠 🔠🔠🔠🔠 🔠🔠🔠🔠 🤖',url:'https://t.me/sohel_ai_prediction_bot'},{enabled:true,text:'🚀 🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠 ⏰️',url:'https://t.me/TRADER_SOHEL_BDT_TOP'}],video_buttons:[{enabled:true,text:'🎬 🔠🔠🔠🔠🔠🟢🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🟢',url:'https://t.me/+gNZZwOIN72BjYzQ1'},{enabled:true,text:'📢 🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🟢',url:'https://t.me/EARNING_TEME_bd'}]};
+const D={welcome_enabled:true,profile_photo_enabled:true,channel_title:'SOHEL VAI OFFICIAL CHANNEL',welcome_text:`👋 স্বাগত {first_name} ভাই 🇧🇩\n\n📢 আমাদের টেলিগ্রাম চ্যানেলে স্বাগতম!\n👑 SOHEL VAI OFFICIAL CHANNEL JOIN করতে ভুলবেন না 🚀\n\n📌 কোনো সমস্যা বা কোনো জানার প্রশ্ন থাকলে,\nআমাদের Official Channel-এ Join করতে ভুলবেন না আপনার অ্যাকাউন্ট সুরক্ষিত রাখুন।\n\nপ্রতিটি নতুন আপডেট পেতে আমাদের সাথে যুক্ত থাকুন কোনো ভুল বা কোনো সমস্যা এড়াতে আপনার প্রোফাইল নিরাপদ রাখুন 💯\n\n💬 নিয়মিত আপডেট পেতে আমাদের সাথেই থাকবেন।🤝🎉\n👑 ── SOHEL VAI ── 👑`,welcome_text_size:'medium',duration:300,video_file_id:'',video_filename:'',video_url:'',audio_file_id:'',audio_filename:'',audio_url:'',voice_text:'🎵 ব্রডকাস্টার ভয়েস মেসেজ 🎵🎵',voice_button_text:'🎵🎵 🔤🔠🔡🔣 🔤🔠🔢🔤 🎵🎵',main_buttons:[{enabled:true,text:'👑 🔤🔠🔡 🔤🔤🔠🔡🔡 🔤🔠🔡🔤 👑',url:'https://t.me/+WZR7nsATt1szNmRh'},{enabled:true,text:'🤖 🔤🔠 🔤🔠🔠🔠 🔠🔠🔠🔠 🔠🔠🔠🔠 🤖',url:'https://t.me/sohel_ai_prediction_bot'},{enabled:true,text:'🚀 🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠 ⏰️️',url:'https://t.me/TRADER_SOHEL_BDT_TOP'}],video_buttons:[{enabled:true,text:'🎬 🔤🔠🔠🔠🔠🟢🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🟢',url:'https://t.me/+gNZZwOIN72BjYzQ1'},{enabled:true,text:'📢 🔤🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🟢',url:'https://t.me/EARNING_TEME_bd'}]};
 const norm=x=>{S={...JSON.parse(JSON.stringify(D)),...(x||{})};S.main_buttons=Array.isArray(S.main_buttons)?S.main_buttons.slice(0,3):JSON.parse(JSON.stringify(D.main_buttons));S.video_buttons=Array.isArray(S.video_buttons)?S.video_buttons.slice(0,2):JSON.parse(JSON.stringify(D.video_buttons));while(S.main_buttons.length<3)S.main_buttons.push({enabled:false,text:'',url:''});while(S.video_buttons.length<2)S.video_buttons.push({enabled:false,text:'',url:''});return S};
 async function api(url,opt={}){opt.headers={...(opt.headers||{}),'X-Admin-Password':P};const r=await fetch(url,opt);const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||('HTTP '+r.status));return d}
 async function doLogin(){const p=document.getElementById('lp').value.trim();try{const d=await fetch(API.s,{headers:{'X-Admin-Password':p}});if(!d.ok)throw Error();P=p;norm((await d.json()).settings);load();document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');preview()}catch{le.textContent='❌ Password ভুল ঠিক'}}
@@ -33,4 +119,6 @@ async function removeMedia(type){try{const d=await api(API.r,{method:'POST',head
 async function resetAll(){if(!confirm('সব settings reset করবেন?'))return;try{const d=await api(API.reset,{method:'POST'});norm(d.settings);load();preview();alls.textContent='✅ Reset complete'}catch(e){alls.textContent='❌ '+e.message}}
 async function changePass(){const oldP=document.getElementById('old').value,newP=document.getElementById('new').value,confP=document.getElementById('conf').value;if(newP!==confP)return document.getElementById('ps').textContent='❌ Password মিলছে না';try{await api(API.p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({old_password:oldP,new_password:newP})});P=newP;document.getElementById('ps').textContent='✅ Password changed'}catch(e){document.getElementById('ps').textContent='❌ '+e.message}}
 function preview(){collectBasic();collectBtns('main','main_buttons',3);collectBtns('mediaButtons','video_buttons',2);let t=S.welcome_text.replaceAll('{first_name}','Sohel User').replaceAll('{channel_title}',S.channel_title);previewBox.innerHTML='';const d=document.createElement('div');d.textContent=t;previewBox.appendChild(d);for(const b of S.main_buttons){if(b.enabled&&b.text&&b.url)previewBox.insertAdjacentHTML('beforeend',`<a class="pb" href="${esc(b.url)}" target="_blank">${esc(b.text)}</a>`)}if(S.video_file_id||S.video_url){previewBox.insertAdjacentHTML('beforeend',`<div class="media">🎥 Video: ${esc(S.video_filename||S.video_url||'Uploaded')}</div>`)}if(S.audio_file_id||S.audio_url){previewBox.insertAdjacentHTML('beforeend',`<div class="media">🎵 Audio: ${esc(S.audio_filename||S.audio_url||'Uploaded')}</div>`)}for(const b of S.video_buttons){if(b.enabled&&b.text&&b.url)previewBox.insertAdjacentHTML('beforeend',`<a class="pb" href="${esc(b.url)}" target="_blank">${esc(b.text)}</a>`)}}
-</script></body></html>
+</script>
+</body>
+</html>
