@@ -1,7 +1,7 @@
 const { Telegraf } = require("telegraf");
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
-if (!BOT_TOKEN) throw new Error("BOT_TOKEN মালিকানাধীন বা অনুপস্থিত (BOT_TOKEN is missing)");
+if (!BOT_TOKEN) throw new Error("BOT_TOKEN is missing");
 
 const CHANNEL_ID = Number(process.env.CHANNEL_ID || -1003985236266);
 const bot = new Telegraf(BOT_TOKEN);
@@ -21,8 +21,8 @@ const DEFAULTS = {
   audio_file_id: "",
   audio_filename: "",
   audio_url: "",
-  voice_text: "🎙️️ ব্রডকাস্ট ভয়েস মেসেজ শুনুন 🎙️🎙️",
-  voice_button_text: "🎙️️🎙️ ব্রডকাস্ট ভয়েস মেসেজ 🎙️🎙️",
+  voice_text: "🎙 ব্রডকাস্ট ভয়েস মেসেজ শুনুন 🎙️🎙️",
+  voice_button_text: "🎙🎙️ ব্রডকাস্ট ভয়েস মেসেজ 🎙️🎙️",
   main_buttons: [
     { enabled:true, text:"🔥 সোয়েল এআই প্রেডিকশন চ্যানেল 🔥", url:"https://t.me/+WZR7nsATt1szNmRh" },
     { enabled:true, text:"🌟 ভিআইপি সিগন্যাল গ্রুপ 🌟", url:"https://t.me/sohel_ai_prediction_bot" },
@@ -60,12 +60,21 @@ function keyboard(buttons){
   }
   return {inline_keyboard:rows};
 }
-function deleteLater(userId,messageId,seconds){
-  if(!messageId) return;
+function deleteLater(userId,ephemeralMessageId,seconds){
+  if(!ephemeralMessageId) return;
+  const delay=Math.max(30,Math.min(900,Number(seconds)||300))*1000;
   setTimeout(async()=>{
-    try{ if(bot.telegram.deleteEphemeralMessage) await bot.telegram.deleteEphemeralMessage(CHANNEL_ID,Number(userId),Number(messageId)); }
-    catch(e){ console.log("Delete error:",e?.message||e); }
-  },Math.max(30,Math.min(900,Number(seconds)||300))*1000);
+    try{
+      await bot.telegram.callApi("deleteEphemeralMessage",{
+        chat_id:CHANNEL_ID,
+        receiver_user_id:Number(userId),
+        ephemeral_message_id:Number(ephemeralMessageId)
+      });
+      console.log("EPHEMERAL DELETED",{userId,ephemeralMessageId});
+    }catch(e){
+      console.error("DELETE EPHEMERAL FAILED",{userId,ephemeralMessageId,error:e?.message||e});
+    }
+  },delay);
 }
 function welcomeText(member,s){
   return String(s.welcome_text || DEFAULTS.welcome_text)
@@ -106,30 +115,39 @@ async function sendWelcome(member){
   const photo=await profilePhoto(userId,s.profile_photo_enabled);
   const mainKeys=keyboard(s.main_buttons);
   const w=photo ? await sendPhoto(userId,photo,welcomeText(member,s),mainKeys) : await sendText(userId,welcomeText(member,s),mainKeys);
-  deleteLater(userId,w?.message_id,ttl);
+  deleteLater(userId,w?.ephemeral_message_id,ttl);
 
   const mediaKeys=keyboard(s.video_buttons);
   const video=s.video_file_id || s.video_url;
   const audio=s.audio_file_id || s.audio_url;
   let videoSent=false;
 
+  console.log("WELCOME MEDIA",{
+    userId,
+    video_file_id:Boolean(s.video_file_id),
+    video_url:Boolean(s.video_url),
+    audio_file_id:Boolean(s.audio_file_id),
+    audio_url:Boolean(s.audio_url),
+    duration:ttl
+  });
+
   if(video){
     try{
-      const m=await sendVideo(userId,video, audio ? undefined : mediaKeys);
+      const m=await sendVideo(userId,video,audio ? null : mediaKeys);
       videoSent=true;
-      deleteLater(userId,m?.message_id,ttl);
+      deleteLater(userId,m?.ephemeral_message_id,ttl);
     }catch(e){ console.error("VIDEO SEND FAILED:",e?.message||e); }
   }
 
   if(audio){
     try{
       const m=await sendAudio(userId,audio,mediaKeys);
-      deleteLater(userId,m?.message_id,ttl);
+      deleteLater(userId,m?.ephemeral_message_id,ttl);
     }catch(e){ console.error("AUDIO SEND FAILED:",e?.message||e); }
   }else if(!videoSent && mediaKeys.inline_keyboard.length){
     try{
-      const m=await sendText(userId,"📌 ব্রডকাস্ট ব্রডকাস্ট লিংক",mediaKeys);
-      deleteLater(userId,m?.message_id,ttl);
+      const m=await sendText(userId,"📌 ব্রডকাস্ট লিংক",mediaKeys);
+      deleteLater(userId,m?.ephemeral_message_id,ttl);
     }catch(e){ console.error("MEDIA BUTTON SEND FAILED:",e?.message||e); }
   }
 }
@@ -151,7 +169,7 @@ bot.on('new_chat_members',async ctx=>{
   if(Number(ctx.chat?.id)!==CHANNEL_ID) return;
   for(const m of (ctx.message?.new_chat_members||[])) await handleNewMember(m,ctx.chat.id);
 });
-bot.command('welcome_test',async ctx=>{ try{ await sendWelcome(ctx.from); }catch(e){console.error('welcome_test:',e?.message||e);} });
+bot.command('welcome_test',async ctx=>{ try{ console.log('WELCOME TEST FROM',ctx.from?.id); await sendWelcome(ctx.from); }catch(e){console.error('welcome_test:',e?.message||e);} });
 
 async function startBot(){
   await bot.telegram.deleteWebhook({drop_pending_updates:false});
