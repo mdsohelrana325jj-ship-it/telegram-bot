@@ -36,8 +36,9 @@ const DEFAULT_SETTINGS = {
     { enabled: true, text: '🤖 🔤🔠 🔤🔠🔠🔠 🔠🔠🔠🔠 🔠🔠🔠🔠 🤖', url: 'https://t.me/sohel_ai_prediction_bot' },
     { enabled: true, text: '🚀 🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠 ⏰', url: 'https://t.me/TRADER_SOHEL_BDT_TOP' }
   ],
-  video_buttons: [
-    { enabled: true, text: '🎬 🔤🔠🔠🔠🔠🟢🔠 🔤🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🟢', url: 'https://t.me/+gNZZwOIN72BjYzQ1' },
+  // video_buttons এর পরিবর্তে নতুন নাম media_buttons ব্যবহার করা হলো
+  media_buttons: [
+    { enabled: true, text: '🎬 🔤🔠🔠🔠🔠🟢🔠 🔤🔠🔠🔠🔠🔠🔠 🔤🔠🔠🔠🔠🔠🔠 🔤🔠🔠🔠🔠🟢', url: 'https://t.me/+gNZZwOIN72BjYzQ1' },
     { enabled: true, text: '📢 🔤🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🔠🔠 🔠🔠🔠🔠🔠🟢', url: 'https://t.me/EARNING_TEME_bd' }
   ]
 };
@@ -123,8 +124,9 @@ app.post('/api/settings', adminAuth, (req, res) => {
       settings.main_buttons = clone(DEFAULT_SETTINGS.main_buttons);
     }
 
-    if (!Array.isArray(settings.video_buttons)) {
-      settings.video_buttons = clone(DEFAULT_SETTINGS.video_buttons);
+    // ব্যাকএন্ড ভ্যালিডেশনে video_buttons এর বদলে media_buttons চেক করা হচ্ছে
+    if (!Array.isArray(settings.media_buttons)) {
+      settings.media_buttons = clone(DEFAULT_SETTINGS.media_buttons);
     }
 
     saveSettings(settings);
@@ -145,19 +147,6 @@ function telegramError(e) {
   return e?.response?.description || e?.description || e?.message || String(e);
 }
 
-/*
-  MEDIA STORAGE CHANNEL REMOVED.
-
-  New method:
-  1. Admin uploads media here.
-  2. Bot temporarily posts it to the MAIN CHANNEL.
-  3. Telegram returns a file_id.
-  4. Bot immediately deletes that temporary channel message.
-  5. Only the file_id is saved in settings.json.
-  6. Later index.js sends that file_id as an ephemeral media message to the joining user.
-
-  No MEDIA_STORAGE_CHAT_ID is required.
-*/
 async function uploadToTelegramAndDelete(file, type) {
   if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is missing');
 
@@ -192,14 +181,12 @@ async function uploadToTelegramAndDelete(file, type) {
     fileId: `${String(fileId).slice(0, 12)}...`
   });
 
-  // Delete the temporary public channel message immediately.
   if (messageId) {
     try {
       await bot.telegram.deleteMessage(channelId, messageId);
       console.log('MEDIA TEMP MESSAGE DELETED', { type, messageId });
     } catch (e) {
       console.error('TEMP MEDIA DELETE FAILED:', telegramError(e));
-      // The file_id is still valid; upload itself succeeded.
     }
   }
 
@@ -230,7 +217,6 @@ app.post('/api/upload', adminAuth, upload.single('file'), async (req, res) => {
     if (type === 'video') {
       settings.video_file_id = fileId;
       settings.video_filename = req.file.originalname;
-      // Uploaded file takes priority over an old URL.
       settings.video_url = '';
     } else {
       settings.audio_file_id = fileId;
